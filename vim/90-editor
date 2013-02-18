@@ -1,0 +1,11 @@
+set encoding=utf-8
+
+set cursorline
+set cursorcolumn
+
+au BufNewFile,BufRead *.gradle set filetype=groovy
+au BufNewFile,BufRead *.tex set wrap
+" Kein Umbruch beim Tippen
+set textwidth=0
+set wrapmargin=0
+

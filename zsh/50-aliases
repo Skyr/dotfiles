@@ -1,0 +1,2 @@
+alias du1="du -hs *(/)"
+

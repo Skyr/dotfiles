@@ -1,0 +1,6 @@
+let mapleader = "#"
+
+if filereadable(expand("~/.vimrc.before.local"))
+    source ~/.vimrc.before.local
+endif
+

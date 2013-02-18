@@ -1,0 +1,2 @@
+EclipseKeys.withSource := true
+

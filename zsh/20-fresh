@@ -1,0 +1,2 @@
+#export PATH=$PATH:$HOME/bin
+source ~/.fresh/build/shell.sh

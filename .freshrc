@@ -1,0 +1,12 @@
+fresh tmux.conf --file
+fresh 'bin/*' --bin
+fresh 'zsh/*' --file=~/.zshrc
+fresh 'vim/*' --file=~/.vimrc
+fresh sbt-plugins.sbt --file=~/.sbt/plugins/plugins.sbt
+fresh sbt-user.sbt --file=~/.sbt/user.sbt
+
+fresh freshshell/fresh bin/fresh --bin
+fresh robbyrussell/oh-my-zsh oh-my-zsh.sh --file=~/.zshrc
+fresh simonwhitaker/gitignore-boilerplates gibo-completion.zsh --file=~/.zshrc
+fresh simonwhitaker/gitignore-boilerplates gibo --bin=~/bin/gibo
+
