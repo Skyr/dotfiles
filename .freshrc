@@ -2,6 +2,7 @@ fresh tmux.conf --file
 fresh 'bin/*' --bin
 fresh 'zsh/*' --file=~/.zshrc
 fresh 'vim/*' --file=~/.vimrc
+fresh 'git/*' --file=~/.gitconfig
 fresh sbt-plugins.sbt --file=~/.sbt/plugins/plugins.sbt
 fresh sbt-user.sbt --file=~/.sbt/user.sbt
 

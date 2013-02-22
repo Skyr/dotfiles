@@ -1,0 +1,16 @@
+[user]
+	name = Stefan Schlott
+[core]
+  pager = less -FRSX
+[color]
+  ui = auto
+[mergetool "meld"]
+	cmd = exec /usr/bin/meld \"$LOCAL\" \"$MERGED\" \"$REMOTE\"
+[merge]
+	tool = meld
+[diff "zip"]
+	textconv = unzip -c -a
+[push]
+	default = simple
+[log]
+	decorate = true

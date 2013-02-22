@@ -1,0 +1,4 @@
+[mergetool "meld"]
+	cmd = exec /usr/bin/meld \"$LOCAL\" \"$MERGED\" \"$REMOTE\"
+[merge]
+	tool = meld
