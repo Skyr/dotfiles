@@ -1,4 +1,5 @@
 fresh tmux.conf --file
+fresh ctags --file
 fresh 'bin/*' --bin
 fresh 'zsh/*' --file=~/.zshrc
 fresh 'vim/*' --file=~/.vimrc
