@@ -10,3 +10,5 @@ endif
 let g:solarized_termcolors=256
 colorscheme solarized
 
+" Fix color for vim-gitgutter
+highlight clear SignColumn
