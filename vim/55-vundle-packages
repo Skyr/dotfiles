@@ -22,4 +22,4 @@ Bundle 'bronson/vim-trailing-whitespace'
 Bundle 'vim-scripts/closetag.vim'
 Bundle 'airblade/vim-gitgutter'
 Bundle 'majutsushi/tagbar'
-
+Bundle 'derekwyatt/vim-scala'
