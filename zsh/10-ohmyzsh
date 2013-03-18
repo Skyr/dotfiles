@@ -9,8 +9,8 @@ export ZSH_CUSTOM=$HOME/.dotfiles/zsh-custom
 # time that oh-my-zsh is loaded.
 #export ZSH_THEME="robbyrussell"
 #export ZSH_THEME="gentoo"
-#ZSH_THEME="kphoen"
-ZSH_THEME="eye_scarab_pl"
+#ZSH_THEME="eye_scarab_pl"  # Needs plugin vi-mode
+ZSH_THEME="kphoen"
 
 # Set to this to use case-sensitive completion
 # export CASE_SENSITIVE="true"
@@ -26,5 +26,5 @@ ZSH_THEME="eye_scarab_pl"
 
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git gitfast github git-extras gnome gradle grails screen vi-mode)
+plugins=(git gitfast github git-extras gnome gradle grails screen)
 
