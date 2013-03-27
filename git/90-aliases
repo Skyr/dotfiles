@@ -2,3 +2,6 @@
   servehere = daemon --verbose --informative-errors --reuseaddr --export-all --base-path=. --enable=receive-pack
   logsimple = log --graph --abbrev-commit --pretty=oneline --all --decorate
   amend = commit --amend
+  notpushed = log --branches --not --remotes --simplify-by-decoration --decorate --oneline
+  notmerged = branch -a --no-merged
+
