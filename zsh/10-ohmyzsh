@@ -10,6 +10,7 @@ export ZSH_CUSTOM=$HOME/.dotfiles/zsh-custom
 #export ZSH_THEME="robbyrussell"
 #export ZSH_THEME="gentoo"
 #ZSH_THEME="eye_scarab_pl"  # Needs plugin vi-mode
+#ZSH_THEME="agnoster"
 ZSH_THEME="kphoen"
 
 # Set to this to use case-sensitive completion
