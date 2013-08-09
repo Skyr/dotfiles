@@ -24,3 +24,5 @@ Bundle 'airblade/vim-gitgutter'
 Bundle 'majutsushi/tagbar'
 Bundle 'derekwyatt/vim-scala'
 Bundle 'freitass/todo.txt-vim'
+Bundle 'FredKSchott/CoVim'
+
