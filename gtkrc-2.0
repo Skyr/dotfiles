@@ -1,0 +1,6 @@
+include ".themes/Faience/gtk-2.0/gtkrc"
+
+icon-theme-name = "Black-Mac-Icons"
+gtk-theme-name = "Faience"
+gtk-font-name = "Cantarell 11"
+

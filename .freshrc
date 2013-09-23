@@ -6,6 +6,11 @@ fresh 'vim/*' --file=~/.vimrc
 fresh 'git/*' --file=~/.gitconfig
 fresh sbt-plugins.sbt --file=~/.sbt/plugins/plugins.sbt
 fresh sbt-user.sbt --file=~/.sbt/user.sbt
+fresh i3config --file=~/.i3/config
+fresh i3status --file=~/.i3/i3status.conf
+fresh Xresources --file
+fresh gtkrc-2.0 --file
+fresh gtk-3.0-settings.ini --file=~/.config/gtk-3.0/settings.ini
 
 fresh freshshell/fresh bin/fresh --bin
 fresh robbyrussell/oh-my-zsh oh-my-zsh.sh --file=~/.zshrc
