@@ -3,11 +3,19 @@ fresh ctags --file
 fresh 'bin/*' --bin
 fresh 'zsh/*' --file=~/.zshrc
 fresh 'vim/*' --file=~/.vimrc
-fresh 'git/*' --file=~/.gitconfig
+
+if command -v git >/dev/null ; then
+  fresh 'git/*' --file=~/.gitconfig
+  VERSION=`git --version | sed "s/^.* //"`
+  V=(${VERSION//./ })
+  fresh git-${V[0]}.${V[1]} --file=~/.gitconfig --ignore-missing
+fi
+
 for F in $FRESH_LOCAL/gnupg/* ; do
   N=`basename $F`
   fresh gnupg/$N --file=~/.gnupg/$N
 done
+
 fresh sbt-plugins.sbt --file=~/.sbt/plugins/plugins.sbt
 fresh sbt-user.sbt --file=~/.sbt/user.sbt
 fresh i3config --file=~/.i3/config

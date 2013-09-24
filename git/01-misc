@@ -10,7 +10,5 @@
 	tool = meld
 [diff "zip"]
 	textconv = unzip -c -a
-[push]
-	default = simple
 [log]
 	decorate = true
