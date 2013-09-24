@@ -4,6 +4,10 @@ fresh 'bin/*' --bin
 fresh 'zsh/*' --file=~/.zshrc
 fresh 'vim/*' --file=~/.vimrc
 fresh 'git/*' --file=~/.gitconfig
+for F in $FRESH_LOCAL/gnupg/* ; do
+  N=`basename $F`
+  fresh gnupg/$N --file=~/.gnupg/$N
+done
 fresh sbt-plugins.sbt --file=~/.sbt/plugins/plugins.sbt
 fresh sbt-user.sbt --file=~/.sbt/user.sbt
 fresh i3config --file=~/.i3/config
