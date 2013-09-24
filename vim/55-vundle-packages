@@ -8,7 +8,9 @@ Bundle 'rosstimson/scala-vim-support'
 Bundle 'cakebaker/scss-syntax.vim'
 Bundle 'ap/vim-css-color'
 Bundle 'mattn/gist-vim'
-Bundle 'Valloric/YouCompleteMe'
+if v:version > 703
+  Bundle 'Valloric/YouCompleteMe'
+endif
 Bundle 'ddollar/nerdcommenter'
 Bundle 'scrooloose/nerdtree'
 "Bundle 'tpope/vim-unimpaired'
