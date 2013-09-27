@@ -12,4 +12,6 @@ fi
 sleep 2
 sync
 sudo /usr/sbin/pm-suspend
+sleep 5
+sudo /usr/local/bin/restart-network
 
