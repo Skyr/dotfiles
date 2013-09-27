@@ -1,0 +1,3 @@
+[submodule "awesome/lain"]
+	path = awesome/lain
+	url = git://github.com/copycat-killer/lain.git
