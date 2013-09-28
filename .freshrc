@@ -1,8 +1,11 @@
+fresh freshshell/fresh bin/fresh --bin
+
 fresh tmux.conf --file
 fresh ctags --file
 fresh 'bin/*' --bin
 fresh 'zsh/*' --file=~/.zshrc
 fresh 'vim/*' --file=~/.vimrc
+fresh 'xresources/*' --file=~/.Xresources
 
 if command -v git >/dev/null ; then
   fresh 'git/*' --file=~/.gitconfig
@@ -20,12 +23,10 @@ fresh sbt-plugins.sbt --file=~/.sbt/plugins/plugins.sbt
 fresh sbt-user.sbt --file=~/.sbt/user.sbt
 fresh i3config --file=~/.i3/config
 fresh i3status --file=~/.i3/i3status.conf
-fresh Xresources --file
 fresh gtkrc-2.0 --file
 fresh gtk-3.0-settings.ini --file=~/.config/gtk-3.0/settings.ini
 fresh awesome --file=~/.config/awesome/
 
-fresh freshshell/fresh bin/fresh --bin
 fresh robbyrussell/oh-my-zsh oh-my-zsh.sh --file=~/.zshrc
 fresh simonwhitaker/gitignore-boilerplates gibo-completion.zsh --file=~/.zshrc
 fresh simonwhitaker/gitignore-boilerplates gibo --bin=~/bin/gibo

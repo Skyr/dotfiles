@@ -1,0 +1,18 @@
+!URxvt.depth: 32
+URxvt.transparent: true
+URxvt.shading: 30
+URxvt.scrollstyle: plain
+URxvt.scrollBar_right: true
+URxvt.scrollBar_floating: true
+!URxvt.scrollBar: false
+URxvt.font: xft:Droid Sans Mono for Powerline:size=10
+URxvt.perl-ext-common: default,matcher
+URxvt.url-launcher: /usr/bin/firefox
+URxvt.matcher.button: 3
+!Uxxvt*termName: rxvt-unicode-256color
+Uxxvt*termName: rxvt-256color
+URxvt.urgentOnBell: True
+
+URxvt.keysym.Home:          \033[7~
+URxvt.keysym.End:           \033[8~
+
