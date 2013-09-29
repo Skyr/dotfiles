@@ -7,7 +7,8 @@ if has('gui_running')
 else
   set background=dark
 endif
-let g:solarized_termcolors=256
+" let g:solarized_termcolors=256
+let g:solarized_termtrans=1
 colorscheme solarized
 
 " Fix color for vim-gitgutter
