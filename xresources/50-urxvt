@@ -5,7 +5,7 @@ URxvt.scrollstyle: plain
 URxvt.scrollBar_right: true
 URxvt.scrollBar_floating: true
 !URxvt.scrollBar: false
-URxvt.font: xft:Droid Sans Mono for Powerline:size=10
+URxvt.font: xft:Droid Sans Mono:size=10:antialias=true:hinting=true,xft:Droid Sans Mono for Powerline:size=10:antialias=true:hinting=true
 URxvt.perl-ext-common: default,matcher
 URxvt.url-launcher: /usr/bin/firefox
 URxvt.matcher.button: 3
