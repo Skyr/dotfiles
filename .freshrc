@@ -1,10 +1,7 @@
 fresh freshshell/fresh bin/fresh --bin
 
-fresh tmux.conf --file
 fresh ctags --file
 fresh 'bin/*' --bin
-fresh 'zsh/*' --file=~/.zshrc
-fresh 'vim/*' --file=~/.vimrc
 fresh 'xresources/*' --file=~/.Xresources
 
 if command -v git >/dev/null ; then
@@ -30,8 +27,27 @@ fresh awesome --file=~/.config/awesome/
 for fontname in DejaVuSansMono DroidSansMono SourceCodePro Terminus ; do
   fresh Lokaltog/powerline-fonts $fontname --file=~/.fonts/$fontname/
 done
+fresh Lokaltog/powerline font/PowerlineSymbols.otf --file=~/.fonts/PowerlineSymbols.otf
+fresh Lokaltog/powerline font/10-powerline-symbols.conf --file=~/.config/fontconfig/conf.d/10-powerline-symbols.conf
 
+fresh tmux.conf --file
+fresh Lokaltog/powerline powerline/bindings/tmux/powerline.conf --file=~/tmux.conf
+
+fresh 'vim/*' --file=~/.vimrc
+if vim --version | grep +python > /dev/null ; then
+  fresh vim-python --file=~/.vimrc
+else
+  fresh vim-nopython --file=~/.vimrc
+fi
+
+fresh 'zsh/*' --file=~/.zshrc
 fresh robbyrussell/oh-my-zsh oh-my-zsh.sh --file=~/.zshrc
 fresh simonwhitaker/gitignore-boilerplates gibo-completion.zsh --file=~/.zshrc
+
 fresh simonwhitaker/gitignore-boilerplates gibo --bin=~/bin/gibo
+
+fresh_after_build() {
+  cd $FRESH_PATH/source/Lokaltog/powerline
+  python setup.py install --user
+}
 
