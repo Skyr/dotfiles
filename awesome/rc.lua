@@ -16,6 +16,8 @@ local beautiful = require("beautiful")
 local naughty   = require("naughty")
 local drop      = require("scratchdrop")
 local lain      = require("lain")
+--package.path = package.path .. ';' .. os.getenv("HOME") .. '/.fresh/source/Lokaltog/powerline/powerline/bindings/awesome/?.lua'
+--require('powerline')
 -- }}}
 
 -- {{{ Error handling
@@ -154,7 +156,7 @@ memwidget = lain.widgets.mem({
 cpuicon = wibox.widget.imagebox(beautiful.widget_cpu)
 cpuwidget = wibox.widget.background(lain.widgets.cpu({
     settings = function()
-        widget:set_text(" " .. cpu_now.usage .. "% ")
+        widget:set_text(" " .. string.format("%3d", cpu_now.usage) .. "% ")
     end
 }), "#313131")
 
@@ -218,9 +220,9 @@ neticon = wibox.widget.imagebox(beautiful.widget_net)
 neticon:buttons(awful.util.table.join(awful.button({ }, 1, function () awful.util.spawn_with_shell(iptraf) end)))
 netwidget = wibox.widget.background(lain.widgets.net({
     settings = function()
-        widget:set_markup(markup("#7AC82E", " " .. net_now.received)
+        widget:set_markup(markup("#7AC82E", " " .. string.format("%5s", net_now.received))
                           .. " " ..
-                          markup("#46A8C3", " " .. net_now.sent .. " "))
+                          markup("#46A8C3", " " .. string.format("%5s", net_now.sent) .. " "))
     end
 }), "#313131")
 
@@ -312,13 +314,16 @@ for s = 1, screen.count() do
 
     -- Widgets that are aligned to the upper right
     local right_layout = wibox.layout.fixed.horizontal()
-    if s == 1 then right_layout:add(wibox.widget.systray()) end
+    if s == 1 then
+      right_layout:add(arrl)
+      right_layout:add(wibox.widget.systray())
+    end
     right_layout:add(spr)
-    right_layout:add(arrl)
+    right_layout:add(arrl_ld)
     right_layout:add(volicon)
     right_layout:add(volumewidget)
-    right_layout:add(arrl_ld)
-    right_layout:add(mailicon)
+    --right_layout:add(arrl_ld)
+    --right_layout:add(mailicon)
     --right_layout:add(mailwidget)
     right_layout:add(arrl_dl)
     right_layout:add(memicon)
@@ -327,12 +332,12 @@ for s = 1, screen.count() do
     right_layout:add(cpuicon)
     right_layout:add(cpuwidget)
     right_layout:add(arrl_dl)
-    right_layout:add(tempicon)
-    right_layout:add(tempwidget)
-    right_layout:add(arrl_ld)
-    right_layout:add(fsicon)
-    right_layout:add(fswidgetbg)
-    right_layout:add(arrl_dl)
+    --right_layout:add(tempicon)
+    --right_layout:add(tempwidget)
+    --right_layout:add(arrl_ld)
+    --right_layout:add(fsicon)
+    --right_layout:add(fswidgetbg)
+    --right_layout:add(arrl_dl)
     right_layout:add(baticon)
     right_layout:add(batwidget)
     right_layout:add(arrl_ld)
@@ -340,6 +345,7 @@ for s = 1, screen.count() do
     right_layout:add(netwidget)
     right_layout:add(arrl_dl)
     right_layout:add(mytextclock)
+    --right_layout:add(powerline_widget)
     right_layout:add(spr)
     right_layout:add(arrl_ld)
     right_layout:add(mylayoutbox[s])
