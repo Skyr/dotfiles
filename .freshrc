@@ -48,6 +48,6 @@ fresh simonwhitaker/gitignore-boilerplates gibo --bin=~/bin/gibo
 
 fresh_after_build() {
   cd $FRESH_PATH/source/Lokaltog/powerline
-  python setup.py install --user
+  python setup.py install --user >/dev/null
 }
 
