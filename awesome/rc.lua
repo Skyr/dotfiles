@@ -51,6 +51,7 @@ function run_once(cmd)
   awful.util.spawn_with_shell("pgrep -u $USER -x " .. findme .. " > /dev/null || (" .. cmd .. ")")
 end
 
+run_once("xrdb -merge ~/.Xresources")
 run_once("urxvtd")
 run_once("unclutter")
 run_once("dropbox start")
@@ -220,9 +221,9 @@ neticon = wibox.widget.imagebox(beautiful.widget_net)
 neticon:buttons(awful.util.table.join(awful.button({ }, 1, function () awful.util.spawn_with_shell(iptraf) end)))
 netwidget = wibox.widget.background(lain.widgets.net({
     settings = function()
-        widget:set_markup(markup("#7AC82E", " " .. string.format("%5s", net_now.received))
+        widget:set_markup(markup("#7AC82E", "↓" .. string.format("%5s", net_now.received))
                           .. " " ..
-                          markup("#46A8C3", " " .. string.format("%5s", net_now.sent) .. " "))
+                          markup("#46A8C3", "↑" .. string.format("%5s", net_now.sent) .. " "))
     end
 }), "#313131")
 
