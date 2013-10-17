@@ -30,6 +30,8 @@ done
 fresh Lokaltog/powerline font/PowerlineSymbols.otf --file=~/.fonts/PowerlineSymbols.otf
 fresh Lokaltog/powerline font/10-powerline-symbols.conf --file=~/.config/fontconfig/conf.d/10-powerline-symbols.conf
 
+fresh muennich/urxvt-perls clipboard --file=~/.urxvt/ext/clipboard
+
 fresh tmux.conf --file
 fresh Lokaltog/powerline powerline/bindings/tmux/powerline.conf --file=~/tmux.conf
 

@@ -6,7 +6,6 @@ URxvt.scrollBar_right: true
 URxvt.scrollBar_floating: true
 !URxvt.scrollBar: false
 URxvt.font: xft:Droid Sans Mono:size=10:antialias=true:hinting=true,xft:Droid Sans Mono for Powerline:size=10:antialias=true:hinting=true
-URxvt.perl-ext-common: default,matcher
 URxvt.url-launcher: /usr/bin/firefox
 URxvt.matcher.button: 3
 !Uxxvt*termName: rxvt-unicode-256color
@@ -23,4 +22,12 @@ URxvt.keysym.Control-Left:  \033[1;5D
 URxvt.keysym.Control-Right: \033[1;5C
 URxvt.keysym.Home:          \033[7~
 URxvt.keysym.End:           \033[8~
+
+URxvt.perl-ext-common: default,matcher,clipboard
+
+URxvt.keysym.M-c:   perl:clipboard:copy
+URxvt.keysym.M-v:   perl:clipboard:paste
+URxvt.keysym.M-C-v: perl:clipboard:paste_escaped
+URxvt.clipboard.copycmd:  xclip -i -selection clipboard
+URxvt.clipboard.pastecmd: xclip -o -selection clipboard
 
