@@ -42,11 +42,13 @@ else
   fresh vim-nopython --file=~/.vimrc
 fi
 
-fresh 'zsh/*' --file=~/.zshrc
+fresh 'zsh/oh-my-zsh' --file=~/.zshrc
 fresh robbyrussell/oh-my-zsh oh-my-zsh.sh --file=~/.zshrc
 fresh simonwhitaker/gitignore-boilerplates gibo-completion.zsh --file=~/.zshrc
+fresh 'zsh/[0-9]*' --file=~/.zshrc
 
 fresh simonwhitaker/gitignore-boilerplates gibo --bin=~/bin/gibo
+fresh clvv/fasd fasd --bin=~/bin/fasd
 
 fresh_after_build() {
   cd $FRESH_PATH/source/Lokaltog/powerline
