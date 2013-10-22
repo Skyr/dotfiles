@@ -74,10 +74,9 @@ editor     = os.getenv("EDITOR") or "vim" or "nano" or "vi"
 editor_cmd = terminal .. " -e " .. editor
 
 -- user defined
-browser    = "dwb"
-browser2   = "iron"
+webbrowser = "firefox"
+filebrowser= "nautilus --no-desktop"
 gui_editor = "gvim"
-graphics   = "gimp"
 mail       = terminal .. " -e mutt "
 iptraf     = terminal .. " -g 180x54-20+34 -e sudo iptraf-ng -i all "
 
@@ -488,10 +487,9 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey }, "c", function () os.execute("xsel -p -o | xsel -i -b") end),
 
     -- User programs
-    awful.key({ modkey }, "q", function () awful.util.spawn(browser) end),
-    awful.key({ modkey }, "i", function () awful.util.spawn(browser2) end),
-    -- awful.key({ modkey }, "s", function () awful.util.spawn(gui_editor) end),
-    awful.key({ modkey }, "g", function () awful.util.spawn(graphics) end),
+    awful.key({ modkey }, "i", function () awful.util.spawn(webbrowser) end),
+    awful.key({ modkey }, "d", function () awful.util.spawn(filebrowser) end),
+    awful.key({ modkey }, "e", function () awful.util.spawn(gui_editor) end),
 
     awful.key({ modkey }, "s", function () awful.util.spawn("slock") end),
     awful.key({ modkey, "Control" }, "p", function () awful.util.spawn("suspend.sh") end),
