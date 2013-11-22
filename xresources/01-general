@@ -2,3 +2,5 @@
 
 Xft.dpi: 96
 
+xterm*faceName: xft:Droid Sans Mono for Powerline:style=Regular:pixelsize=12:antialias=true:hinting=slight
+

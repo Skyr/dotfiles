@@ -5,7 +5,9 @@ URxvt.scrollstyle: plain
 URxvt.scrollBar_right: true
 URxvt.scrollBar_floating: true
 !URxvt.scrollBar: false
-URxvt.font: xft:Droid Sans Mono:size=10:antialias=true:hinting=true,xft:Droid Sans Mono for Powerline:size=10:antialias=true:hinting=true
+!URxvt.font: xft:Droid Sans Mono:size=10:antialias=true:hinting=true,xft:Droid Sans Mono for Powerline:size=10:antialias=true:hinting=true
+URxvt*font: xft:Droid Sans Mono for Powerline:style=Regular:pixelsize=12:antialias=true:hinting=slight
+URxvt*boldFont: xft:Droid Sans Mono:style=Bold:pixelsize=12:antialias=true:hinting=slight
 URxvt.url-launcher: /usr/bin/firefox
 URxvt.matcher.button: 3
 !Uxxvt*termName: rxvt-unicode-256color
