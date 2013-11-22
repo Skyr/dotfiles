@@ -29,6 +29,9 @@ for fontname in DejaVuSansMono DroidSansMono SourceCodePro Terminus ; do
 done
 fresh Lokaltog/powerline font/PowerlineSymbols.otf --file=~/.fonts/PowerlineSymbols.otf
 fresh Lokaltog/powerline font/10-powerline-symbols.conf --file=~/.config/fontconfig/conf.d/10-powerline-symbols.conf
+for fontname in CosmicSansNeueMono CosmicSansNeueMonoBold ; do
+  fresh belluzj/cosmic-sans-neue OTF/${fontname}.otf --file=~/.fonts/CosmicSansNeueMono/${fontname}.otf
+done
 
 fresh muennich/urxvt-perls clipboard --file=~/.urxvt/ext/clipboard
 
