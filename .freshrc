@@ -41,6 +41,7 @@ if vim --version | grep +python > /dev/null ; then
 else
   fresh vim-nopython --file=~/.vimrc
 fi
+fresh mpollmeier/vim-scalaConceal after/syntax/scala.vim --file=~/.vim/after/syntax/scala.vim
 
 fresh 'zsh/oh-my-zsh' --file=~/.zshrc
 fresh robbyrussell/oh-my-zsh oh-my-zsh.sh --file=~/.zshrc
