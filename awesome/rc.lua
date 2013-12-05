@@ -52,7 +52,6 @@ function run_once(cmd)
 end
 
 run_once("xrdb -merge ~/.Xresources")
-run_once("urxvtd")
 run_once("unclutter")
 run_once("dropbox start")
 run_once("nm-applet")
@@ -69,7 +68,7 @@ beautiful.init(awful.util.getdir("config") .. "/themes/powerarrow-zen/theme.lua"
 -- common
 modkey     = "Mod4"
 altkey     = "Mod1"
-terminal   = "urxvtc" or "xterm"
+terminal   = "urxvterm" or "urxvt" or "xterm"
 editor     = os.getenv("EDITOR") or "vim" or "nano" or "vi"
 editor_cmd = terminal .. " -e " .. editor
 
