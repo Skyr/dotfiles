@@ -602,6 +602,9 @@ awful.rules.rules = {
           properties = { maximized_horizontal = true,
                          maximized_vertical = true } },
 }
+if (screen.count()>1) then
+  awful.rules.rules[#awful.rules.rules + 1] = { rule = { name = "LibreOffice 4.1" }, properties = { tag = tags[2][1] } }
+end
 -- }}}
 
 -- {{{ Signals
