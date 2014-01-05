@@ -29,8 +29,9 @@ for fontname in DejaVuSansMono DroidSansMono SourceCodePro Terminus ; do
 done
 fresh Lokaltog/powerline font/PowerlineSymbols.otf --file=~/.fonts/PowerlineSymbols.otf
 fresh Lokaltog/powerline font/10-powerline-symbols.conf --file=~/.config/fontconfig/conf.d/10-powerline-symbols.conf
+# Latest version: git tag -l | grep "^[0-9]" | sort -n | tail -n 1
 for fontname in CosmicSansNeueMono CosmicSansNeueMonoBold ; do
-  fresh belluzj/cosmic-sans-neue OTF/${fontname}.otf --file=~/.fonts/CosmicSansNeueMono/${fontname}.otf
+  fresh belluzj/cosmic-sans-neue OTF/${fontname}.otf --file=~/.fonts/CosmicSansNeueMono/${fontname}.otf --ref=a19acd3b31f9930c70b5d3b9e788382eb6516216
 done
 
 fresh muennich/urxvt-perls clipboard --file=~/.urxvt/ext/clipboard
