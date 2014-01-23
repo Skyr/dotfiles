@@ -18,11 +18,19 @@ done
 
 fresh sbt-plugins.sbt --file=~/.sbt/plugins/plugins.sbt
 fresh sbt-user.sbt --file=~/.sbt/user.sbt
-fresh i3config --file=~/.i3/config
-fresh i3status --file=~/.i3/i3status.conf
+
 fresh gtkrc-2.0 --file
 fresh gtk-3.0-settings.ini --file=~/.config/gtk-3.0/settings.ini
-fresh awesome --file=~/.config/awesome/
+
+if command -v i3 > /dev/null ; then
+  fresh i3config --file=~/.i3/config
+  fresh i3status --file=~/.i3/i3status.conf
+fi
+
+
+if command -v awesome > /dev/null ; then
+  fresh awesome --file=~/.config/awesome/
+fi
 
 for fontname in DejaVuSansMono DroidSansMono SourceCodePro Terminus ; do
   fresh Lokaltog/powerline-fonts $fontname --file=~/.fonts/$fontname/
@@ -34,7 +42,9 @@ for fontname in CosmicSansNeueMono CosmicSansNeueMonoBold ; do
   fresh belluzj/cosmic-sans-neue OTF/${fontname}.otf --file=~/.fonts/CosmicSansNeueMono/${fontname}.otf --ref=a19acd3b31f9930c70b5d3b9e788382eb6516216
 done
 
-fresh muennich/urxvt-perls clipboard --file=~/.urxvt/ext/clipboard
+if command -v urxvt > /dev/null ; then
+  fresh muennich/urxvt-perls clipboard --file=~/.urxvt/ext/clipboard
+fi
 
 fresh tmux.conf --file
 fresh Lokaltog/powerline powerline/bindings/tmux/powerline.conf --file=~/tmux.conf
