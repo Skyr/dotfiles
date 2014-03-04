@@ -61,6 +61,7 @@ fresh 'zsh/[0-9]*' --file=~/.zshrc
 
 fresh simonwhitaker/gitignore-boilerplates gibo --bin=~/bin/gibo
 fresh clvv/fasd fasd --bin=~/bin/fasd
+fresh pasky/speedread speedread --bin=~/bin/speedread
 
 fresh_after_build() {
   cd $FRESH_PATH/source/Lokaltog/powerline
