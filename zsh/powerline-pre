@@ -1,2 +1,4 @@
 if ! [[ "$TERM" == "linux" ]] ; then
 
+export POWERLINE_COMMAND="$HOME/bin/powerline"
+
