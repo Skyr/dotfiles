@@ -45,6 +45,7 @@ fi
 
 fresh tmux.conf --file
 fresh Lokaltog/powerline powerline/bindings/tmux/powerline.conf --file=~/tmux.conf
+fresh powerline --file=~/.config/powerline/
 
 fresh 'vim/*' --file=~/.vimrc
 if vim --version | grep +python > /dev/null ; then
@@ -59,6 +60,7 @@ fresh robbyrussell/oh-my-zsh oh-my-zsh.sh --file=~/.zshrc
 fresh simonwhitaker/gitignore-boilerplates gibo-completion.zsh --file=~/.zshrc
 fresh 'zsh/[0-9]*' --file=~/.zshrc
 fresh Lokaltog/powerline powerline/bindings/zsh/powerline.zsh --file=~/.zshrc
+fresh zsh/powerline --file=~/.zshrc
 
 fresh simonwhitaker/gitignore-boilerplates gibo --bin=~/bin/gibo
 fresh clvv/fasd fasd --bin=~/bin/fasd

@@ -1,0 +1,6 @@
+setopt promptpercent
+setopt promptsubst
+_powerline_setup_prompt
+_powerline_init_tmux_support
+_powerline_init_modes_support
+
