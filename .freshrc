@@ -60,8 +60,9 @@ fresh 'zsh/oh-my-zsh' --file=~/.zshrc
 fresh robbyrussell/oh-my-zsh oh-my-zsh.sh --file=~/.zshrc
 fresh simonwhitaker/gitignore-boilerplates gibo-completion.zsh --file=~/.zshrc
 fresh 'zsh/[0-9]*' --file=~/.zshrc
+fresh zsh/powerline-pre --file=~/.zshrc
 fresh Lokaltog/powerline powerline/bindings/zsh/powerline.zsh --file=~/.zshrc
-fresh zsh/powerline --file=~/.zshrc
+fresh zsh/powerline-post --file=~/.zshrc
 
 fresh simonwhitaker/gitignore-boilerplates gibo --bin=~/bin/gibo
 fresh clvv/fasd fasd --bin=~/bin/fasd
