@@ -71,6 +71,7 @@ fresh pasky/speedread speedread --bin=~/bin/speedread
 fresh_after_build() {
   cd $FRESH_PATH/source/Lokaltog/powerline
   python setup.py install --user >/dev/null
+  ln -sf $HOME/.local/bin/powerline $HOME/bin/
 
   if ! [[ -f $HOME/.tmux.conf.local ]] ; then
     touch $HOME/.tmux.conf.local
