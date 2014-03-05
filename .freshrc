@@ -43,8 +43,9 @@ if command -v urxvt > /dev/null ; then
   fresh muennich/urxvt-perls clipboard --file=~/.urxvt/ext/clipboard
 fi
 
-fresh tmux.conf --file
-fresh Lokaltog/powerline powerline/bindings/tmux/powerline.conf --file=~/tmux.conf
+fresh tmux.conf --file=~/.tmux.conf
+fresh Lokaltog/powerline powerline/bindings/tmux/powerline.conf --file=~/.tmux.conf
+
 fresh powerline --file=~/.config/powerline/
 
 fresh 'vim/*' --file=~/.vimrc
@@ -69,5 +70,9 @@ fresh pasky/speedread speedread --bin=~/bin/speedread
 fresh_after_build() {
   cd $FRESH_PATH/source/Lokaltog/powerline
   python setup.py install --user >/dev/null
+
+  if ! [[ -f $HOME/.tmux.conf.local ]] ; then
+    touch $HOME/.tmux.conf.local
+  fi
 }
 
