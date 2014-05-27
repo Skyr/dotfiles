@@ -16,8 +16,11 @@ for F in $FRESH_LOCAL/gnupg/* ; do
   fresh gnupg/$N --file=~/.gnupg/$N
 done
 
-fresh sbt-plugins.sbt --file=~/.sbt/plugins/plugins.sbt
-fresh sbt-user.sbt --file=~/.sbt/user.sbt
+for F in $FRESH_LOCAL/sbt/* ; do
+  VER=`basename $F`
+  fresh sbt/$VER/plugins.sbt --file=~/.sbt/$VER/plugins/plugins.sbt --ignore-missing
+  fresh sbt/$VER/user.sbt --file=~/.sbt/$VER/user.sbt --ignore-missing
+done
 
 fresh gtkrc-2.0 --file
 fresh gtk-3.0-settings.ini --file=~/.config/gtk-3.0/settings.ini
