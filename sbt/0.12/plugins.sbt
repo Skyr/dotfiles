@@ -9,3 +9,12 @@ resolvers += "sbt-idea-repo" at "http://mpeltonen.github.com/maven/"
 
 addSbtPlugin("com.github.mpeltonen" % "sbt-idea" % "1.2.0")
 
+
+addSbtPlugin("com.typesafe.sbt" % "sbt-license-report" % "1.0.0")
+
+addSbtPlugin("com.timushev.sbt" % "sbt-updates" % "0.1.6")
+
+resolvers += "jgit-repo" at "http://download.eclipse.org/jgit/maven"
+
+addSbtPlugin("com.typesafe.sbt" % "sbt-git" % "0.6.4")
+
