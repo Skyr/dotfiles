@@ -1,3 +1,3 @@
-export POWERLINE_COMMAND="$HOME/bin/powerline"
+export POWERLINE_COMMAND="$HOME/bin/powerline-render"
 
-if ! [[ "$TERM" == "linux" ]] && $POWERLINE_COMMAND shell > /dev/null 2>&1 ; then
+if ! [[ "$TERM" == "linux" ]] && $POWERLINE_COMMAND shell aboveleft > /dev/null 2>&1 ; then
