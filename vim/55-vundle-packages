@@ -28,4 +28,6 @@ Bundle 'derekwyatt/vim-scala'
 Bundle 'freitass/todo.txt-vim'
 "Bundle 'FredKSchott/CoVim'
 Bundle 'mattn/emmet-vim'
-Bundle 'farseer90718/vim-taskwarrior'
+if executable("task")
+  Bundle 'farseer90718/vim-taskwarrior'
+endif
