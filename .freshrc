@@ -9,6 +9,8 @@ if command -v git >/dev/null ; then
   VERSION=`git --version | sed "s/^.* //"`
   V=(${VERSION//./ })
   fresh git-${V[0]}.${V[1]} --file=~/.gitconfig --ignore-missing
+  fresh jeffkaufman/icdiff icdiff --bin=~/bin/icdiff
+  fresh jeffkaufman/icdiff git-icdiff --bin=~/bin/git-icdiff
 fi
 
 for F in $FRESH_LOCAL/gnupg/* ; do
