@@ -8,6 +8,7 @@ if command -v git >/dev/null ; then
   fresh 'git/*' --file=~/.gitconfig
   VERSION=`git --version | sed "s/^.* //"`
   V=(${VERSION//./ })
+  fresh git-${V[0]} --file=~/.gitconfig --ignore-missing
   fresh git-${V[0]}.${V[1]} --file=~/.gitconfig --ignore-missing
   fresh jeffkaufman/icdiff icdiff --bin=~/bin/icdiff
   fresh jeffkaufman/icdiff git-icdiff --bin=~/bin/git-icdiff
