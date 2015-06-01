@@ -79,8 +79,9 @@ fresh clvv/fasd fasd --bin=~/bin/fasd
 fresh pasky/speedread speedread --bin=~/bin/speedread
 
 fresh_after_build() {
-  cd $FRESH_PATH/source/Lokaltog/powerline
-  python setup.py install --user >/dev/null
+  # cd $FRESH_PATH/source/Lokaltog/powerline
+  # python setup.py install --user >/dev/null
+  pip install --user --editable=$FRESH_PATH/source/Lokaltog/powerline
   ln -sf $HOME/.local/bin/powerline* $HOME/bin/
 
   if ! [[ -f $HOME/.tmux.conf.local ]] ; then
