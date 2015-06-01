@@ -2,6 +2,7 @@
 	name = Stefan Schlott
 [core]
   pager = less -FRSX
+  autocrlf = input
 [color]
   ui = auto
 [mergetool "meld"]
