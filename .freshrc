@@ -63,6 +63,9 @@ else
 fi
 fresh mpollmeier/vim-scalaConceal after/syntax/scala.vim --file=~/.vim/after/syntax/scala.vim
 
+fresh edusantana/asciidoc-highlight gedit/asciidoc.lang --file=~/.local/share/gtksourceview-2.0/language-specs/asciidoc.lang
+fresh edusantana/asciidoc-highlight gedit/asciidoc.lang --file=~/.local/share/gtksourceview-3.0/language-specs/asciidoc.lang
+
 fresh 'zsh/oh-my-zsh' --file=~/.zshrc
 fresh robbyrussell/oh-my-zsh oh-my-zsh.sh --file=~/.zshrc
 fresh simonwhitaker/gitignore-boilerplates gibo-completion.zsh --file=~/.zshrc
