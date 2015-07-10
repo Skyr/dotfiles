@@ -1,2 +1,4 @@
-set rtp+=~/.fresh/source/Lokaltog/powerline/powerline/bindings/vim
+" set rtp+=~/.fresh/source/Lokaltog/powerline/powerline/bindings/vim
+Bundle 'bling/vim-airline'
+let g:airline_powerline_fonts = 1
 
