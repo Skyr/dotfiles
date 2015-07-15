@@ -9,13 +9,18 @@ Bundle 'cakebaker/scss-syntax.vim'
 Bundle 'ap/vim-css-color'
 Bundle 'mattn/gist-vim'
 if v:version > 703
-  Bundle 'Valloric/YouCompleteMe'
+  if has("lua")
+    Plugin 'Shougo/neocomplete'
+    Plugin 'Shougo/neosnippet'
+    Plugin 'Shougo/neosnippet-snippets'
+  else
+    Bundle 'Valloric/YouCompleteMe'
+  endif
 endif
 Bundle 'ddollar/nerdcommenter'
 Bundle 'scrooloose/nerdtree'
 "Bundle 'tpope/vim-unimpaired'
 Bundle 'scrooloose/syntastic'
-"Bundle 'majutsushi/tagbar'
 Bundle 'tpope/vim-fugitive'
 Bundle 'vim-scripts/ZoomWin'
 "Bundle 'jeetsukumaran/vim-buffergator'
