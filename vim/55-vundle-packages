@@ -36,3 +36,5 @@ Bundle 'mattn/emmet-vim'
 if executable("task")
   Bundle 'farseer90718/vim-taskwarrior'
 endif
+Plugin 'kien/rainbow_parentheses.vim'
+
