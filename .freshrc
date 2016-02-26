@@ -78,6 +78,8 @@ fresh simonwhitaker/gitignore-boilerplates gibo --bin=~/bin/gibo
 fresh clvv/fasd fasd --bin=~/bin/fasd
 fresh pasky/speedread speedread --bin=~/bin/speedread
 
+fresh cyrus-and/gdb-dashboard .gdbinit --file=~/.gdbinit
+
 fresh_after_build() {
   # cd $FRESH_PATH/source/Lokaltog/powerline
   # python setup.py install --user >/dev/null
