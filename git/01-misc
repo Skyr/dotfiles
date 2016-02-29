@@ -3,6 +3,7 @@
 [core]
   pager = less -FRSX
   autocrlf = input
+  editor = vim
 [color]
   ui = auto
 [mergetool "meld"]
