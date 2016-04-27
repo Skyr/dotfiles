@@ -39,10 +39,10 @@ if command -v awesome > /dev/null ; then
 fi
 
 for fontname in DejaVuSansMono DroidSansMono SourceCodePro Terminus ; do
-  fresh Lokaltog/powerline-fonts $fontname --file=~/.fonts/$fontname/
+  fresh powerline/fonts $fontname --file=~/.fonts/$fontname/
 done
-fresh Lokaltog/powerline font/PowerlineSymbols.otf --file=~/.fonts/PowerlineSymbols.otf
-fresh Lokaltog/powerline font/10-powerline-symbols.conf --file=~/.config/fontconfig/conf.d/10-powerline-symbols.conf
+#fresh Lokaltog/powerline font/PowerlineSymbols.otf --file=~/.fonts/PowerlineSymbols.otf
+#fresh Lokaltog/powerline font/10-powerline-symbols.conf --file=~/.config/fontconfig/conf.d/10-powerline-symbols.conf
 # Latest version: git tag -l | grep "^[0-9]" | sort -n | tail -n 1
 
 if command -v urxvt > /dev/null ; then
@@ -50,10 +50,10 @@ if command -v urxvt > /dev/null ; then
 fi
 
 fresh tmux.conf --file=~/.tmux.conf
-fresh Lokaltog/powerline powerline/bindings/tmux/powerline.conf --file=~/.tmux.conf
+fresh powerline/powerline powerline/bindings/tmux/powerline.conf --file=~/.tmux.conf
 
 # fresh powerline --file=~/.config/powerline/
-ln -sf $FRESH_PATH/source/Lokaltog/powerline/powerline/config_files ~/.config/powerline
+ln -sf $FRESH_PATH/source/powerline/powerline/powerline/config_files ~/.config/powerline
 
 fresh 'vim/*' --file=~/.vimrc
 if vim --version | grep +python > /dev/null ; then
@@ -71,7 +71,7 @@ fresh robbyrussell/oh-my-zsh oh-my-zsh.sh --file=~/.zshrc
 fresh simonwhitaker/gitignore-boilerplates gibo-completion.zsh --file=~/.zshrc
 fresh 'zsh/[0-9]*' --file=~/.zshrc
 fresh zsh/powerline-pre --file=~/.zshrc
-fresh Lokaltog/powerline powerline/bindings/zsh/powerline.zsh --file=~/.zshrc
+fresh powerline/powerline powerline/bindings/zsh/powerline.zsh --file=~/.zshrc
 fresh zsh/powerline-post --file=~/.zshrc
 
 fresh simonwhitaker/gitignore-boilerplates gibo --bin=~/bin/gibo
@@ -83,7 +83,7 @@ fresh cyrus-and/gdb-dashboard .gdbinit --file=~/.gdbinit
 fresh_after_build() {
   # cd $FRESH_PATH/source/Lokaltog/powerline
   # python setup.py install --user >/dev/null
-  pip install --user --editable=$FRESH_PATH/source/Lokaltog/powerline
+  pip install --user --editable=$FRESH_PATH/source/powerline/powerline
   ln -sf $HOME/.local/bin/powerline* $HOME/bin/
 
   if ! [[ -f $HOME/.tmux.conf.local ]] ; then
