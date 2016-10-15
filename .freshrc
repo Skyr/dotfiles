@@ -64,6 +64,8 @@ else
 fi
 fresh mpollmeier/vim-scalaConceal after/syntax/scala.vim --file=~/.vim/after/syntax/scala.vim
 
+fresh syl20bnr/spacemacs . --file=~/.emacs.d/
+
 fresh edusantana/asciidoc-highlight gedit/asciidoc.lang --file=~/.local/share/gtksourceview-2.0/language-specs/asciidoc.lang
 fresh edusantana/asciidoc-highlight gedit/asciidoc.lang --file=~/.local/share/gtksourceview-3.0/language-specs/asciidoc.lang
 
