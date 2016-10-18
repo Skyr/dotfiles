@@ -38,7 +38,7 @@ if command -v awesome > /dev/null ; then
   fresh awesome --file=~/.config/awesome/
 fi
 
-for fontname in DejaVuSansMono DroidSansMono SourceCodePro Terminus ; do
+for fontname in DejaVuSansMono DroidSansMono SourceCodePro Terminus LiberationMono ; do
   fresh powerline/fonts $fontname --file=~/.fonts/$fontname/
 done
 fresh tonsky/FiraCode distr/otf --file=~/.fonts/FiraCode/
@@ -65,7 +65,8 @@ fi
 fresh mpollmeier/vim-scalaConceal after/syntax/scala.vim --file=~/.vim/after/syntax/scala.vim
 
 fresh syl20bnr/spacemacs . --file=~/.emacs.d/
-fresh 'spacemacs/spacemacs' --file=~/.spacemacs
+# fresh 'spacemacs/spacemacs' --file=~/.spacemacs --marker=\;
+ln -sf ~/.dotfiles/spacemacs/spacemacs ~/.spacemacs
 
 fresh edusantana/asciidoc-highlight gedit/asciidoc.lang --file=~/.local/share/gtksourceview-2.0/language-specs/asciidoc.lang
 fresh edusantana/asciidoc-highlight gedit/asciidoc.lang --file=~/.local/share/gtksourceview-3.0/language-specs/asciidoc.lang
