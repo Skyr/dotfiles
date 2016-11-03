@@ -1,4 +1,4 @@
-addSbtPlugin("com.softwaremill.clippy" % "plugin-sbt" % "0.3.0")
+addSbtPlugin("com.softwaremill.clippy" % "plugin-sbt" % "0.3.1")
 
 addSbtPlugin("com.typesafe.sbteclipse" % "sbteclipse-plugin" % "4.0.0")
 
@@ -19,3 +19,6 @@ addSbtPlugin("com.typesafe.sbt" % "sbt-git" % "0.8.5")
 resolvers += Resolver.sonatypeRepo("releases")
 
 addSbtPlugin("com.github.alexarchambault" %% "sbt-ammonite" % "0.1.2")
+
+addSbtPlugin("org.ensime" % "sbt-ensime" % "1.9.1")
+
