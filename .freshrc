@@ -53,8 +53,8 @@ fi
 fresh tmux.conf --file=~/.tmux.conf
 fresh powerline/powerline powerline/bindings/tmux/powerline.conf --file=~/.tmux.conf
 
-# fresh powerline --file=~/.config/powerline/
-ln -sf $FRESH_PATH/source/powerline/powerline/powerline/config_files ~/.config/powerline
+fresh powerline --file=~/.config/powerline/
+#ln -sf $FRESH_PATH/source/powerline/powerline/powerline/config_files ~/.config/powerline
 
 fresh 'vim/*' --file=~/.vimrc
 if vim --version | grep +python > /dev/null ; then
