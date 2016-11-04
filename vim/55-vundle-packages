@@ -1,4 +1,5 @@
 Bundle 'altercation/vim-colors-solarized'
+Bundle 'jnurmine/Zenburn'
 "Bundle 'millermedeiros/vim-statline'
 Bundle 'vim-scripts/Arduino-syntax-file'
 Bundle 'groenewege/vim-less'
