@@ -1,0 +1,13 @@
+{
+	"name": "Zenburn for shell",
+	"groups": {
+		"mode": { "fg": "zenburn:base3", "bg": "zenburn:green", "attrs": ["bold"] }
+	},
+	"mode_translations": {
+		"vicmd": {
+			"groups": {
+				"mode": { "fg": "zenburn:base3", "bg": "zenburn:blue", "attrs": ["bold"] }
+			}
+		}
+	}
+}

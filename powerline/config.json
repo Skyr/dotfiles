@@ -17,7 +17,7 @@
 			"theme": "default"
 		},
 		"shell": {
-			"colorscheme": "solarized",
+			"colorscheme": "zenburn",
 			"theme": "default",
 			"local_themes": {
 				"continuation": "continuation",
@@ -29,7 +29,7 @@
 			"theme": "default"
 		},
 		"vim": {
-			"colorscheme": "solarized",
+			"colorscheme": "zenburn",
 			"theme": "default",
 			"local_themes": {
 				"__tabline__": "tabline",

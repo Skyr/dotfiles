@@ -1,0 +1,22 @@
+{
+	"colors": {
+    // Reference: https://github.com/phiggins/konsole-colors-solarized/blob/master/Solarized%20Dark.colorscheme
+    // https://usrlocalbin.blogspot.de/2008/04/zenburn-for-konsole-redux.html
+		"zenburn:base03": [8, "709080"], // Color0Intense
+		"zenburn:base02": [0, "404040"], // Color0
+		"zenburn:base01": [10, "c3bf9f"], // Color2Intense
+		"zenburn:base00": [11, "f0dfaf"], // Color3Intense
+		"zenburn:base0": [12, "94c0f3"], // Color4Intense
+		"zenburn:base1": [14, "93e1e3"], // Color6Intense
+		"zenburn:base2": [7, "dcdccc"], // Color7
+		"zenburn:base3": [15, "ffffff"], // Color7Intense
+		"zenburn:yellow": [3, "dfaf8f"], // Color3
+		"zenburn:orange": [9, "dca3a3"], // Color1Intense
+		"zenburn:red": [1, "705050"], // Color1
+		"zenburn:magenta": [5, "dc8cc3"], // Color5
+		"zenburn:violet": [13, "ec93d3"], // Color5Intense
+		"zenburn:blue": [4, "506070"], // Color4
+		"zenburn:cyan": [6, "8cd1d3"], // Color6
+		"zenburn:green": [2, "60b48a"] // Color2
+	}
+}
