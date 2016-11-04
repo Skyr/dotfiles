@@ -1,9 +1,9 @@
 {
 	"name": "Zenburn",
 	"groups": {
-		"information:additional":     { "fg": "zenburn:base2", "bg": "zenburn:base01", "attrs": [] },
+		"information:additional":     { "fg": "zenburn:base2", "bg": "zenburn:red", "attrs": [] },
 		"information:regular":        { "fg": "zenburn:base3", "bg": "zenburn:base01", "attrs": ["bold"] },
-		"information:highlighted":    { "fg": "zenburn:base3", "bg": "zenburn:base01", "attrs": ["bold"]},
+		"information:highlighted":    { "fg": "zenburn:base3", "bg": "zenburn:red", "attrs": ["bold"]},
 		"information:priority":       { "fg": "zenburn:base3", "bg": "zenburn:yellow", "attrs": [] },
 		"warning:regular":            { "fg": "zenburn:base3", "bg": "zenburn:red", "attrs": [] },
 		"critical:failure":           { "fg": "zenburn:base3", "bg": "zenburn:red", "attrs": [] },
@@ -20,7 +20,7 @@
 		"email_alert":                "warning:regular",
 		"cwd":                        "information:additional",
 		"cwd:current_folder":         "information:regular",
-		"cwd:divider":                { "fg": "zenburn:base1", "bg": "zenburn:base01", "attrs": [] },
+		"cwd:divider":                { "fg": "zenburn:base1", "bg": "zenburn:red", "attrs": [] },
 		"network_load":               { "fg": "zenburn:base1", "bg": "zenburn:base03", "attrs": [] },
 		"network_load:divider":       "network_load",
 		"network_load_gradient":      { "fg": "green_yellow_orange_red", "bg": "zenburn:base03", "attrs": [] },
