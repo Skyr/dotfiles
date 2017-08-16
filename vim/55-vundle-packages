@@ -38,4 +38,5 @@ if executable("task")
   Bundle 'farseer90718/vim-taskwarrior'
 endif
 Plugin 'kien/rainbow_parentheses.vim'
+Plugin 'udalov/kotlin-vim'
 
