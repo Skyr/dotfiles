@@ -50,8 +50,8 @@ if command -v urxvt > /dev/null ; then
   fresh muennich/urxvt-perls clipboard --file=~/.urxvt/ext/clipboard
 fi
 
-fresh tmux.conf --file=~/.tmux.conf
 fresh powerline/powerline powerline/bindings/tmux/powerline.conf --file=~/.tmux.conf
+fresh tmux.conf --file=~/.tmux.conf
 
 fresh powerline --file=~/.config/powerline/
 #ln -sf $FRESH_PATH/source/powerline/powerline/powerline/config_files ~/.config/powerline
