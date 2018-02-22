@@ -68,8 +68,18 @@ fi
 
 if command -v emacs > /dev/null ; then
   fresh syl20bnr/spacemacs . --file=~/.emacs.d/
-  # fresh 'spacemacs/spacemacs' --file=~/.spacemacs --marker=\;
-  ln -sf ~/.dotfiles/spacemacs/spacemacs ~/.spacemacs
+  if command -v csplit > /dev/null ; then
+    if [ -e ~/.spacemacs ] ; then
+      rm -f $FRESH_LOCAL/spacemacs/spacemacs00
+      csplit -s -f $FRESH_LOCAL/spacemacs/spacemacs ~/.spacemacs '%;; auto-generate custom variable definitions.%+1'
+    fi
+    fresh spacemacs/spacemacs --file=~/.spacemacs
+    if [ -f $FRESH_LOCAL/spacemacs/spacemacs00 ] ; then
+      fresh spacemacs/spacemacs00 --file=~/.spacemacs
+    fi
+  else
+    ln -sf ~/.dotfiles/spacemacs/spacemacs ~/.spacemacs
+  fi
 fi
 
 fresh edusantana/asciidoc-highlight gedit/asciidoc.lang --file=~/.local/share/gtksourceview-2.0/language-specs/asciidoc.lang
