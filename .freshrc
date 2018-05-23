@@ -88,7 +88,7 @@ fresh edusantana/asciidoc-highlight gedit/asciidoc.lang --file=~/.local/share/gt
 if command -v zsh > /dev/null ; then
   fresh 'zsh/[0-9]*' --file=~/.zshrc
   fresh robbyrussell/oh-my-zsh oh-my-zsh.sh --file=~/.zshrc
-  fresh simonwhitaker/gitignore-boilerplates gibo-completion.zsh --file=~/.zshrc
+  fresh simonwhitaker/gitignore-boilerplates shell-completions/gibo-completion.zsh --file=~/.zshrc
   fresh zsh/powerline-pre --file=~/.zshrc
   fresh powerline/powerline powerline/bindings/zsh/powerline.zsh --file=~/.zshrc
   fresh zsh/powerline-post --file=~/.zshrc
@@ -105,6 +105,10 @@ fresh_after_build() {
   # python setup.py install --user >/dev/null
   pip install --user --editable=$FRESH_PATH/source/powerline/powerline
   ln -sf $HOME/.local/bin/powerline* $HOME/bin/
+
+  if [[ -f $HOME/.spacemacs ]] ; then
+    chmod u+w $HOME/.spacemacs
+  fi
 
   if ! [[ -f $HOME/.tmux.conf.local ]] ; then
     touch $HOME/.tmux.conf.local
