@@ -88,13 +88,13 @@ fresh edusantana/asciidoc-highlight gedit/asciidoc.lang --file=~/.local/share/gt
 if command -v zsh > /dev/null ; then
   fresh 'zsh/[0-9]*' --file=~/.zshrc
   fresh robbyrussell/oh-my-zsh oh-my-zsh.sh --file=~/.zshrc
-  fresh simonwhitaker/gitignore-boilerplates shell-completions/gibo-completion.zsh --file=~/.zshrc
+  fresh simonwhitaker/gibo shell-completions/gibo-completion.zsh --file=~/.zshrc
   fresh zsh/powerline-pre --file=~/.zshrc
   fresh powerline/powerline powerline/bindings/zsh/powerline.zsh --file=~/.zshrc
   fresh zsh/powerline-post --file=~/.zshrc
 fi
 
-fresh simonwhitaker/gitignore-boilerplates gibo --bin=~/bin/gibo
+fresh simonwhitaker/gibo gibo --bin=~/bin/gibo
 fresh clvv/fasd fasd --bin=~/bin/fasd
 fresh pasky/speedread speedread --bin=~/bin/speedread
 
