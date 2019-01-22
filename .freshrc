@@ -42,6 +42,7 @@ for fontname in DejaVuSansMono DroidSansMono SourceCodePro Terminus LiberationMo
   fresh powerline/fonts $fontname --file=~/.fonts/$fontname/
 done
 fresh tonsky/FiraCode distr/otf --file=~/.fonts/FiraCode/
+fresh lemeb/a-better-ligaturizer output-fonts/RobotoMono.ttf --file=~/.fonts/RobotoMono.ttf
 #fresh Lokaltog/powerline font/PowerlineSymbols.otf --file=~/.fonts/PowerlineSymbols.otf
 #fresh Lokaltog/powerline font/10-powerline-symbols.conf --file=~/.config/fontconfig/conf.d/10-powerline-symbols.conf
 # Latest version: git tag -l | grep "^[0-9]" | sort -n | tail -n 1
