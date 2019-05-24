@@ -112,6 +112,7 @@ if command -v zsh > /dev/null ; then
     NAME=`basename $i`
     fresh zsh-custom/$NAME --file=~/.oh-my-zsh-custom/$NAME
   done
+  ZSH_VERSION=`zsh --version | cut -d " " -f 2`
   if  [[ ${ZSH_VERSION:0:1} -lt 5 ]] ; then
     fresh bhilburn/powerlevel9k . --file=~/.oh-my-zsh-custom/powerlevel/
   else
