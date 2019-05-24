@@ -40,7 +40,7 @@ fi
 
 # Not working - https://github.com/ryanoasis/nerd-fonts/issues/270 NERD_FONT_VERSION=v2.0.0
 NERD_FONT_VERSION=v1.2.0
-NERD_FONT_PATH=$FRESH_PATH/source/ryanoasis/nerd-fonts/patched-fonts
+NERD_FONT_PATH=$FRESH_LOCAL/nerd-fonts/$NERD_FONT_VERSION
 mkdir -p $NERD_FONT_PATH
 for fontname in DejaVuSansMono DroidSansMono SourceCodePro Terminus LiberationMono FiraCode FiraMono RobotoMono ; do
   #fresh ryanoasis/nerd-fonts patched-fonts/$fontname --file=~/.fonts/$fontname/
@@ -48,7 +48,7 @@ for fontname in DejaVuSansMono DroidSansMono SourceCodePro Terminus LiberationMo
     wget -q -O $NERD_FONT_PATH/$fontname.zip https://github.com/ryanoasis/nerd-fonts/releases/download/${NERD_FONT_VERSION}/${fontname}.zip
     unzip -q -d $NERD_FONT_PATH/$fontname $NERD_FONT_PATH/$fontname.zip
   fi
-  fresh ../.fresh/source/ryanoasis/nerd-fonts/patched-fonts/$fontname --file=~/.fonts/$fontname/
+  fresh nerd-fonts/$NERD_FONT_VERSION/$fontname --file=~/.fonts/$fontname/
 done
 
 if command -v urxvt > /dev/null ; then
