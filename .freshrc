@@ -88,9 +88,12 @@ fresh edusantana/asciidoc-highlight gedit/asciidoc.lang --file=~/.local/share/gt
 
 if command -v zsh > /dev/null ; then
   mkdir -p $HOME/.oh-my-zsh-custom
-  ln -sf $FRESH_LOCAL/zsh-custom/* $HOME/.oh-my-zsh-custom
+  for i in $FRESH_LOCAL/zsh-custom/* ; do
+    NAME=`basename $i`
+    fresh zsh-custom/$NAME --file=~/.oh-my-zsh-custom/$NAME
+  done
   fresh romkatv/powerlevel10k . --file=~/.oh-my-zsh-custom/powerlevel10k/
-  chmod +x $HOME/.fresh/build/oh-my-zsh-custom-powerlevel10k/gitstatus/bin/*
+  chmod +x $HOME/.oh-my-zsh-custom/powerlevel10k/gitstatus/bin/* || true
   fresh 'zsh/[0-9]*' --file=~/.zshrc
   fresh robbyrussell/oh-my-zsh oh-my-zsh.sh --file=~/.zshrc
   fresh simonwhitaker/gibo shell-completions/gibo-completion.zsh --file=~/.zshrc
