@@ -2,17 +2,6 @@ fresh freshshell/fresh bin/fresh --bin
 
 fresh ctags --file
 fresh 'bin/*' --bin
-fresh 'xresources/*' --file=~/.Xresources
-
-if command -v git >/dev/null ; then
-  fresh 'git/*' --file=~/.gitconfig
-  VERSION=`git --version | sed "s/^.* //"`
-  V=(${VERSION//./ })
-  fresh git-${V[0]} --file=~/.gitconfig --ignore-missing
-  fresh git-${V[0]}.${V[1]} --file=~/.gitconfig --ignore-missing
-  fresh jeffkaufman/icdiff icdiff --bin=~/bin/icdiff
-  fresh jeffkaufman/icdiff git-icdiff --bin=~/bin/git-icdiff
-fi
 
 for F in $FRESH_LOCAL/gnupg/* ; do
   N=`basename $F`
@@ -25,8 +14,53 @@ for F in $FRESH_LOCAL/sbt/* ; do
   fresh sbt/$VER/user.sbt --file=~/.sbt/$VER/user.sbt --ignore-missing
 done
 
-fresh gtkrc-2.0 --file
-fresh gtk-3.0-settings.ini --file=~/.config/gtk-3.0/settings.ini
+fresh powerline/powerline powerline/bindings/tmux/powerline.conf --file=~/.tmux.conf
+fresh tmux.conf --file=~/.tmux.conf
+
+fresh powerline --file=~/.config/powerline/
+#ln -sf $FRESH_PATH/source/powerline/powerline/powerline/config_files ~/.config/powerline
+
+fresh simonwhitaker/gibo gibo --bin=~/bin/gibo
+fresh clvv/fasd fasd --bin=~/bin/fasd
+#fresh pasky/speedread speedread --bin=~/bin/speedread
+
+fresh cyrus-and/gdb-dashboard .gdbinit --file=~/.gdbinit
+
+
+# All generic X stuff
+if command -v Xorg >/dev/null ; then
+  fresh 'xresources/*' --file=~/.Xresources
+  fresh gtkrc-2.0 --file
+  fresh gtk-3.0-settings.ini --file=~/.config/gtk-3.0/settings.ini
+
+  fresh edusantana/asciidoc-highlight gedit/asciidoc.lang --file=~/.local/share/gtksourceview-2.0/language-specs/asciidoc.lang
+  fresh edusantana/asciidoc-highlight gedit/asciidoc.lang --file=~/.local/share/gtksourceview-3.0/language-specs/asciidoc.lang
+
+  # Not working - https://github.com/ryanoasis/nerd-fonts/issues/270 NERD_FONT_VERSION=v2.0.0
+  NERD_FONT_VERSION=v1.2.0
+  NERD_FONT_PATH=$FRESH_LOCAL/nerd-fonts/$NERD_FONT_VERSION
+  mkdir -p $NERD_FONT_PATH
+  for fontname in DejaVuSansMono DroidSansMono SourceCodePro Terminus LiberationMono FiraCode FiraMono RobotoMono ; do
+    #fresh ryanoasis/nerd-fonts patched-fonts/$fontname --file=~/.fonts/$fontname/
+    if [ ! -f "$NERD_FONT_PATH/$fontname.zip" ] ; then
+      wget -q -O $NERD_FONT_PATH/$fontname.zip https://github.com/ryanoasis/nerd-fonts/releases/download/${NERD_FONT_VERSION}/${fontname}.zip
+      unzip -q -d $NERD_FONT_PATH/$fontname $NERD_FONT_PATH/$fontname.zip
+    fi
+    fresh nerd-fonts/$NERD_FONT_VERSION/$fontname --file=~/.fonts/$fontname/
+  done
+fi
+
+
+if command -v git >/dev/null ; then
+  fresh 'git/*' --file=~/.gitconfig
+  VERSION=`git --version | sed "s/^.* //"`
+  V=(${VERSION//./ })
+  fresh git-${V[0]} --file=~/.gitconfig --ignore-missing
+  fresh git-${V[0]}.${V[1]} --file=~/.gitconfig --ignore-missing
+  fresh jeffkaufman/icdiff icdiff --bin=~/bin/icdiff
+  fresh jeffkaufman/icdiff git-icdiff --bin=~/bin/git-icdiff
+fi
+
 
 if command -v i3 > /dev/null ; then
   fresh i3config --file=~/.i3/config
@@ -38,28 +72,11 @@ if command -v awesome > /dev/null ; then
   fresh awesome --file=~/.config/awesome/
 fi
 
-# Not working - https://github.com/ryanoasis/nerd-fonts/issues/270 NERD_FONT_VERSION=v2.0.0
-NERD_FONT_VERSION=v1.2.0
-NERD_FONT_PATH=$FRESH_LOCAL/nerd-fonts/$NERD_FONT_VERSION
-mkdir -p $NERD_FONT_PATH
-for fontname in DejaVuSansMono DroidSansMono SourceCodePro Terminus LiberationMono FiraCode FiraMono RobotoMono ; do
-  #fresh ryanoasis/nerd-fonts patched-fonts/$fontname --file=~/.fonts/$fontname/
-  if [ ! -f "$NERD_FONT_PATH/$fontname.zip" ] ; then
-    wget -q -O $NERD_FONT_PATH/$fontname.zip https://github.com/ryanoasis/nerd-fonts/releases/download/${NERD_FONT_VERSION}/${fontname}.zip
-    unzip -q -d $NERD_FONT_PATH/$fontname $NERD_FONT_PATH/$fontname.zip
-  fi
-  fresh nerd-fonts/$NERD_FONT_VERSION/$fontname --file=~/.fonts/$fontname/
-done
 
 if command -v urxvt > /dev/null ; then
   fresh muennich/urxvt-perls clipboard --file=~/.urxvt/ext/clipboard
 fi
 
-fresh powerline/powerline powerline/bindings/tmux/powerline.conf --file=~/.tmux.conf
-fresh tmux.conf --file=~/.tmux.conf
-
-fresh powerline --file=~/.config/powerline/
-#ln -sf $FRESH_PATH/source/powerline/powerline/powerline/config_files ~/.config/powerline
 
 if command -v vim > /dev/null ; then
   fresh 'vim/*' --file=~/.vimrc
@@ -70,6 +87,7 @@ if command -v vim > /dev/null ; then
   fi
   fresh mpollmeier/vim-scalaConceal after/syntax/scala.vim --file=~/.vim/after/syntax/scala.vim
 fi
+
 
 if command -v emacs > /dev/null ; then
   fresh syl20bnr/spacemacs . --file=~/.emacs.d/
@@ -87,8 +105,6 @@ if command -v emacs > /dev/null ; then
   fi
 fi
 
-fresh edusantana/asciidoc-highlight gedit/asciidoc.lang --file=~/.local/share/gtksourceview-2.0/language-specs/asciidoc.lang
-fresh edusantana/asciidoc-highlight gedit/asciidoc.lang --file=~/.local/share/gtksourceview-3.0/language-specs/asciidoc.lang
 
 if command -v zsh > /dev/null ; then
   mkdir -p $HOME/.oh-my-zsh-custom
@@ -106,11 +122,6 @@ if command -v zsh > /dev/null ; then
   #fresh zsh/powerline-post --file=~/.zshrc
 fi
 
-fresh simonwhitaker/gibo gibo --bin=~/bin/gibo
-fresh clvv/fasd fasd --bin=~/bin/fasd
-fresh pasky/speedread speedread --bin=~/bin/speedread
-
-fresh cyrus-and/gdb-dashboard .gdbinit --file=~/.gdbinit
 
 fresh_after_build() {
   # cd $FRESH_PATH/source/Lokaltog/powerline
