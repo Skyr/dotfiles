@@ -38,14 +38,18 @@ if command -v awesome > /dev/null ; then
   fresh awesome --file=~/.config/awesome/
 fi
 
-for fontname in DejaVuSansMono DroidSansMono SourceCodePro Terminus LiberationMono FiraMono ; do
-  fresh powerline/fonts $fontname --file=~/.fonts/$fontname/
+# Not working - https://github.com/ryanoasis/nerd-fonts/issues/270 NERD_FONT_VERSION=v2.0.0
+NERD_FONT_VERSION=v1.2.0
+NERD_FONT_PATH=$FRESH_PATH/source/ryanoasis/nerd-fonts/patched-fonts
+mkdir -p $NERD_FONT_PATH
+for fontname in DejaVuSansMono DroidSansMono SourceCodePro Terminus LiberationMono FiraCode FiraMono RobotoMono ; do
+  #fresh ryanoasis/nerd-fonts patched-fonts/$fontname --file=~/.fonts/$fontname/
+  if [ ! -f "$NERD_FONT_PATH/$fontname.zip" ] ; then
+    wget -q -O $NERD_FONT_PATH/$fontname.zip https://github.com/ryanoasis/nerd-fonts/releases/download/${NERD_FONT_VERSION}/${fontname}.zip
+    unzip -q -d $NERD_FONT_PATH/$fontname $NERD_FONT_PATH/$fontname.zip
+  fi
+  fresh ../.fresh/source/ryanoasis/nerd-fonts/patched-fonts/$fontname --file=~/.fonts/$fontname/
 done
-fresh tonsky/FiraCode distr/otf --file=~/.fonts/FiraCode/
-fresh lemeb/a-better-ligaturizer output-fonts/RobotoMono.ttf --file=~/.fonts/RobotoMono.ttf
-#fresh Lokaltog/powerline font/PowerlineSymbols.otf --file=~/.fonts/PowerlineSymbols.otf
-#fresh Lokaltog/powerline font/10-powerline-symbols.conf --file=~/.config/fontconfig/conf.d/10-powerline-symbols.conf
-# Latest version: git tag -l | grep "^[0-9]" | sort -n | tail -n 1
 
 if command -v urxvt > /dev/null ; then
   fresh muennich/urxvt-perls clipboard --file=~/.urxvt/ext/clipboard
