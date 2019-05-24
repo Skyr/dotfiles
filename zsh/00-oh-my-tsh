@@ -42,7 +42,7 @@ POWERLEVEL9K_SHORTEN_DIR_LENGTH=3
 POWERLEVEL9K_SHORTEN_STRATEGY=truncate_from_right
 POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(context dir)
 POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status virtualenv root_indicator background_jobs vcs)
-ZSH_THEME="powerlevel9k/powerlevel9k"
+ZSH_THEME="powerlevel10k/powerlevel10k"
 
 
 # Set to this to use case-sensitive completion
