@@ -117,7 +117,7 @@ if command -v zsh > /dev/null ; then
     fresh bhilburn/powerlevel9k . --file=~/.oh-my-zsh-custom/powerlevel/
   else
     fresh romkatv/powerlevel10k . --file=~/.oh-my-zsh-custom/powerlevel/
-    chmod +x $HOME/.oh-my-zsh-custom/powerlevel10k/gitstatus/bin/* || true
+    chmod +x $HOME/.oh-my-zsh-custom/powerlevel/gitstatus/bin/* || true
   fi
   fresh 'zsh/[0-9]*' --file=~/.zshrc
   fresh robbyrussell/oh-my-zsh oh-my-zsh.sh --file=~/.zshrc
