@@ -24,14 +24,14 @@ fresh simonwhitaker/gibo gibo --bin=~/bin/gibo
 fresh clvv/fasd fasd --bin=~/bin/fasd
 #fresh pasky/speedread speedread --bin=~/bin/speedread
 
-fresh cyrus-and/gdb-dashboard .gdbinit --file=~/.gdbinit
+# fresh cyrus-and/gdb-dashboard .gdbinit --file=~/.gdbinit
 
 
 # All generic X stuff
 if command -v Xorg >/dev/null ; then
   fresh 'xresources/*' --file=~/.Xresources
-  fresh gtkrc-2.0 --file
-  fresh gtk-3.0-settings.ini --file=~/.config/gtk-3.0/settings.ini
+  # fresh gtkrc-2.0 --file
+  # fresh gtk-3.0-settings.ini --file=~/.config/gtk-3.0/settings.ini
 
   fresh edusantana/asciidoc-highlight gedit/asciidoc.lang --file=~/.local/share/gtksourceview-2.0/language-specs/asciidoc.lang
   fresh edusantana/asciidoc-highlight gedit/asciidoc.lang --file=~/.local/share/gtksourceview-3.0/language-specs/asciidoc.lang
@@ -43,6 +43,7 @@ if command -v Xorg >/dev/null ; then
   for fontname in DejaVuSansMono DroidSansMono SourceCodePro Terminus LiberationMono FiraCode FiraMono RobotoMono ; do
     #fresh ryanoasis/nerd-fonts patched-fonts/$fontname --file=~/.fonts/$fontname/
     if [ ! -f "$NERD_FONT_PATH/$fontname.zip" ] ; then
+      echo "Loading $fontname $NERD_FONT_VERSION"
       wget -q -O $NERD_FONT_PATH/$fontname.zip https://github.com/ryanoasis/nerd-fonts/releases/download/${NERD_FONT_VERSION}/${fontname}.zip
       unzip -q -d $NERD_FONT_PATH/$fontname $NERD_FONT_PATH/$fontname.zip
     fi
@@ -89,21 +90,21 @@ if command -v vim > /dev/null ; then
 fi
 
 
-if command -v emacs > /dev/null ; then
-  fresh syl20bnr/spacemacs . --file=~/.emacs.d/
-  if command -v csplit > /dev/null ; then
-    if [ -e ~/.spacemacs ] ; then
-      rm -f $FRESH_LOCAL/spacemacs/spacemacs00
-      csplit -s -f $FRESH_LOCAL/spacemacs/spacemacs ~/.spacemacs '%;; auto-generate custom variable definitions.%+1'
-    fi
-    fresh spacemacs/spacemacs --file=~/.spacemacs
-    if [ -f $FRESH_LOCAL/spacemacs/spacemacs00 ] ; then
-      fresh spacemacs/spacemacs00 --file=~/.spacemacs
-    fi
-  else
-    ln -sf ~/.dotfiles/spacemacs/spacemacs ~/.spacemacs
-  fi
-fi
+#if command -v emacs > /dev/null ; then
+#  fresh syl20bnr/spacemacs . --file=~/.emacs.d/
+#  if command -v csplit > /dev/null ; then
+#    if [ -e ~/.spacemacs ] ; then
+#      rm -f $FRESH_LOCAL/spacemacs/spacemacs00
+#      csplit -s -f $FRESH_LOCAL/spacemacs/spacemacs ~/.spacemacs '%;; auto-generate custom variable definitions.%+1'
+#    fi
+#    fresh spacemacs/spacemacs --file=~/.spacemacs
+#    if [ -f $FRESH_LOCAL/spacemacs/spacemacs00 ] ; then
+#      fresh spacemacs/spacemacs00 --file=~/.spacemacs
+#    fi
+#  else
+#    ln -sf ~/.dotfiles/spacemacs/spacemacs ~/.spacemacs
+#  fi
+#fi
 
 
 if command -v zsh > /dev/null ; then
@@ -122,9 +123,6 @@ if command -v zsh > /dev/null ; then
   fresh 'zsh/[0-9]*' --file=~/.zshrc
   fresh robbyrussell/oh-my-zsh oh-my-zsh.sh --file=~/.zshrc
   fresh simonwhitaker/gibo shell-completions/gibo-completion.zsh --file=~/.zshrc
-  #fresh zsh/powerline-pre --file=~/.zshrc
-  #fresh powerline/powerline powerline/bindings/zsh/powerline.zsh --file=~/.zshrc
-  #fresh zsh/powerline-post --file=~/.zshrc
 fi
 
 
