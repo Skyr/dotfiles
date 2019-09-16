@@ -1,2 +1,5 @@
 [push]
 	default = simple
+
+[includeIf "gitdir:~/.gitconfig.local"]
+  path = ~/.gitconfig.local
