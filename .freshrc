@@ -80,13 +80,8 @@ fi
 
 
 if command -v vim > /dev/null ; then
-  fresh 'vim/*' --file=~/.vimrc
-  if vim --version | grep +python > /dev/null ; then
-    fresh vim-python --file=~/.vimrc
-  else
-    fresh vim-nopython --file=~/.vimrc
-  fi
-  fresh mpollmeier/vim-scalaConceal after/syntax/scala.vim --file=~/.vim/after/syntax/scala.vim
+  fresh SpaceVim/SpaceVim . --file=~/.vim/
+  fresh spacevim --file=~/.SpaceVim.d/
 fi
 
 
