@@ -1,3 +1,4 @@
+alias exa='exa -lghH --git --color-scale'
 alias l="exa -aa"
 alias l.="exa -d .*"
 alias la="exa -a"
