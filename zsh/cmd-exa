@@ -1,0 +1,5 @@
+alias l="exa -aa"
+alias l.="exa -d .*"
+alias la="exa -a"
+alias ll="exa"
+alias lsa="exa -aa"

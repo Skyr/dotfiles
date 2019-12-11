@@ -1,0 +1,4 @@
+export FZF_DEFAULT_OPTS="--no-mouse --height 50% -1 --reverse --multi --preview '[[ \$(file --mime {}) =~ binary ]] && echo {} is a binary file || (bat --style=numbers --color=always {} || cat {}) 2> /dev/null | head -200' --preview-window='right:hidden:wrap' --bind='f2:toggle-preview,f3:execute(bat --style=numbers {} || less -f {}),ctrl-d:half-page-down,ctrl-u:half-page-up,ctrl-a:select-all,ctrl-r:toggle-all'"
+export FZF_DEFAULT_COMMAND="git ls-files --cached --others --exclude-standard || fd -type f -type l"
+export FZF_CTRL_T_COMMAND="fd $FD_OPTIONS"
+export FZF_ALT_C_COMMAND="fd --type d $FD_OPTIONS"

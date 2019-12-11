@@ -118,6 +118,15 @@ if command -v zsh > /dev/null ; then
   fresh 'zsh/[0-9]*' --file=~/.zshrc
   fresh robbyrussell/oh-my-zsh oh-my-zsh.sh --file=~/.zshrc
   fresh simonwhitaker/gibo shell-completions/gibo-completion.zsh --file=~/.zshrc
+
+  # Aliases if a given command exists
+  for i in $FRESH_LOCAL/zsh/cmd-* ; do
+    CMD=`basename $i`
+    CMD=${CMD#cmd-}
+    if command -v $CMD > /dev/null ; then
+      fresh zsh/cmd-$CMD --file=~/.zshrc
+    fi
+  done
 fi
 
 
