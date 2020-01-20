@@ -49,6 +49,17 @@ if command -v Xorg >/dev/null ; then
     fi
     fresh nerd-fonts/$NERD_FONT_VERSION/$fontname --file=~/.fonts/$fontname/
   done
+
+  # Jetbrains Mono ttf
+  JB_MONO_VERSION=1.0.0
+  JB_MONO_PATH=$FRESH_LOCAL/jetbrains-mono/$JB_MONO_VERSION
+  if [ ! -f "$JB_MONO_PATH/JetBrainsMono.zip" ] ; then
+    echo "Loading Jetbrains mono $JB_MONO_VERSION"
+    mkdir -p $JB_MONO_PATH
+    wget -q -O $JB_MONO_PATH/JetBrainsMono.zip https://download.jetbrains.com/fonts/JetBrainsMono-$JB_MONO_VERSION.zip
+    unzip -q -d $JB_MONO_PATH/JetBrainsMono $JB_MONO_PATH/JetBrainsMono.zip
+  fi
+  fresh jetbrains-mono/$JB_MONO_VERSION/JetBrainsMono --file=~/.fonts/jetbrains-mono/
 fi
 
 
