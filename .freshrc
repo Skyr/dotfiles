@@ -144,8 +144,13 @@ fi
 fresh_after_build() {
   # cd $FRESH_PATH/source/Lokaltog/powerline
   # python setup.py install --user >/dev/null
-  pip install --user --editable=$FRESH_PATH/source/powerline/powerline
-  ln -sf $HOME/.local/bin/powerline* $HOME/bin/
+  if command -v pip3 >/dev/null ; then
+    pip3 install --user --editable=$FRESH_PATH/source/powerline/powerline
+    ln -sf $HOME/.local/bin/powerline* $HOME/bin/
+  elif command -v pip3 >/dev/null ; then
+    pip install --user --editable=$FRESH_PATH/source/powerline/powerline
+    ln -sf $HOME/.local/bin/powerline* $HOME/bin/
+  fi
 
   if [[ -f $HOME/.spacemacs ]] ; then
     chmod u+w $HOME/.spacemacs
