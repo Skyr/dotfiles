@@ -60,6 +60,7 @@ ZSH_THEME="powerlevel/powerlevel9k"
 
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git gitfast git-extras gradle tmux zsh-navigation-tools fasd fzf colored-man-pages docker ssh-agent mosh ripgrep)
+plugins=(git gitfast git-extras gradle tmux zsh-navigation-tools fasd fzf colored-man-pages docker mosh ripgrep)
 # github disabled
 
+zstyle :omz:plugins:ssh-agent identities `ls ~/.ssh/id* | grep -v ".pub$"`
