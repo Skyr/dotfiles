@@ -28,6 +28,7 @@
     statusline_unicode_symbols = false
     # Enable vim compatible mode, avoid changing origin vim key bindings
     vimcompatible = true
+    autocomplete_method = "deoplete"
 
 # Enable autocomplete layer
 [[layers]]

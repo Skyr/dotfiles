@@ -98,6 +98,7 @@ fi
 if command -v vim > /dev/null ; then
   fresh SpaceVim/SpaceVim . --file=~/.vim/
   fresh spacevim --file=~/.SpaceVim.d/
+  pip3 install --user pynvim
 fi
 
 
