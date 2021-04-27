@@ -1,0 +1,15 @@
+{{- $codespaces:= env "CODESPACES" | not | not -}}
+sourceDir = "{{ .chezmoi.sourceDir }}"
+
+{{- $email := get . "email" -}}
+{{- if not $email -}}
+{{-   if $codespaces }}
+{{-     $email = "stefan@ploing.de" -}}
+{{-   else }}
+{{-     $email = promptString "email" -}}
+{{-   end }}
+{{- end }}
+
+[data]
+  name = "Stefan Schlott"
+  email = {{ $email | quote }}

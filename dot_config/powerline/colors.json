@@ -1,0 +1,20 @@
+{
+	"colors": {
+		"zenburn:base03": [8, "709080"],
+		"zenburn:base02": [0, "404040"],
+		"zenburn:base01": [10, "c3bf9f"],
+		"zenburn:base00": [11, "f0dfaf"],
+		"zenburn:base0": [12, "94c0f3"],
+		"zenburn:base1": [14, "93e1e3"],
+		"zenburn:base2": [7, "dcdccc"],
+		"zenburn:base3": [15, "ffffff"],
+		"zenburn:yellow": [3, "dfaf8f"],
+		"zenburn:orange": [9, "dca3a3"],
+		"zenburn:red": [1, "705050"],
+		"zenburn:magenta": [5, "dc8cc3"],
+		"zenburn:violet": [13, "ec93d3"],
+		"zenburn:blue": [4, "506070"],
+		"zenburn:cyan": [6, "8cd1d3"],
+		"zenburn:green": [2, "60b48a"]
+	}
+}

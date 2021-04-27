@@ -1,0 +1,97 @@
+{
+	"name": "Zenburn for vim",
+	"groups": {
+		"information:additional":   { "fg": "zenburn:base2", "bg": "zenburn:base01", "attrs": [] },
+		"information:unimportant":  { "fg": "zenburn:base3", "bg": "zenburn:base01", "attrs": [] },
+		"background":               { "fg": "zenburn:base3", "bg": "zenburn:base02", "attrs": [] },
+		"background:divider":       { "fg": "zenburn:base00", "bg": "zenburn:base02", "attrs": [] },
+		"mode":                     { "fg": "zenburn:base3", "bg": "zenburn:green", "attrs": ["bold"] },
+		"visual_range":             { "fg": "zenburn:green", "bg": "zenburn:base3", "attrs": ["bold"] },
+		"modified_indicator":       { "fg": "zenburn:yellow", "bg": "zenburn:base01", "attrs": ["bold"] },
+		"paste_indicator":          { "fg": "zenburn:base3", "bg": "zenburn:orange", "attrs": ["bold"] },
+		"readonly_indicator":       { "fg": "zenburn:red", "bg": "zenburn:base01", "attrs": [] },
+		"branch_dirty":             { "fg": "zenburn:yellow", "bg": "zenburn:base01", "attrs": [] },
+		"branch:divider":           { "fg": "zenburn:base1", "bg": "zenburn:base01", "attrs": [] },
+		"stash:divider":            "branch:divider",
+		"file_name":                { "fg": "zenburn:base3", "bg": "zenburn:base01", "attrs": ["bold"] },
+		"window_title":             { "fg": "zenburn:base3", "bg": "zenburn:base01", "attrs": [] },
+		"file_name_no_file":        { "fg": "zenburn:base3", "bg": "zenburn:base01", "attrs": ["bold"] },
+		"file_format":              { "fg": "zenburn:base1", "bg": "zenburn:base02", "attrs": [] },
+		"file_vcs_status":          { "fg": "zenburn:red", "bg": "zenburn:base01", "attrs": [] },
+		"file_vcs_status_M":        { "fg": "zenburn:yellow", "bg": "zenburn:base01", "attrs": [] },
+		"file_vcs_status_A":        { "fg": "zenburn:green", "bg": "zenburn:base01", "attrs": [] },
+		"line_percent":             { "fg": "zenburn:base3", "bg": "zenburn:base00", "attrs": [] },
+		"line_percent_gradient":    { "fg": "green_yellow_orange_red", "bg": "zenburn:base00", "attrs": [] },
+		"position":                 { "fg": "zenburn:base3", "bg": "zenburn:base00", "attrs": [] },
+		"position_gradient":        { "fg": "green_yellow_orange_red", "bg": "zenburn:base00", "attrs": [] },
+		"line_current":             { "fg": "zenburn:base03", "bg": "zenburn:base2", "attrs": ["bold"] },
+		"line_current_symbol":      { "fg": "zenburn:base03", "bg": "zenburn:base2", "attrs": [] },
+		"virtcol_current_gradient": { "fg": "GREEN_Orange_red", "bg": "zenburn:base2", "attrs": [] },
+		"col_current":              { "fg": "zenburn:base0", "bg": "zenburn:base2", "attrs": [] },
+		"environment":              { "fg": "zenburn:base1", "bg": "zenburn:base02", "attrs": [] },
+		"attached_clients":         { "fg": "zenburn:base1", "bg": "zenburn:base02", "attrs": [] },
+		"error":                    { "fg": "zenburn:base3", "bg": "zenburn:red", "attrs": ["bold"] },
+		"warning":                  { "fg": "zenburn:base3", "bg": "zenburn:orange", "attrs": ["bold"] },
+		"current_tag":              { "fg": "zenburn:base3", "bg": "zenburn:base02", "attrs": ["bold"] }
+	},
+	"mode_translations": {
+		"nc": {
+			"colors": {
+				"zenburn:base01": "zenburn:base02",
+				"zenburn:base00": "zenburn:base02",
+				"zenburn:base0": "zenburn:base01",
+				"zenburn:base1": "zenburn:base00",
+				"zenburn:base2": "zenburn:base0",
+				"zenburn:base3": "zenburn:base1"
+			}
+		},
+		"i": {
+			"groups": {
+				"background":             { "fg": "zenburn:base3", "bg": "zenburn:base01", "attrs": [] },
+				"background:divider":     { "fg": "zenburn:base2", "bg": "zenburn:base01", "attrs": [] },
+				"mode":                   { "fg": "zenburn:base3", "bg": "zenburn:blue", "attrs": ["bold"] },
+				"modified_indicator":     { "fg": "zenburn:yellow", "bg": "zenburn:base2", "attrs": ["bold"] },
+				"paste_indicator":        { "fg": "zenburn:base3", "bg": "zenburn:orange", "attrs": ["bold"] },
+				"readonly_indicator":     { "fg": "zenburn:red", "bg": "zenburn:base2", "attrs": [] },
+				"branch":                 { "fg": "zenburn:base01", "bg": "zenburn:base2", "attrs": [] },
+				"branch:divider":         { "fg": "zenburn:base00", "bg": "zenburn:base2", "attrs": [] },
+				"file_directory":         { "fg": "zenburn:base01", "bg": "zenburn:base2", "attrs": [] },
+				"file_name":              { "fg": "zenburn:base02", "bg": "zenburn:base2", "attrs": ["bold"] },
+				"file_size":              { "fg": "zenburn:base02", "bg": "zenburn:base2", "attrs": [] },
+				"file_name_no_file":      { "fg": "zenburn:base02", "bg": "zenburn:base2", "attrs": ["bold"] },
+				"file_name_empty":        { "fg": "zenburn:base02", "bg": "zenburn:base2", "attrs": [] },
+				"file_format":            { "fg": "zenburn:base2", "bg": "zenburn:base01", "attrs": [] },
+				"file_vcs_status":        { "fg": "zenburn:red", "bg": "zenburn:base2", "attrs": [] },
+				"file_vcs_status_M":      { "fg": "zenburn:yellow", "bg": "zenburn:base2", "attrs": [] },
+				"file_vcs_status_A":      { "fg": "zenburn:green", "bg": "zenburn:base2", "attrs": [] },
+				"line_percent":           { "fg": "zenburn:base3", "bg": "zenburn:base1", "attrs": [] },
+				"line_percent_gradient":  { "fg": "zenburn:base3", "bg": "zenburn:base1", "attrs": [] },
+				"position":               { "fg": "zenburn:base3", "bg": "zenburn:base1", "attrs": [] },
+				"position_gradient":      { "fg": "zenburn:base3", "bg": "zenburn:base1", "attrs": [] },
+				"line_current":           { "fg": "zenburn:base03", "bg": "zenburn:base3", "attrs": ["bold"] },
+				"line_current_symbol":    { "fg": "zenburn:base03", "bg": "zenburn:base3", "attrs": [] },
+				"col_current":            { "fg": "zenburn:base0", "bg": "zenburn:base3", "attrs": [] }
+			}
+		},
+		"v": {
+			"groups": {
+				"mode": { "fg": "zenburn:base3", "bg": "zenburn:orange", "attrs": ["bold"] }
+			}
+		},
+		"V": {
+			"groups": {
+				"mode": { "fg": "zenburn:base3", "bg": "zenburn:orange", "attrs": ["bold"] }
+			}
+		},
+		"^V": {
+			"groups": {
+				"mode": { "fg": "zenburn:base3", "bg": "zenburn:orange", "attrs": ["bold"] }
+			}
+		},
+		"R": {
+			"groups": {
+				"mode": { "fg": "zenburn:base3", "bg": "zenburn:red", "attrs": ["bold"] }
+			}
+		}
+	}
+}

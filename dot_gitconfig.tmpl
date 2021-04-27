@@ -1,0 +1,41 @@
+[user]
+  name = {{ .name }}
+  email = {{ .email }}
+
+[core]
+  pager = less -FRSX
+  autocrlf = input
+  editor = vim
+
+[color]
+  ui = auto
+
+[mergetool "meld"]
+  cmd = exec /usr/bin/meld \"$LOCAL\" \"$MERGED\" \"$REMOTE\"
+
+[merge]
+  tool = meld
+
+[diff "zip"]
+  textconv = unzip -c -a
+
+[log]
+  decorate = true
+
+[alias]
+  servehere = daemon --verbose --informative-errors --reuseaddr --export-all --base-path=. --enable=receive-pack
+  ls = log --graph --abbrev-commit --pretty=oneline --all --decorate
+  amend = commit --amend
+  notpushed = log --branches --not --remotes --simplify-by-decoration --decorate --oneline
+  notmerged = branch -a --no-merged
+  oldest-ancestor = !zsh -c 'diff -u <(git rev-list --first-parent "${1:-master}") <(git rev-list --first-parent "${2:-HEAD}") | sed -ne \"s/^ //p\" | head -1' -
+  trash = !git add . && git commit -m 'trash' && git reset --hard HEAD^
+  # https://stackoverflow.com/questions/2919878/git-rewrite-previous-commit-usernames-and-emails
+  change-commits = "!f() { VAR=$1; OLD=$2; NEW=$3; shift 3; git filter-branch --env-filter \"if [[ \\\"$`echo $VAR`\\\" = '$OLD' ]]; then export $VAR='$NEW'; fi\" $@; }; f "
+  lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+
+[push]
+  default = simple
+
+[includeIf "gitdir:~/.gitconfig.local"]
+  path = ~/.gitconfig.local
