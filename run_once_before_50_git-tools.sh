@@ -2,6 +2,6 @@
 
 if command -v git > /dev/null ; then
   if command -v pip > /dev/null > /dev/null ; then
-    pip install git-imerge
+    pip install --user git-imerge
   fi
 fi
