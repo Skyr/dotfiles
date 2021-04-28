@@ -15,6 +15,13 @@ curl -s -L -o powerlevel10k-master.tar.gz  https://github.com/romkatv/powerlevel
 chezmoi import --strip-components 1 --destination ${HOME}/.oh-my-zsh-custom/powerlevel powerlevel10k-master.tar.gz
 rm powerlevel10k-master.tar.gz
 
+mkdir -p ${HOME}/.oh-my-zsh-custom/plugins/fzf-tab
+chezmoi add ${HOME}/.oh-my-zsh-custom/plugins/fzf-tab
+curl -s -L -o fzf-tab-master.tar.gz  https://github.com/Aloxaf/fzf-tab/archive/master.tar.gz
+chezmoi import --strip-components 1 --destination ${HOME}/.oh-my-zsh-custom/plugins/fzf-tab fzf-tab-master.tar.gz
+rm fzf-tab-master.tar.gz
+
+
 mkdir -p ${HOME}/.oh-my-zsh
 chezmoi add ${HOME}/.oh-my-zsh
 curl -s -L -o oh-my-zsh-master.tar.gz https://github.com/robbyrussell/oh-my-zsh/archive/master.tar.gz

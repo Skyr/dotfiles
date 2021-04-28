@@ -59,8 +59,11 @@ ZSH_THEME="powerlevel/powerlevel9k"
 
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git gitfast git-extras gradle tmux zsh-navigation-tools fasd fzf colored-man-pages docker mosh ripgrep)
+plugins=(git gitfast git-extras gradle tmux zsh-navigation-tools fasd colored-man-pages docker mosh ripgrep)
 # github disabled
+if command -v fzf > /dev/null ; then
+  plugins+=(fzf fzf-tab)
+fi
 
 if ls "~/.ssh/id*.pub" > /dev/null 2>&1 ; then
   SSH_KEYS=""
@@ -103,18 +106,6 @@ fi
 #fi
 
 alias du1="du -hs *(/)"
-
-if command -v fasd > /dev/null ; then
-  eval "$(fasd --init auto)"
-  if command -v fzf > /dev/null ; then
-    # Thanks to https://www.gregorykapfhammer.com/software/tool/productivity/2017/05/08/Directory-Zooming/
-t() {
-  fasdlist=$( fasd -d -l -r $1 | \
-    fzf --query="$1 " --select-1 --exit-0 --height=25% --reverse --tac --no-sort --cycle) &&
-    cd "$fasdlist"
-}
-  fi
-fi
 
 if command -v navi > /dev/null ; then
   source <(navi widget zsh)
@@ -159,3 +150,42 @@ export LC_IDENTIFICATION=de_DE.UTF-8
 
 source $HOME/.oh-my-zsh/oh-my-zsh.sh
 
+
+### Overrides for zsh
+
+if command -v fzf > /dev/null ; then
+  # Thanks to https://www.gregorykapfhammer.com/software/tool/productivity/2017/05/08/Directory-Zooming/
+  t() {
+    fasdlist=$( fasd -d -l -r $1 | \
+      fzf --query="$1 " --select-1 --exit-0 --height=25% --reverse --tac --no-sort --cycle) &&
+      cd "$fasdlist"
+  }
+
+  # Thanks to https://www.reddit.com/r/commandline/comments/cwrioy/for_fasd_fzf_users_universal_v_vd_and_z_functions/
+  alias v >/dev/null && unalias v
+  alias vd >/dev/null && unalias vd
+  alias z >/dev/null && unalias z
+
+  # edit given file or search in recently used files
+  function v {
+      local file
+      # if arg1 is a path to existing file then simply open it in the editor
+      test -e "$1" && $EDITOR "$@" && return
+      # else use fasd and fzf to search for recent files
+      file="$(fasd -Rfl "$*" | fzf -1 -0 --no-sort +m)" && $EDITOR "${file}" || $EDITOR "$@"
+  }
+
+  # cd into the directory containing a recently used file
+  function vd {
+      local dir
+      local file
+      file="$(fasd -Rfl "$*" | fzf -1 -0 --no-sort +m)" && dir=$(dirname "$file") && cd "$dir"
+  }
+
+  # cd into given dir or search in recently used dirs
+  function z {
+      [ $# -eq 1 ] && test -d "$1" && cd "$1" && return
+      local dir
+      dir="$(fasd -Rdl "$*" | fzf -1 -0 --no-sort +m)" && cd "${dir}" || return 1
+  }
+fi
