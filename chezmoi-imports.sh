@@ -5,6 +5,10 @@ chmod +x ~/.local/bin/gibo
 chezmoi add ~/.local/bin/gibo
 ~/.local/bin/gibo update
 
+curl -s -L -o ~/.local/bin/fasd https://github.com/clvv/fasd/raw/master/fasd
+chmod +x ~/.local/bin/fasd
+chezmoi add ~/.local/bin/fasd
+
 mkdir -p ${HOME}/.oh-my-zsh-custom/powerlevel
 chezmoi add ${HOME}/.oh-my-zsh-custom/powerlevel
 curl -s -L -o powerlevel10k-master.tar.gz  https://github.com/romkatv/powerlevel10k/archive/master.tar.gz

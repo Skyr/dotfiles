@@ -10,3 +10,8 @@ Install [chezmoi](https://github.com/twpayne/chezmoi): `bin_dir="$HOME/.local/bi
 
 Run `chezmoi-imports.sh`.
 
+## Recommended local installs
+
+* pip
+* fzf
+
