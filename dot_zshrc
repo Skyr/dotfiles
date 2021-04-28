@@ -97,10 +97,20 @@ alias du1="du -hs *(/)"
 
 if command -v fasd > /dev/null ; then
   eval "$(fasd --init auto)"
+  if command -v fzf > /dev/null ; then
+    # Thanks to https://www.gregorykapfhammer.com/software/tool/productivity/2017/05/08/Directory-Zooming/
+t() {
+  fasdlist=$( fasd -d -l -r $1 | \
+    fzf --query="$1 " --select-1 --exit-0 --height=25% --reverse --tac --no-sort --cycle) &&
+    cd "$fasdlist"
+}
+  fi
 fi
+
 if command -v navi > /dev/null ; then
   source <(navi widget zsh)
 fi
+
 if command -v exa > /dev/null ; then
   alias exa='exa -lghH --git --color-scale'
   alias l="exa -aa"
@@ -109,6 +119,7 @@ if command -v exa > /dev/null ; then
   alias ll="exa"
   alias lsa="exa -aa"
 fi
+
 export FZF_DEFAULT_OPTS="--no-mouse --height 50% -1 --reverse --multi --preview '[[ \$(file --mime {}) =~ binary ]] && echo {} is a binary file || (bat --style=numbers --color=always {} || cat {}) 2> /dev/null | head -200' --preview-window='right:hidden:wrap' --bind='f2:toggle-preview,f3:execute(bat --style=numbers {} || less -f {}),ctrl-d:half-page-down,ctrl-u:half-page-up,ctrl-a:select-all,ctrl-r:toggle-all'"
 export FZF_DEFAULT_COMMAND="git ls-files --cached --others --exclude-standard || fd -type f -type l"
 export FZF_CTRL_T_COMMAND="fd $FD_OPTIONS"
