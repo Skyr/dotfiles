@@ -24,6 +24,7 @@ statusline_iseparator = "arrow"
 buffer_index_type = 4
 enable_tabline_filetype_icon = true
 enable_statusline_mode = false
+enable_vimfiler_gitstatus = true
 
 # Enable autocomplete layer
 [[layers]]
@@ -57,8 +58,8 @@ name = 'lang#dockerfile'
 [[layers]]
 name = 'lang#html'
 
-[[layers]]
-name = 'lang#plantuml'
+#[[layers]]
+#name = 'lang#plantuml'
 
 [[layers]]
 name = 'lang#sh'
