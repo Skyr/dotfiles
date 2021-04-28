@@ -62,8 +62,17 @@ ZSH_THEME="powerlevel/powerlevel9k"
 plugins=(git gitfast git-extras gradle tmux zsh-navigation-tools fasd fzf colored-man-pages docker mosh ripgrep)
 # github disabled
 
-zstyle :omz:plugins:ssh-agent identities `ls ~/.ssh/id* | grep -v ".pub$"`
-
+if ls "~/.ssh/id*.pub" > /dev/null 2>&1 ; then
+  SSH_KEYS=""
+  for i in ~/.ssh/*.pub ; do
+    if [[ -f ${i%.pub} ]] ; then
+      SSH_KEYS="$SSH_KEYS ${i%.pub}"
+    fi
+  done
+  if [[ -z "$SSH_KEYS" ]] ; then
+    zstyle :omz:plugins:ssh-agent identities $SSH_KEYS
+  fi
+fi
 
 #if [ "$TERM"=="rxvt" ] && [ -e /usr/share/terminfo/r/rxvt-unicode-256color ]; then
 #	export TERM="rxvt-unicode-256color"
