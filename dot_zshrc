@@ -155,6 +155,7 @@ export LC_IDENTIFICATION=de_DE.UTF-8
 
 [ -f ~/.zshrc.local ] && source $HOME/.zshrc.local
 
+DISABLE_AUTO_UPDATE="true"
 source $HOME/.oh-my-zsh/oh-my-zsh.sh
 
 
