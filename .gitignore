@@ -1,1 +1,3 @@
 nerd-fonts/
+*.zwc
+/dot_oh-my-zsh/cache
