@@ -34,8 +34,13 @@ $(OBJDIR)/%.o: src/%.cc Makefile build.info | $(OBJDIR)
 clean:
 	rm -rf -- $(OBJDIR)
 
-pkg:
-	GITSTATUS_DAEMON= GITSTATUS_CACHE_DIR=$(shell pwd)/usrbin ./install -f
+zwc:
 	$(or $(ZSH),:) -fc 'for f in *.zsh install; do zcompile -R -- $$f.zwc $$f || exit; done'
+
+minify:
+	rm -rf -- .clang-format .git .gitattributes .gitignore .vscode deps docs src usrbin/.gitkeep LICENSE Makefile README.md build mbuild
+
+pkg: zwc
+	GITSTATUS_DAEMON= GITSTATUS_CACHE_DIR=$(shell pwd)/usrbin ./install -f
 
 -include $(OBJS:.o=.dep)

@@ -12,9 +12,22 @@ fi
 export LC_ALL=C
 
 if [ -z "${ZSH_VERSION-}" ] && command -v zsh >/dev/null 2>&1; then
+  # Avoid bash 3.*.
   case "${BASH_VERSION-}" in
     [0-3].*) exec zsh "$0" "$@";;
   esac
+fi
+
+# Avoid ksh: https://github.com/romkatv/gitstatus/issues/282.
+if [ -n "${KSH_VERSION-}" ]; then
+  if [ -z "${ZSH_VERSION-}" ] && command -v zsh >/dev/null 2>&1; then
+    exec zsh "$0" "$@"
+  elif [ -z "${BASH_VERSION-}" ] && command -v bash >/dev/null 2>&1 &&
+       bash_version="$(bash --version 2>&1)"; then
+    case "$bash_version" in
+      *version\ [4-9]*|*version\ [1-9][0-9]*) exec bash "$0" "$@";;
+    esac
+  fi
 fi
 
 usage="$(command cat <<\END
@@ -55,7 +68,7 @@ workdir="$(command pwd)"
 
 narg() { echo $#; }
 
-if [ "$(narg $workdir)" != 1 -o -z "${workdir##*:*}" ]; then
+if [ "$(narg $workdir)" != 1 -o -z "${workdir##*:*}" -o -z "${workdir##*=*}" ]; then
   >&2 echo "[error] cannot build in this directory: $workdir"
   exit 1
 fi
@@ -88,7 +101,10 @@ if [ -n "$gitstatus_install_tools" ]; then
       fi
     ;;
     freebsd)
-      command pkg install -y cmake gmake binutils gcc git perl5
+      command pkg install -y cmake gmake binutils git perl5 wget
+    ;;
+    openbsd)
+      command pkg_add cmake gmake gcc g++ git wget
     ;;
     netbsd)
       command pkgin -y install cmake gmake binutils git
@@ -102,7 +118,7 @@ if [ -n "$gitstatus_install_tools" ]; then
         sudo port -N install libiconv cmake wget
       elif command -v brew >/dev/null 2>&1; then
         for formula in libiconv cmake git wget; do
-          if command brew list "$formula" &>/dev/null; then
+          if command brew ls --version "$formula" &>/dev/null; then
             command brew upgrade "$formula"
           else
             command brew install "$formula"
@@ -133,37 +149,86 @@ case "$gitstatus_cpu" in
   *)           archflag="-march";;
 esac
 
-cflags="$archflag=$gitstatus_cpu -fno-plt"
+cflags="$archflag=$gitstatus_cpu -fno-plt -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security -fpie"
+ldflags=
+static_pie=
+
+if [ -z "${CC-}" ]; then
+  case "$gitstatus_kernel" in
+    freebsd) export CC=clang;;
+    *)       export CC=cc;;
+  esac
+fi
+
+printf 'int main() {}\n' >"$workdir"/cc-test.c
+if 2>/dev/null "$CC"   \
+     -ffile-prefix-map=x=y   \
+     -Werror                 \
+     -c "$workdir"/cc-test.c \
+     -o "$workdir"/cc-test.o; then
+  cflags="$cflags -ffile-prefix-map=$workdir/="
+fi
+
+command rm -f -- "$workdir"/cc-test "$workdir"/cc-test.o
+if 2>/dev/null "$CC"                    \
+     -fstack-clash-protection -fcf-protection \
+     -Werror                                  \
+     -c "$workdir"/cc-test.c                  \
+     -o "$workdir"/cc-test.o; then
+  cflags="$cflags -fstack-clash-protection -fcf-protection"
+fi
+
+command rm -f -- "$workdir"/cc-test "$workdir"/cc-test.o
+if 2>/dev/null "$CC"                             \
+     -Wl,-O1,--sort-common,--as-needed,-z,relro,-z,now \
+     -Werror                                           \
+     "$workdir"/cc-test.c                              \
+     -o "$workdir"/cc-test; then
+  ldflags="$ldflags -Wl,-O1,--sort-common,--as-needed,-z,relro,-z,now"
+fi
+
+command rm -f -- "$workdir"/cc-test "$workdir"/cc-test.o
+if 2>/dev/null "$CC" \
+     -fpie -static-pie     \
+     -Werror               \
+     "$workdir"/cc-test.c  \
+     -o "$workdir"/cc-test; then
+  static_pie='-static-pie'
+fi
 
 if [ "$gitstatus_cpu" = x86-64 ]; then
   cflags="$cflags -mtune=generic"
 fi
 
 libgit2_cmake_flags=
-libgit2_cflags="$cflags"
+libgit2_cflags="${CFLAGS-} $cflags -O3 -DNDEBUG"
 
 gitstatus_cxx=g++
-gitstatus_cxxflags="$cflags -I${workdir}/libgit2/include -DGITSTATUS_ZERO_NSEC -D_GNU_SOURCE"
-gitstatus_ldflags="-L${workdir}/libgit2/build"
+gitstatus_cxxflags="${CXXFLAGS-} $cflags -I${workdir}/libgit2/include -DGITSTATUS_ZERO_NSEC -D_GNU_SOURCE -D_GLIBCXX_ASSERTIONS"
+gitstatus_ldflags="${LDFLAGS-} $ldflags -L${workdir}/libgit2/build"
 gitstatus_ldlibs=
 gitstatus_make=make
 
 case "$gitstatus_kernel" in
   linux)
-    gitstatus_ldflags="$gitstatus_ldflags -static"
-    gitstatus_ldflags="$gitstatus_ldflags -Wl,-O1,--sort-common,--as-needed,-z,relro,-z,now"
+    gitstatus_ldflags="$gitstatus_ldflags ${static_pie:--static}"
     libgit2_cmake_flags="$libgit2_cmake_flags -DENABLE_REPRODUCIBLE_BUILDS=ON"
   ;;
   freebsd)
+    gitstatus_cxx=clang++
     gitstatus_make=gmake
-    gitstatus_ldflags="$gitstatus_ldflags -static"
-    gitstatus_ldflags="$gitstatus_ldflags -Wl,-O1,--sort-common,--as-needed,-z,relro,-z,now"
+    gitstatus_ldflags="$gitstatus_ldflags ${static_pie:--static}"
+    libgit2_cmake_flags="$libgit2_cmake_flags -DENABLE_REPRODUCIBLE_BUILDS=ON"
+  ;;
+  openbsd)
+    gitstatus_cxx=eg++
+    gitstatus_make=gmake
+    gitstatus_ldflags="$gitstatus_ldflags ${static_pie:--static}"
     libgit2_cmake_flags="$libgit2_cmake_flags -DENABLE_REPRODUCIBLE_BUILDS=ON"
   ;;
   netbsd)
     gitstatus_make=gmake
-    gitstatus_ldflags="$gitstatus_ldflags -static"
-    gitstatus_ldflags="$gitstatus_ldflags -Wl,-O1,--sort-common,--as-needed,-z,relro,-z,now"
+    gitstatus_ldflags="$gitstatus_ldflags ${static_pie:--static}"
     libgit2_cmake_flags="$libgit2_cmake_flags -DENABLE_REPRODUCIBLE_BUILDS=ON"
   ;;
   darwin)
@@ -184,11 +249,11 @@ case "$gitstatus_kernel" in
     libgit2_cmake_flags="$libgit2_cmake_flags -DENABLE_REPRODUCIBLE_BUILDS=OFF"
   ;;
   msys*|mingw*)
-    gitstatus_ldflags="$gitstatus_ldflags -static"
+    gitstatus_ldflags="$gitstatus_ldflags ${static_pie:--static}"
     libgit2_cmake_flags="$libgit2_cmake_flags -DENABLE_REPRODUCIBLE_BUILDS=ON"
   ;;
   cygwin*)
-    gitstatus_ldflags="$gitstatus_ldflags -static"
+    gitstatus_ldflags="$gitstatus_ldflags ${static_pie:--static}"
     libgit2_cmake_flags="$libgit2_cmake_flags -DENABLE_REPRODUCIBLE_BUILDS=ON"
   ;;
   *)
@@ -197,7 +262,7 @@ case "$gitstatus_kernel" in
   ;;
 esac
 
-for cmd in cat cmake gcc g++ git ld ln mkdir rm strip tar "$gitstatus_make"; do
+for cmd in cat cmake git ld ln mkdir rm strip tar "$gitstatus_make"; do
   if ! command -v "$cmd" >/dev/null 2>&1; then
     if [ -n "$gitstatus_install_tools" ]; then
       >&2 echo "[internal error] $cmd not found"
@@ -231,7 +296,18 @@ if [ ! -e "$libgit2_tarball" ]; then
       fi
     fi
     libgit2_url=https://github.com/romkatv/libgit2/archive/"$libgit2_version".tar.gz
-    command wget -O "$libgit2_tmp" -- "$libgit2_url"
+    if ! >"$libgit2_tmp" command wget --no-config -qO- -- "$libgit2_url" &&
+       ! >"$libgit2_tmp" command wget             -qO- -- "$libgit2_url"; then
+      set -x
+      >&2 command which wget
+      >&2 command ls -lAd -- "$(command which wget)"
+      >&2 command ls -lAd -- "$outdir"
+      >&2 command ls -lA -- "$outdir"
+      >&2 command ls -lAd -- "$outdir"/deps
+      >&2 command ls -lA -- "$outdir"/deps
+      set +x
+      exit 1
+    fi
     command mv -f -- "$libgit2_tmp" "$libgit2_tarball"
   else
     >&2 echo "[error] file not found: deps/libgit2-"$libgit2_version".tar.gz"
@@ -277,7 +353,7 @@ command mkdir libgit2/build
 cd libgit2/build
 
 CFLAGS="$libgit2_cflags" command cmake \
-  -DCMAKE_BUILD_TYPE=Release           \
+  -DCMAKE_BUILD_TYPE=None              \
   -DZERO_NSEC=ON                       \
   -DTHREADSAFE=ON                      \
   -DUSE_BUNDLED_ZLIB=ON                \
@@ -295,7 +371,7 @@ command make -j "$cpus" VERBOSE=1
 
 APPNAME="$appname".tmp           \
   OBJDIR="$workdir"/gitstatus    \
-  CXX="$gitstatus_cxx"           \
+  CXX="${CXX:-$gitstatus_cxx}"   \
   CXXFLAGS="$gitstatus_cxxflags" \
   LDFLAGS="$gitstatus_ldflags"   \
   LDLIBS="$gitstatus_ldlibs"     \
@@ -306,16 +382,33 @@ app="$outdir"/usrbin/"$appname"
 command strip "$app".tmp
 
 command mkdir -- "$workdir"/repo
-command git -C "$workdir"/repo init
-command git -C "$workdir"/repo config user.name "Your Name"
-command git -C "$workdir"/repo config user.email "you@example.com"
-command git -C "$workdir"/repo commit --allow-empty --allow-empty-message --no-gpg-sign -m ''
+printf '[init]\n  defaultBranch = master\n' >"$workdir"/.gitconfig
+(
+  cd -- "$workdir"/repo
+  GIT_CONFIG_NOSYSTEM=1 HOME="$workdir" command git init
+  GIT_CONFIG_NOSYSTEM=1 HOME="$workdir" command git config user.name "Your Name"
+  GIT_CONFIG_NOSYSTEM=1 HOME="$workdir" command git config user.email "you@example.com"
+  GIT_CONFIG_NOSYSTEM=1 HOME="$workdir" command git commit \
+    --allow-empty --allow-empty-message --no-gpg-sign -m ''
+)
 
 resp="$(printf "hello\037$workdir/repo\036" | "$app".tmp)"
-[ -n "$resp" -a -z "${resp##hello*1*$workdir/repo*master*}" ]
+case "$resp" in
+  hello*1*/repo*master*);;
+  *)
+    >&2 echo 'error: invalid gitstatusd response for a git repo'
+    exit 1
+  ;;
+esac
 
 resp="$(printf 'hello\037\036' | "$app".tmp)"
-[ -n "$resp" -a -z "${resp##hello*0*}" ]
+case "$resp" in
+  hello*0*);;
+  *)
+    >&2 echo 'error: invalid gitstatusd response for a non-repo'
+    exit 1
+  ;;
+esac
 
 command mv -f -- "$app".tmp "$app"
 
@@ -423,13 +516,16 @@ fi
 
 if [ -z "$gitstatus_cpu" ]; then
   case "$gitstatus_arch" in
-    armv6l)         gitstatus_cpu=armv6;;
+    armel)          gitstatus_cpu=armv5;;
+    armv6l|armhf)   gitstatus_cpu=armv6;;
     armv7l)         gitstatus_cpu=armv7;;
-    arm64)          gitstatus_cpu=armv8;;
-    aarch64)        gitstatus_cpu=armv8-a;;
+    arm64|aarch64)  gitstatus_cpu=armv8-a;;
     ppc64le)        gitstatus_cpu=powerpc64le;;
     riscv64)        gitstatus_cpu=rv64imafdc;;
+    loongarch64)    gitstatus_cpu=loongarch64;;
     x86_64|amd64)   gitstatus_cpu=x86-64;;
+    x86)            gitstatus_cpu=i586;;
+    s390x)          gitstatus_cpu=z900;;
     i386|i586|i686) gitstatus_cpu="$gitstatus_arch";;
     *)
       >&2 echo '[error] unable to infer target CPU architecture'
@@ -458,12 +554,13 @@ case "$gitstatus_kernel" in
       fi
       if [ -z "$docker_image" ]; then
         case "$gitstatus_arch" in
-          x86_64)         docker_image=alpine:3.11.6;;
-          i386|i586|i686) docker_image=i386/alpine:3.11.6;;
-          armv6l)         docker_image=arm32v6/alpine:3.11.6;;
-          armv7l)         docker_image=arm32v7/alpine:3.11.6;;
-          aarch64)        docker_image=arm64v8/alpine:3.11.6;;
-          ppc64le)        docker_image=ppc64le/alpine:3.11.6;;
+          x86_64)             docker_image=alpine:3.11.6;;
+          x86|i386|i586|i686) docker_image=i386/alpine:3.11.6;;
+          armv6l|armhf)       docker_image=arm32v6/alpine:3.11.6;;
+          armv7l)             docker_image=arm32v7/alpine:3.11.6;;
+          aarch64)            docker_image=arm64v8/alpine:3.11.6;;
+          ppc64le)            docker_image=ppc64le/alpine:3.11.6;;
+          s390x)              docker_image=s390x/alpine:3.11.6;;
           *)
             >&2 echo '[error] unable to infer docker image'
             >&2 echo 'Please specify explicitly with `-i IMAGE`.'
@@ -473,7 +570,7 @@ case "$gitstatus_kernel" in
       fi
     fi
   ;;
-  freebsd|netbsd|darwin)
+  freebsd|openbsd|netbsd|darwin)
     if [ -n "$docker_cmd" ]; then
       >&2 echo "[error] docker (-d) is not supported on $gitstatus_kernel"
       exit 1

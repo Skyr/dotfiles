@@ -16,12 +16,12 @@ local -A ctxt=(\"\${(@0)\${_ftb_compcap[(r)\${(b)desc}\$bs*]#*\$bs}}\")
 if (( \$+ctxt[group] )); then
   export group=\$_ftb_groups[\$ctxt[group]]
 fi
+# get original word
+export word=\${(Q)ctxt[word]}
 # get real path if it is file
 if (( \$+ctxt[realdir] )); then
-  export realpath=\${ctxt[realdir]}\${(Q)desc}
+  export realpath=\${ctxt[realdir]}\$word
 fi
-# get original word
-export word=\$ctxt[word]
 "
 local binds=tab:down,btab:up,change:top,ctrl-space:toggle
 local fzf_command fzf_flags fzf_preview debug_command tmp switch_group fzf_pad
@@ -63,6 +63,16 @@ if (( ! use_tmux_popup )); then
 fi
 
 cat > $tmp_dir/completions.$$
+
+local dd='gdd'
+if (( ${+commands[$dd]} == 0 )) ; then
+  dd='dd'
+fi
+if (( ${+commands[$dd]} == 0 )) ; then
+  dd='true' # nop if dd is not installed
+fi
+
+_ftb_query="${_ftb_query}$(command "$dd" bs=1G count=1 status=none iflag=nonblock < /dev/tty 2>/dev/null)" || true
 
 $fzf_command \
   --ansi \

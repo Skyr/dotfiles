@@ -115,7 +115,9 @@
     *)
       -ftb-generate-query      # sets `_ftb_query`
       -ftb-generate-header     # sets `_ftb_headers`
-      -ftb-zstyle -s continuous-trigger continuous_trigger || continuous_trigger=/
+      -ftb-zstyle -s continuous-trigger continuous_trigger || {
+        [[ $OSTYPE == msys ]] && continuous_trigger=// || continuous_trigger=/
+      }
       -ftb-zstyle -s print-query print_query || print_query=alt-enter
       -ftb-zstyle -s accept-line accept_line
 
@@ -287,8 +289,10 @@ enable-fzf-tab() {
   typeset -g _ftb_orig_list_grouped=$?
 
   zstyle ':completion:*' list-grouped false
-  bindkey '^I'  fzf-tab-complete
-  bindkey '^X.' fzf-tab-debug
+  bindkey -M emacs '^I'  fzf-tab-complete
+  bindkey -M viins '^I'  fzf-tab-complete
+  bindkey -M emacs '^X.' fzf-tab-debug
+  bindkey -M viins '^X.' fzf-tab-debug
 
   # make sure we can copy them
   autoload +X -Uz _main_complete _approximate
@@ -329,7 +333,7 @@ build-fzf-tab-module() {
   fi
   pushd $FZF_TAB_HOME/modules
   CPPFLAGS=-I/usr/local/include CFLAGS="-g -Wall -O2" LDFLAGS=-L/usr/local/lib ./configure --disable-gdbm --without-tcsetpgrp ${MACOS:+DL_EXT=bundle}
-  make -j
+  make -j$(nproc)
   popd
 }
 

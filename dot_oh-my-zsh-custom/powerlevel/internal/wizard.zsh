@@ -14,21 +14,10 @@ if (( OPTIND <= ARGC )); then
   return 1
 fi
 
-if (( $+terminfo[smcup] && $+terminfo[rmcup] )) && echoti smcup 2>/dev/null; then
-  function restore_screen() {
-    echoti rmcup 2>/dev/null
-    function restore_screen() {}
-  }
-else
-  function restore_screen() {}
-fi
-
 local -i in_z4h_wizard=0
 [[ $force == 0 && $+functions[z4h] == 1 && -n $Z4H && -e $Z4H/welcome ]] && in_z4h_wizard=1
 
 local -i success=0
-
-{  # always
 
 local -ri force
 
@@ -1057,7 +1046,7 @@ function ask_use_rprompt() {
   case $choice in
     r) return 1;;
     1) ;;
-    2) pure_use_rprompt=; options+=rpromt;;
+    2) pure_use_rprompt=; options+=rprompt;;
   esac
   return 0
 }
@@ -1103,6 +1092,8 @@ function os_icon_name() {
           *manjaro*)               echo LINUX_MANJARO_ICON;;
           *void*)                  echo LINUX_VOID_ICON;;
           *artix*)                 echo LINUX_ARTIX_ICON;;
+          *rhel*)                  echo LINUX_RHEL_ICON;;
+          amzn)                    echo LINUX_AMZN_ICON;;
           *)                       echo LINUX_ICON;;
         esac
         ;;
@@ -1565,40 +1556,12 @@ function ask_zshrc_edit() {
   if (( $+functions[z4h] )); then
     zshrc_has_cfg=1
     zshrc_has_instant_prompt=1
+    return
   fi
 
+  check_zshrc_integration || quit -c
   [[ $instant_prompt == off ]] && zshrc_has_instant_prompt=1
-
-  if [[ -e $__p9k_zshrc ]]; then
-    zshrc_content="$(<$__p9k_zshrc)" || quit -c
-    local lines=(${(f)zshrc_content})
-    local f0=$__p9k_cfg_path_o
-    local f1=${(q)f0}
-    local f2=${(q-)f0}
-    local f3=${(qq)f0}
-    local f4=${(qqq)f0}
-    local g1=${${(q)__p9k_cfg_path_o}/#(#b)${(q)HOME}\//'~/'}
-    local h0='${ZDOTDIR:-~}/.p10k.zsh'
-    local h1='${ZDOTDIR:-$HOME}/.p10k.zsh'
-    local h2='"${ZDOTDIR:-$HOME}/.p10k.zsh"'
-    local h3='"${ZDOTDIR:-$HOME}"/.p10k.zsh'
-    local h4='${ZDOTDIR}/.p10k.zsh'
-    local h5='"${ZDOTDIR}/.p10k.zsh"'
-    local h6='"${ZDOTDIR}"/.p10k.zsh'
-    local h7='$ZDOTDIR/.p10k.zsh'
-    local h8='"$ZDOTDIR/.p10k.zsh"'
-    local h9='"$ZDOTDIR"/.p10k.zsh'
-    local h10='$POWERLEVEL9K_CONFIG_FILE'
-    local h11='"$POWERLEVEL9K_CONFIG_FILE"'
-    if [[ -n ${(@M)lines:#(#b)[^#]#([^[:IDENT:]]|)source[[:space:]]##($f1|$f2|$f3|$f4|$g1|$h0|$h1|$h2|$h3|$h4|$h5|$h6|$h7|$h8|$h9|$h10|$h11)(|[[:space:]]*|'#'*)} ]]; then
-      zshrc_has_cfg=1
-    fi
-    local pre='${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh'
-    if [[ -n ${(@M)lines:#(#b)[^#]#([^[:IDENT:]]|)source[[:space:]]##($pre|\"$pre\")(|[[:space:]]*|'#'*)} ]]; then
-      zshrc_has_instant_prompt=1
-    fi
-    (( zshrc_has_cfg && zshrc_has_instant_prompt )) && return
-  fi
+  (( zshrc_has_cfg && zshrc_has_instant_prompt )) && return
 
   add_widget 0 flowing -c %BApply changes to "%b%2F${__p9k_zshrc_u//\\/\\\\}%f%B?%b"
   add_widget 0 print -P ""
@@ -1767,6 +1730,7 @@ function generate_config() {
       uncomment 'typeset -g POWERLEVEL9K_CONTEXT_PREFIX'
       uncomment 'typeset -g POWERLEVEL9K_KUBECONTEXT_PREFIX'
       uncomment 'typeset -g POWERLEVEL9K_TIME_PREFIX'
+      uncomment 'typeset -g POWERLEVEL9K_TOOLBOX_PREFIX'
       if [[ $style == (lean|classic) ]]; then
         [[ $style == classic ]] && local fg="%$prefix_color[$color]F" || local fg="%f"
         sub VCS_PREFIX "'${fg}on '"
@@ -1774,6 +1738,7 @@ function generate_config() {
         sub CONTEXT_PREFIX "'${fg}with '"
         sub KUBECONTEXT_PREFIX "'${fg}at '"
         sub TIME_PREFIX "'${fg}at '"
+        sub TOOLBOX_PREFIX "'${fg}in '"
       fi
     fi
 
@@ -1948,6 +1913,75 @@ fi" || return
   return 0
 }
 
+function check_zshrc_integration() {
+  typeset -g zshrc_content=
+  typeset -gi zshrc_has_cfg=0 zshrc_has_instant_prompt=0
+  [[ -e $__p9k_zshrc ]] || return 0
+  zshrc_content="$(<$__p9k_zshrc)" || return
+  local lines=(${(f)zshrc_content})
+  local f0=$__p9k_cfg_path_o
+  local f1=${(q)f0}
+  local f2=${(q-)f0}
+  local f3=${(qq)f0}
+  local f4=${(qqq)f0}
+  local g1=${${(q)__p9k_cfg_path_o}/#(#b)${(q)HOME}\//'~/'}
+  local h0='${ZDOTDIR:-~}/.p10k.zsh'
+  local h1='${ZDOTDIR:-$HOME}/.p10k.zsh'
+  local h2='"${ZDOTDIR:-$HOME}/.p10k.zsh"'
+  local h3='"${ZDOTDIR:-$HOME}"/.p10k.zsh'
+  local h4='${ZDOTDIR}/.p10k.zsh'
+  local h5='"${ZDOTDIR}/.p10k.zsh"'
+  local h6='"${ZDOTDIR}"/.p10k.zsh'
+  local h7='$ZDOTDIR/.p10k.zsh'
+  local h8='"$ZDOTDIR/.p10k.zsh"'
+  local h9='"$ZDOTDIR"/.p10k.zsh'
+  local h10='$POWERLEVEL9K_CONFIG_FILE'
+  local h11='"$POWERLEVEL9K_CONFIG_FILE"'
+  if [[ -n ${(@M)lines:#(#b)[^#]#([^[:IDENT:]]|)source[[:space:]]##($f1|$f2|$f3|$f4|$g1|$h0|$h1|$h2|$h3|$h4|$h5|$h6|$h7|$h8|$h9|$h10|$h11)(|[[:space:]]*|'#'*)} ]]; then
+    zshrc_has_cfg=1
+  fi
+  local pre='${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh'
+  if [[ -n ${(@M)lines:#(#b)[^#]#([^[:IDENT:]]|)source[[:space:]]##($pre|\"$pre\")(|[[:space:]]*|'#'*)} ]]; then
+    zshrc_has_instant_prompt=1
+  fi
+  return 0
+}
+
+() {
+  (( force )) && return
+  _p9k_can_configure -q || return 0
+  local zshrc_content zshrc_has_cfg zshrc_has_instant_prompt
+  check_zshrc_integration 2>/dev/null || return 0
+  (( zshrc_has_cfg )) || return 0
+  [[ -s $__p9k_cfg_path ]] || return 0
+  print -P ""
+  flowing                                                                          \
+      Powerlevel10k configuration file "($__p9k_cfg_path_u)" was not sourced. This \
+      might have been caused by errors in zsh startup files, most likely in        \
+      $__p9k_zshrc_u. See above for any indication of such errors and fix them. If \
+      there are no errors, try running Powerlevel10k configuration wizard:
+  print -P ''
+  print -P '  %2Fp10k%f %Bconfigure%b'
+  print -P ''
+  flowing                                                                              \
+      If you do nothing, you will see this message again when you start zsh. You can   \
+      suppress it by defining %BPOWERLEVEL9K_DISABLE_CONFIGURATION_WIZARD=true%b in    \
+      $__p9k_zshrc_u.
+  print -P ''
+  return 1
+} || return
+
+if (( $+terminfo[smcup] && $+terminfo[rmcup] )) && echoti smcup 2>/dev/null; then
+  function restore_screen() {
+    echoti rmcup 2>/dev/null
+    function restore_screen() {}
+  }
+else
+  function restore_screen() {}
+fi
+
+{  # always
+
 if (( force )); then
   _p9k_can_configure || return
 else
@@ -2090,12 +2124,12 @@ restore_screen
 if (( !in_z4h_wizard )); then
   print
 
-  flowing +c New config: "%B${__p9k_cfg_path_u//\\/\\\\}%b."
+  flowing +c New config: "%U${__p9k_cfg_path_u//\\/\\\\}%u."
   if [[ -n $config_backup ]]; then
-    flowing +c Backup of the old config: "%B${config_backup_u//\\/\\\\}%b."
+    flowing +c Backup of the old config: "%U${config_backup_u//\\/\\\\}%u."
   fi
   if [[ -n $zshrc_backup ]]; then
-    flowing +c Backup of "%B${__p9k_zshrc_u//\\/\\\\}%b:" "%B${zshrc_backup_u//\\/\\\\}%b."
+    flowing +c Backup of "%U${__p9k_zshrc_u//\\/\\\\}%u:" "%U${zshrc_backup_u//\\/\\\\}%u."
   fi
 fi
 

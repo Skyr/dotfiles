@@ -35,6 +35,11 @@
 #
 #   -D        Unless this option is specified, report zero staged, unstaged and conflicted
 #             changes for repositories with bash.showDirtyState = false.
+#
+#   -r INT    Close git repositories that haven't been used for this many seconds. This is
+#             meant to release resources such as memory and file descriptors. The next request
+#             for a repo that's been closed is much slower than for a repo that hasn't been.
+#             Negative value means infinity. The default is 3600 (one hour).
 function gitstatus_start() {
   if [[ "$BASH_VERSION" < 4 ]]; then
     >&2 printf 'gitstatus_start: need bash version >= 4.0, found %s\n' "$BASH_VERSION"
@@ -48,10 +53,9 @@ function gitstatus_start() {
   fi
 
   unset OPTIND
-  local opt timeout=5 max_dirty=-1 extra_flags
+  local opt timeout=5 max_dirty=-1 ttl=3600 extra_flags=
   local max_num_staged=1 max_num_unstaged=1 max_num_conflicted=1 max_num_untracked=1
-  local ignore_status_show_untracked_files
-  while getopts "t:s:u:c:d:m:eUWD" opt; do
+  while getopts "t:s:u:c:d:m:r:eUWD" opt; do
     case "$opt" in
       t) timeout=$OPTARG;;
       s) max_num_staged=$OPTARG;;
@@ -59,6 +63,7 @@ function gitstatus_start() {
       c) max_num_conflicted=$OPTARG;;
       d) max_num_untracked=$OPTARG;;
       m) max_dirty=$OPTARG;;
+      r) ttl=$OPTARG;;
       e) extra_flags+='--recurse-untracked-dirs ';;
       U) extra_flags+='--ignore-status-show-untracked-files ';;
       W) extra_flags+='--ignore-bash-show-untracked-files ';;
@@ -113,6 +118,7 @@ function gitstatus_start() {
       --max-num-conflicted="$max_num_conflicted"
       --max-num-untracked="$max_num_untracked"
       --dirty-max-index-size="$max_dirty"
+      --repo-ttl-seconds="$ttl"
       $extra_flags)
 
     tmpdir="$(command mktemp -d "${TMPDIR:-/tmp}"/gitstatus.bash.$$.XXXXXXXXXX)" || return
@@ -264,50 +270,18 @@ function gitstatus_start() {
     return 1
   fi
 
+  export _GITSTATUS_CLIENT_PID _GITSTATUS_REQ_FD _GITSTATUS_RESP_FD GITSTATUS_DAEMON_PID
   unset -f gitstatus_start_impl
-
-  if [[ "${GITSTATUS_STOP_ON_EXEC:-1}" == 1 ]]; then
-    type -t _gitstatus_exec &>/dev/null    || function _gitstatus_exec()    { exec    "$@"; }
-    type -t _gitstatus_builtin &>/dev/null || function _gitstatus_builtin() { builtin "$@"; }
-
-    function _gitstatus_exec_wrapper() {
-      (( ! $# )) || gitstatus_stop
-      local ret=0
-      _gitstatus_exec "$@" || ret=$?
-      [[ -n "${GITSTATUS_DAEMON_PID:-}" ]] || gitstatus_start || true
-      return $ret
-    }
-
-    function _gitstatus_builtin_wrapper() {
-      while [[ "${1:-}" == builtin ]]; do shift; done
-      if [[ "${1:-}" == exec ]]; then
-        _gitstatus_exec_wrapper "${@:2}"
-      else
-        _gitstatus_builtin "$@"
-      fi
-    }
-
-    alias exec=_gitstatus_exec_wrapper
-    alias builtin=_gitstatus_builtin_wrapper
-
-    _GITSTATUS_EXEC_HOOK=1
-  else
-    unset _GITSTATUS_EXEC_HOOK
-  fi
 }
 
 # Stops gitstatusd if it's running.
 function gitstatus_stop() {
-  [[ "${_GITSTATUS_CLIENT_PID:-$BASHPID}" == "$BASHPID" ]]                         || return 0
-  [[ -z "${_GITSTATUS_REQ_FD:-}"    ]] || exec {_GITSTATUS_REQ_FD}>&-              || true
-  [[ -z "${_GITSTATUS_RESP_FD:-}"   ]] || exec {_GITSTATUS_RESP_FD}>&-             || true
-  [[ -z "${GITSTATUS_DAEMON_PID:-}" ]] || kill "$GITSTATUS_DAEMON_PID" &>/dev/null || true
-  if [[ -n "${_GITSTATUS_EXEC_HOOK:-}" ]]; then
-    unalias exec builtin &>/dev/null || true
-    function _gitstatus_exec_wrapper()    { _gitstatus_exec    "$@"; }
-    function _gitstatus_builtin_wrapper() { _gitstatus_builtin "$@"; }
+  if [[ "${_GITSTATUS_CLIENT_PID:-$BASHPID}" == "$BASHPID" ]]; then
+    [[ -z "${_GITSTATUS_REQ_FD:-}"    ]] || exec {_GITSTATUS_REQ_FD}>&-              || true
+    [[ -z "${_GITSTATUS_RESP_FD:-}"   ]] || exec {_GITSTATUS_RESP_FD}>&-             || true
+    [[ -z "${GITSTATUS_DAEMON_PID:-}" ]] || kill "$GITSTATUS_DAEMON_PID" &>/dev/null || true
   fi
-  unset _GITSTATUS_REQ_FD _GITSTATUS_RESP_FD GITSTATUS_DAEMON_PID _GITSTATUS_EXEC_HOOK
+  unset _GITSTATUS_REQ_FD _GITSTATUS_RESP_FD GITSTATUS_DAEMON_PID
   unset _GITSTATUS_DIRTY_MAX_INDEX_SIZE _GITSTATUS_CLIENT_PID
 }
 
@@ -332,6 +306,8 @@ function gitstatus_stop() {
 #   VCS_STATUS_WORKDIR              Git repo working directory. Not empty.
 #   VCS_STATUS_COMMIT               Commit hash that HEAD is pointing to. Either 40 hex digits or
 #                                   empty if there is no HEAD (empty repo).
+#   VCS_STATUS_COMMIT_ENCODING      Encoding of the HEAD's commit message. Empty value means UTF-8.
+#   VCS_STATUS_COMMIT_SUMMARY       The first paragraph of the HEAD's commit message as one line.
 #   VCS_STATUS_LOCAL_BRANCH         Local branch name or empty if not on a branch.
 #   VCS_STATUS_REMOTE_NAME          The remote name, e.g. "upstream" or "origin".
 #   VCS_STATUS_REMOTE_BRANCH        Upstream branch name. Can be empty.
@@ -379,7 +355,7 @@ function gitstatus_stop() {
 # shell or the call had failed.
 function gitstatus_query() {
   unset OPTIND
-  local opt dir timeout=() no_diff=0
+  local opt dir= timeout=() no_diff=0
   while getopts "d:c:t:p" opt "$@"; do
     case "$opt" in
       d) dir=$OPTARG;;
@@ -390,7 +366,7 @@ function gitstatus_query() {
   done
   (( OPTIND == $# + 1 )) || { echo "usage: gitstatus_query [OPTION]..." >&2; return 1; }
 
-  [[ -n "$GITSTATUS_DAEMON_PID" ]] || return  # not started
+  [[ -n "${GITSTATUS_DAEMON_PID-}" ]] || return  # not started
 
   local req_id="$RANDOM.$RANDOM.$RANDOM.$RANDOM"
   if [[ -z "${GIT_DIR:-}" ]]; then
@@ -435,6 +411,8 @@ function gitstatus_query() {
     VCS_STATUS_PUSH_COMMITS_BEHIND="${resp[24]:-0}"
     VCS_STATUS_NUM_SKIP_WORKTREE="${resp[25]:-0}"
     VCS_STATUS_NUM_ASSUME_UNCHANGED="${resp[26]:-0}"
+    VCS_STATUS_COMMIT_ENCODING="${resp[27]-}"
+    VCS_STATUS_COMMIT_SUMMARY="${resp[28]-}"
     VCS_STATUS_HAS_STAGED=$((VCS_STATUS_NUM_STAGED > 0))
     if (( _GITSTATUS_DIRTY_MAX_INDEX_SIZE >= 0 &&
           VCS_STATUS_INDEX_SIZE > _GITSTATUS_DIRTY_MAX_INDEX_SIZE_ )); then
@@ -477,6 +455,8 @@ function gitstatus_query() {
     unset VCS_STATUS_PUSH_COMMITS_BEHIND
     unset VCS_STATUS_NUM_SKIP_WORKTREE
     unset VCS_STATUS_NUM_ASSUME_UNCHANGED
+    unset VCS_STATUS_COMMIT_ENCODING
+    unset VCS_STATUS_COMMIT_SUMMARY
   fi
 }
 
