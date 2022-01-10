@@ -12,6 +12,6 @@ Run `chezmoi-imports.sh`.
 
 ## Recommended local installs
 
-* pip
+* pip3
 * fzf
 

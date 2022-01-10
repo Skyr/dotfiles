@@ -1,4 +1,4 @@
-source "{{ output "pip" "show" "powerline-status" | regexFind "Location: .*" | trimPrefix "Location: " }}/powerline/bindings/tmux/powerline.conf"
+source "{{ output "pip3" "show" "powerline-status" | regexFind "Location: .*" | trimPrefix "Location: " }}/powerline/bindings/tmux/powerline.conf"
 
 # Based on https://github.com/tony/tmux-config
 

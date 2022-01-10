@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if command -v git > /dev/null ; then
-  if command -v pip > /dev/null > /dev/null ; then
-    pip install --user git-imerge
+  if command -v pip3 > /dev/null > /dev/null ; then
+    pip3 install --user git-imerge
   fi
 fi
