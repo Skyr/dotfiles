@@ -32,7 +32,7 @@
   trash = !git add . && git commit -m 'trash' && git reset --hard HEAD^
   # https://stackoverflow.com/questions/2919878/git-rewrite-previous-commit-usernames-and-emails
   change-commits = "!f() { VAR=$1; OLD=$2; NEW=$3; shift 3; git filter-branch --env-filter \"if [[ \\\"$`echo $VAR`\\\" = '$OLD' ]]; then export $VAR='$NEW'; fi\" $@; }; f "
-  lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+  lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cs) %C(bold blue)<%an>%Creset' --abbrev-commit
   dz = diff --color-moved=dimmed-zebra
 
 [push]
