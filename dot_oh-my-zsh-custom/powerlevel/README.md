@@ -216,8 +216,8 @@ Here's the relevant parameter for kubernetes context:
 
 ```zsh
 # Show prompt segment "kubecontext" only when the command you are typing
-# invokes kubectl, helm, kubens, kubectx, oc, istioctl, kogito, k9s, helmfile, flux, fluxctl or stern.
-typeset -g POWERLEVEL9K_KUBECONTEXT_SHOW_ON_COMMAND='kubectl|helm|kubens|kubectx|oc|istioctl|kogito|k9s|helmfile|flux|fluxctl|stern'
+# invokes kubectl, helm, kubens, kubectx, oc, istioctl, kogito, k9s, helmfile, flux, fluxctl, stern, kubeseal, or skaffold.
+typeset -g POWERLEVEL9K_KUBECONTEXT_SHOW_ON_COMMAND='kubectl|helm|kubens|kubectx|oc|istioctl|kogito|k9s|helmfile|flux|fluxctl|stern|kubeseal|skaffold'
 ```
 
 To customize when different prompt segments are shown, open `~/.p10k.zsh`, search for
@@ -303,73 +303,77 @@ To ~~ridiculous~~ extravagant:
 
 Powerlevel10k comes with dozens of built-in high quality segments. When you run `p10k configure`
 and choose any style except [Pure](#pure-compatibility), many of these segments get enabled by
-default while others be manually enabled by opening `~/.p10k.zsh` and uncommenting them. You can
+default while others can be manually enabled by opening `~/.p10k.zsh` and uncommenting them. You can
 enable as many segments as you like. It won't slow down your prompt or Zsh startup.
 
 | Segment | Meaning |
 |--------:|---------|
-| `os_icon` | your OS logo (apple for macOS, swirl for debian, etc.) |
-| `dir` | current working directory |
-| `vcs` | Git repository status |
-| `prompt_char` | multi-functional prompt symbol; changes depending on vi mode: `❯`, `❮`, `V`, `▶` for insert, command, visual and replace mode respectively; turns red on error |
-| `context` | user@hostname |
-| `status` | exit code of the last command |
-| `command_execution_time` | duration (wall time) of the last command |
-| `background_jobs` | presence of background jobs |
-| `time` | current time |
-| `direnv` | [direnv](https://direnv.net/) status |
-| `asdf` | tool versions from [asdf](https://github.com/asdf-vm/asdf) |
-| `virtualenv` | python environment from [venv](https://docs.python.org/3/library/venv.html) |
 | `anaconda` | virtual environment from [conda](https://conda.io/) |
-| `pyenv` | python environment from [pyenv](https://github.com/pyenv/pyenv) |
-| `goenv` | go environment from [goenv](https://github.com/syndbg/goenv) |
-| `nodenv` | node.js environment from [nodenv](https://github.com/nodenv/nodenv) |
-| `nvm` | node.js environment from [nvm](https://github.com/nvm-sh/nvm) |
-| `nodeenv` | node.js environment from [nodeenv](https://github.com/ekalinin/nodeenv) |
-| `rbenv` | ruby environment from [rbenv](https://github.com/rbenv/rbenv) |
-| `rvm` | ruby environment from [rvm](https://rvm.io) |
-| `fvm` | flutter environment from [fvm](https://github.com/leoafarias/fvm) |
-| `luaenv` | lua environment from [luaenv](https://github.com/cehoffman/luaenv) |
-| `jenv` | java environment from [jenv](https://github.com/jenv/jenv) |
-| `plenv` | perl environment from [plenv](https://github.com/tokuhirom/plenv) |
-| `phpenv` | php environment from [phpenv](https://github.com/phpenv/phpenv) |
-| `haskell_stack` | haskell version from [stack](https://haskellstack.org/) |
-| `node_version` | [node.js](https://nodejs.org/) version |
-| `go_version` | [go](https://golang.org) version |
-| `rust_version` | [rustc](https://www.rust-lang.org) version |
-| `dotnet_version` | [dotnet](https://dotnet.microsoft.com) version |
-| `php_version` | [php](https://www.php.net/) version |
-| `laravel_version` | [laravel php framework](https://laravel.com/) version |
-| `java_version` | [java](https://www.java.com/) version |
-| `package` | `name@version` from [package.json](https://docs.npmjs.com/files/package.json) |
-| `kubecontext` | current [kubernetes](https://kubernetes.io/) context |
-| `terraform` | [terraform](https://www.terraform.io) workspace |
-| `terraform_version` | [terraform](https://www.terraform.io) version |
+| `asdf` | tool versions from [asdf](https://github.com/asdf-vm/asdf) |
 | `aws` | [aws profile](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-profiles.html) |
 | `aws_eb_env` | [aws elastic beanstalk](https://aws.amazon.com/elasticbeanstalk/) environment |
 | `azure` | [azure](https://docs.microsoft.com/en-us/cli/azure) account name |
+| `background_jobs` | presence of background jobs |
+| `battery` | internal battery state and charge level (yep, batteries *literally* included) |
+| `command_execution_time` | duration (wall time) of the last command |
+| `context` | user@hostname |
+| `dir` | current working directory |
+| `direnv` | [direnv](https://direnv.net/) status |
+| `disk_usage` | disk usage |
+| `dotnet_version` | [dotnet](https://dotnet.microsoft.com) version |
+| `fvm` | flutter environment from [fvm](https://github.com/leoafarias/fvm) |
 | `gcloud` | [google cloud](https://cloud.google.com/) cli account and project |
+| `goenv` | go environment from [goenv](https://github.com/syndbg/goenv) |
 | `google_app_cred` | [google application credentials](https://cloud.google.com/docs/authentication/production) |
-| `nordvpn` | [nordvpn](https://nordvpn.com/) connection status |
-| `ranger` | [ranger](https://github.com/ranger/ranger) shell |
-| `nnn` | [nnn](https://github.com/jarun/nnn) shell |
-| `xplr` | [xplr](https://github.com/sayanarijit/xplr) shell |
-| `vim_shell` | [vim](https://www.vim.org/) shell (`:sh`) |
+| `go_version` | [go](https://golang.org) version |
+| `haskell_stack` | haskell version from [stack](https://haskellstack.org/) |
+| `ip` | IP address and bandwidth usage for a specified network interface |
+| `java_version` | [java](https://www.java.com/) version |
+| `jenv` | java environment from [jenv](https://github.com/jenv/jenv) |
+| `kubecontext` | current [kubernetes](https://kubernetes.io/) context |
+| `laravel_version` | [laravel php framework](https://laravel.com/) version |
+| `load` | CPU load |
+| `luaenv` | lua environment from [luaenv](https://github.com/cehoffman/luaenv) |
 | `midnight_commander` | [midnight commander](https://midnight-commander.org/) shell |
 | `nix_shell` | [nix shell](https://nixos.org/nixos/nix-pills/developing-with-nix-shell.html) indicator |
-| `todo` | [todo](https://github.com/todotxt/todo.txt-cli) items |
-| `timewarrior` | [timewarrior](https://timewarrior.net/) tracking status |
-| `taskwarrior` | [taskwarrior](https://taskwarrior.org/) task count |
-| `vpn_ip` | virtual private network indicator |
-| `ip` | IP address and bandwidth usage for a specified network interface |
-| `load` | CPU load |
-| `disk_usage` | disk usage |
-| `ram` | free RAM |
-| `swap` | used swap |
-| `public_ip` | public IP address |
+| `nnn` | [nnn](https://github.com/jarun/nnn) shell |
+| `nodeenv` | node.js environment from [nodeenv](https://github.com/ekalinin/nodeenv) |
+| `nodenv` | node.js environment from [nodenv](https://github.com/nodenv/nodenv) |
+| `node_version` | [node.js](https://nodejs.org/) version |
+| `nordvpn` | [nordvpn](https://nordvpn.com/) connection status |
+| `nvm` | node.js environment from [nvm](https://github.com/nvm-sh/nvm) |
+| `os_icon` | your OS logo (apple for macOS, swirl for debian, etc.) |
+| `package` | `name@version` from [package.json](https://docs.npmjs.com/files/package.json) |
+| `perlbrew` | perl version from [perlbrew](https://github.com/gugod/App-perlbrew) |
+| `phpenv` | php environment from [phpenv](https://github.com/phpenv/phpenv) |
+| `php_version` | [php](https://www.php.net/) version |
+| `plenv` | perl environment from [plenv](https://github.com/tokuhirom/plenv) |
+| `prompt_char` | multi-functional prompt symbol; changes depending on vi mode: `❯`, `❮`, `V`, `▶` for insert, command, visual and replace mode respectively; turns red on error |
 | `proxy` | system-wide http/https/ftp proxy |
+| `public_ip` | public IP address |
+| `pyenv` | python environment from [pyenv](https://github.com/pyenv/pyenv) |
+| `ram` | free RAM |
+| `ranger` | [ranger](https://github.com/ranger/ranger) shell |
+| `rbenv` | ruby environment from [rbenv](https://github.com/rbenv/rbenv) |
+| `rust_version` | [rustc](https://www.rust-lang.org) version |
+| `rvm` | ruby environment from [rvm](https://rvm.io) |
+| `scalaenv` | scala version from [scalaenv](https://github.com/scalaenv/scalaenv) |
+| `status` | exit code of the last command |
+| `swap` | used swap |
+| `taskwarrior` | [taskwarrior](https://taskwarrior.org/) task count |
+| `terraform` | [terraform](https://www.terraform.io) workspace |
+| `terraform_version` | [terraform](https://www.terraform.io) version |
+| `time` | current time |
+| `timewarrior` | [timewarrior](https://timewarrior.net/) tracking status |
+| `todo` | [todo](https://github.com/todotxt/todo.txt-cli) items |
+| `toolbox` | [toolbox](https://github.com/containers/toolbox) name |
+| `vcs` | Git repository status |
+| `vim_shell` | [vim](https://www.vim.org/) shell (`:sh`) |
+| `virtualenv` | python environment from [venv](https://docs.python.org/3/library/venv.html) |
+| `vi_mode` | vi mode (you don't need this if you've enabled prompt_char) |
+| `vpn_ip` | virtual private network indicator |
 | `wifi` | WiFi speed |
-| `battery` | internal battery state and charge level (yep, batteries *literally* included) |
+| `xplr` | [xplr](https://github.com/sayanarijit/xplr) shell |
 
 ### Extensible
 
@@ -400,13 +404,17 @@ Powerlevel10k.
 - [Prezto](#prezto)
 - [Zim](#zim)
 - [Antibody](#antibody)
+- [Antidote](#antidote)
 - [Antigen](#antigen)
 - [Zplug](#zplug)
 - [Zgen](#zgen)
 - [Zplugin](#zplugin)
 - [Zinit](#zinit)
+- [Zi](#zi)
 - [Homebrew](#homebrew)
 - [Arch Linux](#arch-linux)
+- [Alpine Linux](#arch-linux)
+- [Fig](#fig)
 
 ### Manual
 
@@ -453,6 +461,10 @@ Add `zmodule romkatv/powerlevel10k --use degit` to `~/.zimrc` and run `zimfw ins
 
 Add `antibody bundle romkatv/powerlevel10k` to `~/.zshrc`.
 
+### Antidote
+
+Add `romkatv/powerlevel10k` to `~/.zsh_plugins.txt`.
+
 ### Antigen
 
 Add `antigen theme romkatv/powerlevel10k` to `~/.zshrc`. Make sure you have `antigen apply`
@@ -480,6 +492,13 @@ Add `zinit ice depth=1; zinit light romkatv/powerlevel10k` to `~/.zshrc`.
 The use of `depth=1` ice is optional. Other types of ice are neither recommended nor officially
 supported by Powerlevel10k.
 
+### Zi
+
+Add `zi ice depth=1; zi light romkatv/powerlevel10k` to `~/.zshrc`.
+
+The use of `depth=1` ice is optional. Other types of ice are neither recommended nor officially
+supported by Powerlevel10k.
+
 ### Homebrew
 
 ```zsh
@@ -501,6 +520,19 @@ There is also [zsh-theme-powerlevel10k](
   https://www.archlinux.org/packages/community/x86_64/zsh-theme-powerlevel10k/) community package.
 Historically, [it has been breaking often and for extended periods of time](
   https://github.com/romkatv/powerlevel10k/pull/786). **Do not use it.**
+
+### Alpine Linux
+
+```zsh
+apk add zsh zsh-theme-powerlevel10k
+mkdir -p ~/.local/share/zsh/plugins
+ln -s /usr/share/zsh/plugins/powerlevel10k ~/.local/share/zsh/plugins/
+```
+
+### Fig
+
+Follow the instructions on
+[this page](https://fig.io/plugins/other/powerlevel10k).
 
 ## Configuration
 
@@ -620,11 +652,9 @@ If you are using a different terminal, proceed with manual font installation. �
      *Custom font* under *Text Appearance* and select `MesloLGS NF Regular`.
    - **Windows Console Host** (the old thing): Click the icon in the top left corner, then
      *Properties → Font* and set *Font* to `MesloLGS NF`.
-   - **Windows Terminal** by Microsoft (the new thing): Open `settings.json` (<kbd>Ctrl+Shift+,</kbd>),
-     search for `fontFace` and set the value to `MesloLGS NF` for every profile. If you don't find
-     `fontFace`, add it under *profiles → defaults*. See [this settings file](
-       https://raw.githubusercontent.com/romkatv/dotfiles-public/aba0e6c4657d705ed6c344d700d659977385f25c/dotfiles/microsoft-terminal-settings.json)
-     for example.
+   - **Windows Terminal** by Microsoft (the new thing): Open *Settings* (<kbd>Ctrl+,</kbd>), click
+     either on the selected profile under *Profiles* or on *Defaults*, click *Appearance* and set
+     *Font face* to `MesloLGS NF`.
    - **IntelliJ** (and other IDEs by Jet Brains): Open *IDE → Edit → Preferences → Editor →
      Color Scheme → Console Font*. Select *Use console font instead of the default* and set the font
      name to `MesloLGS NF`.
@@ -674,11 +704,47 @@ If you are using a different terminal, proceed with manual font installation. �
      If the file already exists, only add the line with the font to the existing return.
      Also add the first line if it is not already present.
    - **urxvt**: Create or open `~/.Xresources` and add the following line to it:
-      ```text
-      URxvt.font: xft:MesloLGS NF:size=11
-      ```
-     You can adjust the font size to your preference. After changing the configuration use `xrdb ~/.Xresources` to reload the config.
-     The new config is applied for all new terminals.
+     ```text
+     URxvt.font: xft:MesloLGS NF:size=11
+     ```
+     You can adjust the font size to your preference. After changing the config run
+     `xrdb ~/.Xresources` to reload it. The new config is applied to all new terminals.
+   - **xterm**: Create or open `~/.Xresources` and add the following line to it:
+     ```text
+     xterm*faceName: MesloLGS NF
+     ```
+     After changing the config run `xrdb ~/.Xresources` to reload it. The new config is applied to
+     all new terminals.
+   - Crostini (Linux on Chrome OS): Open
+     chrome-untrusted://terminal/html/nassh_preferences_editor.html, set *Text font family* to
+      `'MesloLGS NF'` (including the quotes) and *Custom CSS (inline text)* to the following:
+     ```css
+     @font-face {
+      font-family: "MesloLGS NF";
+      src: url("https://raw.githubusercontent.com/romkatv/powerlevel10k-media/master/MesloLGS%20NF%20Regular.ttf");
+      font-weight: normal;
+      font-style: normal;
+     }
+     @font-face {
+         font-family: "MesloLGS NF";
+         src: url("https://raw.githubusercontent.com/romkatv/powerlevel10k-media/master/MesloLGS%20NF%20Bold.ttf");
+         font-weight: bold;
+         font-style: normal;
+     }
+     @font-face {
+         font-family: "MesloLGS NF";
+         src: url("https://raw.githubusercontent.com/romkatv/powerlevel10k-media/master/MesloLGS%20NF%20Italic.ttf");
+         font-weight: normal;
+         font-style: italic;
+     }
+     @font-face {
+         font-family: "MesloLGS NF";
+         src: url("https://raw.githubusercontent.com/romkatv/powerlevel10k-media/master/MesloLGS%20NF%20Bold%20Italic.ttf");
+         font-weight: bold;
+         font-style: italic;
+     }
+     ```
+     **_CAVEAT_**: If you open the normal terminal preferences these settings will be overwritten.
 1. Run `p10k configure` to generate a new `~/.p10k.zsh`. The old config may work
    incorrectly with the new font.
 
@@ -745,19 +811,22 @@ Powerlevel10k is released under the
 
 The command to update Powerlevel10k depends on how it was installed.
 
-| Installation              | Update command                                              |
-|---------------------------|-------------------------------------------------------------|
-| [Manual](#manual)         | `git -C ~/powerlevel10k pull`                               |
-| [Oh My Zsh](#oh-my-zsh)   | `git -C ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k pull` |
-| [Prezto](#prezto)         | `zprezto-update`                                            |
-| [Zim](#zim)               | `zimfw update`                                              |
-| [Antigen](#antigen)       | `antigen update`                                            |
-| [Zplug](#zplug)           | `zplug update`                                              |
-| [Zgen](#zgen)             | `zgen update`                                               |
-| [Zplugin](#zplugin)       | `zplugin update`                                            |
-| [Zinit](#zinit)           | `zinit update`                                              |
-| [Homebrew](#homebrew)     | `brew update && brew upgrade`                               |
-| [Arch Linux](#arch-linux) | `yay -S --noconfirm zsh-theme-powerlevel10k-git`            |
+| Installation                  | Update command                                              |
+|-------------------------------|-------------------------------------------------------------|
+| [Manual](#manual)             | `git -C ~/powerlevel10k pull`                               |
+| [Oh My Zsh](#oh-my-zsh)       | `git -C ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k pull` |
+| [Prezto](#prezto)             | `zprezto-update`                                            |
+| [Zim](#zim)                   | `zimfw update`                                              |
+| [Antigen](#antigen)           | `antigen update`                                            |
+| [Antidote](#antidote)         | `antidote update`                                           |
+| [Zplug](#zplug)               | `zplug update`                                              |
+| [Zgen](#zgen)                 | `zgen update`                                               |
+| [Zplugin](#zplugin)           | `zplugin update`                                            |
+| [Zinit](#zinit)               | `zinit update`                                              |
+| [Zi](#zi)                     | `zi update`                                                 |
+| [Homebrew](#homebrew)         | `brew update && brew upgrade`                               |
+| [Arch Linux](#arch-linux)     | `yay -S --noconfirm zsh-theme-powerlevel10k-git`            |
+| [Alpine Linux](#alpine-linux) | `apk update && apk upgrade`                                 |
 
 **IMPORTANT**: Restart Zsh after updating Powerlevel10k. [Do not use `source ~/.zshrc`](
   #weird-things-happen-after-typing-source-zshrc).
@@ -795,19 +864,22 @@ The command to update Powerlevel10k depends on how it was installed.
    Powerlevel10k. The command to delete them depends on which installation method you'd chosen.
    Refer to the [installation instructions](#installation) if you need a reminder.
 
-   | Installation              | Uninstall command                                                |
-   |---------------------------|------------------------------------------------------------------|
-   | [Manual](#manual)         | `rm -rf ~/powerlevel10k`                                         |
-   | [Oh My Zsh](#oh-my-zsh)   | `rm -rf -- ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k` |
-   | [Prezto](#prezto)         | n/a                                                              |
-   | [Zim](#zim)               | `zimfw uninstall`                                                |
-   | [Antigen](#antigen)       | `antigen purge romkatv/powerlevel10k`                            |
-   | [Zplug](#zplug)           | `zplug clean`                                                    |
-   | [Zgen](#zgen)             | `zgen reset`                                                     |
-   | [Zplugin](#zplugin)       | `zplugin delete romkatv/powerlevel10k`                           |
-   | [Zinit](#zinit)           | `zinit delete romkatv/powerlevel10k`                             |
-   | [Homebrew](#homebrew)     | `brew uninstall powerlevel10k; brew untap romkatv/powerlevel10k` |
-   | [Arch Linux](#arch-linux) | `yay -R --noconfirm zsh-theme-powerlevel10k-git`                 |
+   | Installation                  | Uninstall command                                                |
+   |-------------------------------|------------------------------------------------------------------|
+   | [Manual](#manual)             | `rm -rf ~/powerlevel10k`                                         |
+   | [Oh My Zsh](#oh-my-zsh)       | `rm -rf -- ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k` |
+   | [Prezto](#prezto)             | n/a                                                              |
+   | [Zim](#zim)                   | `zimfw uninstall`                                                |
+   | [Antigen](#antigen)           | `antigen purge romkatv/powerlevel10k`                            |
+   | [Antidote](#antidote)         | `antidote purge romkatv/powerlevel10k`                           |
+   | [Zplug](#zplug)               | `zplug clean`                                                    |
+   | [Zgen](#zgen)                 | `zgen reset`                                                     |
+   | [Zplugin](#zplugin)           | `zplugin delete romkatv/powerlevel10k`                           |
+   | [Zinit](#zinit)               | `zinit delete romkatv/powerlevel10k`                             |
+   | [Zi](#zi)                     | `zi delete romkatv/powerlevel10k`                                |
+   | [Homebrew](#homebrew)         | `brew uninstall powerlevel10k; brew untap romkatv/powerlevel10k` |
+   | [Arch Linux](#arch-linux)     | `yay -R --noconfirm zsh-theme-powerlevel10k-git`                 |
+   | [Alpine Linux](#alpine-linux) | `apk del zsh-theme-powerlevel10k`                                |
 6. Restart Zsh. [Do not use `source ~/.zshrc`](#weird-things-happen-after-typing-source-zshrc).
 7. Delete Powerlevel10k cache files.
    ```zsh
@@ -1150,8 +1222,8 @@ a relevant tool.
 
 ```zsh
 # Show prompt segment "kubecontext" only when the command you are typing
-# invokes kubectl, helm, kubens, kubectx, oc, istioctl, kogito, k9s, helmfile, flux, fluxctl or stern.
-typeset -g POWERLEVEL9K_KUBECONTEXT_SHOW_ON_COMMAND='kubectl|helm|kubens|kubectx|oc|istioctl|kogito|k9s|helmfile|flux|fluxctl|stern'
+# invokes kubectl, helm, kubens, kubectx, oc, istioctl, kogito, k9s, helmfile, flux, fluxctl, stern, kubeseal, or skaffold.
+typeset -g POWERLEVEL9K_KUBECONTEXT_SHOW_ON_COMMAND='kubectl|helm|kubens|kubectx|oc|istioctl|kogito|k9s|helmfile|flux|fluxctl|stern|kubeseal|skaffold'
 ```
 
 Configs created by `p10k configure` may contain parameters of this kind. To customize when different
@@ -1167,7 +1239,7 @@ function kube-toggle() {
   if (( ${+POWERLEVEL9K_KUBECONTEXT_SHOW_ON_COMMAND} )); then
     unset POWERLEVEL9K_KUBECONTEXT_SHOW_ON_COMMAND
   else
-    POWERLEVEL9K_KUBECONTEXT_SHOW_ON_COMMAND='kubectl|helm|kubens|kubectx|oc|istioctl|kogito|k9s|helmfile|flux|fluxctl|stern'
+    POWERLEVEL9K_KUBECONTEXT_SHOW_ON_COMMAND='kubectl|helm|kubens|kubectx|oc|istioctl|kogito|k9s|helmfile|flux|fluxctl|stern|kubeseal|skaffold'
   fi
   p10k reload
   if zle; then
@@ -1359,7 +1431,7 @@ https://www.reddit.com/r/zsh/comments/eg49ff/powerlevel10k_prompt_history_exit_c
 
 ### What is the minimum supported Zsh version?
 
-Zsh 5.1 or newer should work. Fast startup requires Zsh >= 5.4.
+Zsh 5.3 or newer should work. Fast startup requires Zsh >= 5.4.
 
 ### How were these screenshots and animated gifs created?
 

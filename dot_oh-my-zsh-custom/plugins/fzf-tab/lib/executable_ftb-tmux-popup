@@ -25,8 +25,13 @@ local -a fzf_opts=($@)
 fzf_opts=(${${fzf_opts/--height*}/--layout*})
 
 # get position of cursor and size of window
-local -a tmp=($(command tmux display-message -p "#{pane_top} #{cursor_y} #{pane_left} #{cursor_x} #{window_height} #{window_width}"))
-local cursor_y=$((tmp[1] + tmp[2])) cursor_x=$((tmp[3] + tmp[4])) window_height=$tmp[5] window_width=$tmp[6]
+local -a tmp=($(command tmux display-message -p "#{pane_top} #{cursor_y} #{pane_left} #{cursor_x} #{window_height} #{window_width} #{status} #{status-position}"))
+local cursor_y=$((tmp[1] + tmp[2])) cursor_x=$((tmp[3] + tmp[4])) window_height=$tmp[5] window_width=$tmp[6] window_top=0
+
+if [[ $tmp[8] == 'top' ]]; then
+  window_top=$tmp[7]
+  cursor_y=$((cursor_y + window_top))
+fi
 
 # if not called by fzf-tab
 if (( ! $+IN_FZF_TAB )); then
@@ -48,20 +53,25 @@ if (( comp_lines <= 500 )); then
   done
 else
   # FIXME: can't get the correct width of CJK characters.
-  comp_length=$(command sed 's/\x1b\[[0-9;]*m//g;s/\x00//g' $tmp_dir/completions.$$ | command awk 'length > max_length { max_length = length; } END { print max_length }')
+  comp_length=$( command perl -ne 's/\x1b\[[0-9;]*m//g;s/\x00//g; $m= length() if $m < length(); END { print $m }' < $tmp_dir/completions.$$ )
 fi
 comp_length=$(( comp_length + $popup_pad[1] ))
 
-local popup_height popup_y popup_width popup_x
+local popup_height popup_y popup_width popup_x adjust_height
+
+# adjust the popup height if the fzf finder info style is not default
+if (( $fzf_opts[(I)--info=*(hidden|inline)*] > 0 )); then
+    adjust_height=-1
+fi
 
 # calculate the popup height and y position
 if (( cursor_y * 2 > window_height )); then
   # show above the cursor
-  popup_height=$(( min(comp_lines + 4, cursor_y) ))
+  popup_height=$(( min(comp_lines + 4, cursor_y - window_top) + adjust_height ))
   popup_y=$cursor_y
 else
   # show below the cursor
-  popup_height=$(( min(comp_lines + 4, window_height - cursor_y) ))
+  popup_height=$(( min(comp_lines + 4, window_height - cursor_y + window_top - 1) + adjust_height ))
   popup_y=$(( cursor_y + popup_height + 1 ))
   fzf_opts+=(--layout=reverse)
 fi
