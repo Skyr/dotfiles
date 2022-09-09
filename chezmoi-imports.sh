@@ -27,6 +27,12 @@ curl -s -L -o zsh-syntax-highlighting-master.tar.gz https://github.com/zsh-users
 chezmoi import --strip-components 1 --destination ${HOME}/.oh-my-zsh-custom/plugins/zsh-syntax-highlighting zsh-syntax-highlighting-master.tar.gz
 rm zsh-syntax-highlighting-master.tar.gz
 
+mkdir -p ${HOME}/.oh-my-zsh-custom/plugins/zsh-autosuggestions
+chezmoi add ${HOME}/.oh-my-zsh-custom/plugins/zsh-autosuggestions
+curl -s -L -o zsh-autosuggestions-master.tar.gz https://github.com/zsh-users/zsh-autosuggestions/archive/refs/heads/master.tar.gz
+chezmoi import --strip-components 1 --destination ${HOME}/.oh-my-zsh-custom/plugins/zsh-autosuggestions zsh-autosuggestions-master.tar.gz
+rm zsh-autosuggestions-master.tar.gz
+
 mkdir -p ${HOME}/.oh-my-zsh
 chezmoi add ${HOME}/.oh-my-zsh
 curl -s -L -o oh-my-zsh-master.tar.gz https://github.com/robbyrussell/oh-my-zsh/archive/master.tar.gz
