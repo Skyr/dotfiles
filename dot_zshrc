@@ -59,7 +59,7 @@ ZSH_THEME="powerlevel/powerlevel9k"
 
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git gitfast git-extras gradle tmux zsh-navigation-tools fasd colored-man-pages docker mosh ripgrep jump kubectl helm oc)
+plugins=(zsh-syntax-highlighting git gitfast git-extras gradle tmux zsh-navigation-tools fasd colored-man-pages docker mosh ripgrep jump kubectl helm oc)
 # github disabled
 if command -v fzf > /dev/null ; then
   plugins+=(fzf fzf-tab)

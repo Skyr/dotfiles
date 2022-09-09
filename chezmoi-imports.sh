@@ -21,6 +21,11 @@ curl -s -L -o fzf-tab-master.tar.gz  https://github.com/Aloxaf/fzf-tab/archive/m
 chezmoi import --strip-components 1 --destination ${HOME}/.oh-my-zsh-custom/plugins/fzf-tab fzf-tab-master.tar.gz
 rm fzf-tab-master.tar.gz
 
+mkdir -p ${HOME}/.oh-my-zsh-custom/plugins/zsh-syntax-highlighting
+chezmoi add ${HOME}/.oh-my-zsh-custom/plugins/zsh-syntax-highlighting
+curl -s -L -o zsh-syntax-highlighting-master.tar.gz https://github.com/zsh-users/zsh-syntax-highlighting/archive/refs/heads/master.tar.gz
+chezmoi import --strip-components 1 --destination ${HOME}/.oh-my-zsh-custom/plugins/zsh-syntax-highlighting zsh-syntax-highlighting-master.tar.gz
+rm zsh-syntax-highlighting-master.tar.gz
 
 mkdir -p ${HOME}/.oh-my-zsh
 chezmoi add ${HOME}/.oh-my-zsh
