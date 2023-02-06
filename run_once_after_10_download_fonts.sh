@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if command -v Xorg >/dev/null && [ `id -u` -ne 0 ] ; then
-  NERD_FONT_VERSION="v2.1.0"
+  NERD_FONT_VERSION="v2.3.3"
   NERD_FONT_PATH=$HOME/.local/share/chezmoi/nerd-fonts/$NERD_FONT_VERSION
   mkdir -p $NERD_FONT_PATH
   for fontname in DejaVuSansMono DroidSansMono SourceCodePro Terminus LiberationMono FiraCode FiraMono RobotoMono JetBrainsMono ; do
