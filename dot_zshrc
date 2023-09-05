@@ -120,6 +120,15 @@ if command -v exa > /dev/null ; then
   alias lsa="exa -aa"
 fi
 
+if command -v lsd > /dev/null ; then
+  alias ls="lsd"
+  alias l="lsd -A"
+  alias l.="lsd -d .*"
+  alias la="lsd -a"
+  alias ll="lsd -l"
+  alias lsa="lsd -A"
+fi
+
 if command -v bat > /dev/null ; then
   alias less="bat"
 fi
