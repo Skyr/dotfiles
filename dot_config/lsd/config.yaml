@@ -1,0 +1,10 @@
+blocks:
+  - permission
+  - user
+  - group
+  - size
+  - date
+  - name
+date: +%d.%m.%Y %H:%M:%S
+hyperlink: auto
+header: false
