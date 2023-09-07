@@ -138,7 +138,7 @@ export FZF_DEFAULT_COMMAND="git ls-files --cached --others --exclude-standard ||
 export FZF_CTRL_T_COMMAND="fd $FD_OPTIONS"
 export FZF_ALT_C_COMMAND="fd --type d $FD_OPTIONS"
 
-export EDITOR=`(which vim || which vi || which nano) | grep "^/"`
+export EDITOR=`(which nvim || which vim || which vi || which nano) | grep "^/"`
 if [[ -z "$XDG_CONFIG_HOME" ]] ; then
   export XDG_CONFIG_HOME=$HOME/.config
 fi
