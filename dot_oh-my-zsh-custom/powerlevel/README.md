@@ -215,9 +215,8 @@ Configs created by `p10k configure` enable show on command for several prompt se
 Here's the relevant parameter for kubernetes context:
 
 ```zsh
-# Show prompt segment "kubecontext" only when the command you are typing
-# invokes kubectl, helm, kubens, kubectx, oc, istioctl, kogito, k9s, helmfile, flux, fluxctl, stern, kubeseal, or skaffold.
-typeset -g POWERLEVEL9K_KUBECONTEXT_SHOW_ON_COMMAND='kubectl|helm|kubens|kubectx|oc|istioctl|kogito|k9s|helmfile|flux|fluxctl|stern|kubeseal|skaffold'
+# Show prompt segment "kubecontext" only when the command you are typing invokes one of these tools.
+typeset -g POWERLEVEL9K_KUBECONTEXT_SHOW_ON_COMMAND='kubectl|helm|kubens'
 ```
 
 To customize when different prompt segments are shown, open `~/.p10k.zsh`, search for
@@ -317,6 +316,7 @@ enable as many segments as you like. It won't slow down your prompt or Zsh start
 | `battery` | internal battery state and charge level (yep, batteries *literally* included) |
 | `command_execution_time` | duration (wall time) of the last command |
 | `context` | user@hostname |
+| `cpu_arch` | CPU architecture |
 | `dir` | current working directory |
 | `direnv` | [direnv](https://direnv.net/) status |
 | `disk_usage` | disk usage |
@@ -337,6 +337,8 @@ enable as many segments as you like. It won't slow down your prompt or Zsh start
 | `midnight_commander` | [midnight commander](https://midnight-commander.org/) shell |
 | `nix_shell` | [nix shell](https://nixos.org/nixos/nix-pills/developing-with-nix-shell.html) indicator |
 | `nnn` | [nnn](https://github.com/jarun/nnn) shell |
+| `lf` | [lf](https://github.com/gokcehan/lf) shell |
+| `chezmoi_shell` | [chezmoi](https://www.chezmoi.io/) shell |
 | `nodeenv` | node.js environment from [nodeenv](https://github.com/ekalinin/nodeenv) |
 | `nodenv` | node.js environment from [nodenv](https://github.com/nodenv/nodenv) |
 | `node_version` | [node.js](https://nodejs.org/) version |
@@ -411,9 +413,10 @@ Powerlevel10k.
 - [Zplugin](#zplugin)
 - [Zinit](#zinit)
 - [Zi](#zi)
+- [Zap](#zap)
 - [Homebrew](#homebrew)
 - [Arch Linux](#arch-linux)
-- [Alpine Linux](#arch-linux)
+- [Alpine Linux](#alpine-linux)
 - [Fig](#fig)
 
 ### Manual
@@ -423,8 +426,8 @@ git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/powerlevel10k
 echo 'source ~/powerlevel10k/powerlevel10k.zsh-theme' >>~/.zshrc
 ```
 
-Users in mainland China can use the official mirror on gitee.com for faster download.<br>
-中国大陆用户可以使用 gitee.com 上的官方镜像加速下载.
+Users in China can use the official mirror on gitee.com for faster download.<br>
+中国用户可以使用 gitee.com 上的官方镜像加速下载.
 
 ```zsh
 git clone --depth=1 https://gitee.com/romkatv/powerlevel10k.git ~/powerlevel10k
@@ -441,8 +444,8 @@ make sure to disable the current theme in your plugin manager. See
     ```zsh
     git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
     ```
-    Users in mainland China can use the official mirror on gitee.com for faster download.<br>
-    中国大陆用户可以使用 gitee.com 上的官方镜像加速下载.
+    Users in China can use the official mirror on gitee.com for faster download.<br>
+    中国用户可以使用 gitee.com 上的官方镜像加速下载.
 
     ```zsh
     git clone --depth=1 https://gitee.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
@@ -498,6 +501,10 @@ Add `zi ice depth=1; zi light romkatv/powerlevel10k` to `~/.zshrc`.
 
 The use of `depth=1` ice is optional. Other types of ice are neither recommended nor officially
 supported by Powerlevel10k.
+
+### Zap
+
+Add `plug "romkatv/powerlevel10k"` to `~/.zshrc`.
 
 ### Homebrew
 
@@ -662,7 +669,7 @@ If you are using a different terminal, proceed with manual font installation. �
      *Meslo Nerd Font*.
    - **Blink**: Type `config`, go to *Appearance*, tap *Add a new font*, tap *Open Gallery*, select
      *MesloLGS NF.css*, tap *import* and type `exit` in the home view to reload the font.
-   - **Terminus**: Open *Settings → Appearance* and set *Font* to `MesloLGS NF`.
+   - **Tabby** (formerly **Terminus**): Open *Settings → Appearance* and set *Font* to `MesloLGS NF`.
    - **Terminator**: Open *Preferences* using the context menu. Under *Profiles* select the *General*
      tab (should be selected already), uncheck *Use the system fixed width font* (if not already)
      and select `MesloLGS NF Regular`. Exit the Preferences dialog by clicking *Close*.
@@ -715,6 +722,15 @@ If you are using a different terminal, proceed with manual font installation. �
      ```
      After changing the config run `xrdb ~/.Xresources` to reload it. The new config is applied to
      all new terminals.
+   - **Zed**: Open `~/.config/zed/settings.json` and set `terminal.font_family` to `"MesloLGS NF"`.
+     ```jsonc
+     {
+       "terminal": {
+         "font_family": "MesloLGS NF"
+       },
+       // Other settings.
+     }
+     ```
    - Crostini (Linux on Chrome OS): Open
      chrome-untrusted://terminal/html/nassh_preferences_editor.html, set *Text font family* to
       `'MesloLGS NF'` (including the quotes) and *Custom CSS (inline text)* to the following:
@@ -754,7 +770,7 @@ PR to expand the list!_
 ## Try it in Docker
 
 Try Powerlevel10k in Docker. You can safely make any changes to the file system while trying out
-the theme. Once you exit Zsh, the image is deleted.
+the theme. Once you exit Zsh, the container is deleted.
 
 ```zsh
 docker run -e TERM -e COLORTERM -e LC_ALL=C.UTF-8 -it --rm alpine sh -uec '
@@ -824,6 +840,7 @@ The command to update Powerlevel10k depends on how it was installed.
 | [Zplugin](#zplugin)           | `zplugin update`                                            |
 | [Zinit](#zinit)               | `zinit update`                                              |
 | [Zi](#zi)                     | `zi update`                                                 |
+| [Zap](#zap)                   | `zap update`                                              |
 | [Homebrew](#homebrew)         | `brew update && brew upgrade`                               |
 | [Arch Linux](#arch-linux)     | `yay -S --noconfirm zsh-theme-powerlevel10k-git`            |
 | [Alpine Linux](#alpine-linux) | `apk update && apk upgrade`                                 |
@@ -877,6 +894,7 @@ The command to update Powerlevel10k depends on how it was installed.
    | [Zplugin](#zplugin)           | `zplugin delete romkatv/powerlevel10k`                           |
    | [Zinit](#zinit)               | `zinit delete romkatv/powerlevel10k`                             |
    | [Zi](#zi)                     | `zi delete romkatv/powerlevel10k`                                |
+   | [Zap](#zap)                   | `zsh -ic 'zap clean'`                                          |
    | [Homebrew](#homebrew)         | `brew uninstall powerlevel10k; brew untap romkatv/powerlevel10k` |
    | [Arch Linux](#arch-linux)     | `yay -R --noconfirm zsh-theme-powerlevel10k-git`                 |
    | [Alpine Linux](#alpine-linux) | `apk del zsh-theme-powerlevel10k`                                |
@@ -1117,6 +1135,7 @@ feature:master wip ⇣42⇡42 ⇠42⇢42 *42 merge ~42 +42 !42 ?42
 | `feature` | current branch; replaced with `#tag` or `@commit` if not on a branch | `git status --ignore-submodules=dirty`                 |
 | `master`  | remote tracking branch; only shown if different from local branch    | `git rev-parse --abbrev-ref --symbolic-full-name @{upstream}` |
 | `wip`     | the latest commit's summary contains "wip" or "WIP"                  | `git show --pretty=%s --no-patch HEAD`                 |
+| `=`       | up to date with the remote (neither ahead nor behind)                | `git rev-list --count HEAD...@{upstream}`              |
 | `⇣42`     | this many commits behind the remote                                  | `git rev-list --right-only --count HEAD...@{upstream}` |
 | `⇡42`     | this many commits ahead of the remote                                | `git rev-list --left-only --count HEAD...@{upstream}`  |
 | `⇠42`     | this many commits behind the push remote                             | `git rev-list --right-only --count HEAD...@{push}`     |
@@ -1168,7 +1187,7 @@ completes, Powerlevel10k refreshes prompt with new information, this time with c
 
 When using *Rainbow* style, Git status is displayed as black on grey while it's still being
 computed. Depending on the terminal color palette, this may be difficult to read. In this case you
-might want to change the background color to something ligher for more contrast. To do that, open
+might want to change the background color to something lighter for more contrast. To do that, open
 `~/.p10k.zsh`, search for `POWERLEVEL9K_VCS_LOADING_BACKGROUND`, uncomment it if it's commented out,
 and change the value.
 
@@ -1221,9 +1240,9 @@ Prompt segments can be configured to be shown only when the current command you 
 a relevant tool.
 
 ```zsh
-# Show prompt segment "kubecontext" only when the command you are typing
-# invokes kubectl, helm, kubens, kubectx, oc, istioctl, kogito, k9s, helmfile, flux, fluxctl, stern, kubeseal, or skaffold.
-typeset -g POWERLEVEL9K_KUBECONTEXT_SHOW_ON_COMMAND='kubectl|helm|kubens|kubectx|oc|istioctl|kogito|k9s|helmfile|flux|fluxctl|stern|kubeseal|skaffold'
+# Show prompt segment "kubecontext" only when the command you are typing invokes
+# invokes kubectl, helm, or kubens.
+typeset -g POWERLEVEL9K_KUBECONTEXT_SHOW_ON_COMMAND='kubectl|helm|kubens'
 ```
 
 Configs created by `p10k configure` may contain parameters of this kind. To customize when different
@@ -1239,7 +1258,7 @@ function kube-toggle() {
   if (( ${+POWERLEVEL9K_KUBECONTEXT_SHOW_ON_COMMAND} )); then
     unset POWERLEVEL9K_KUBECONTEXT_SHOW_ON_COMMAND
   else
-    POWERLEVEL9K_KUBECONTEXT_SHOW_ON_COMMAND='kubectl|helm|kubens|kubectx|oc|istioctl|kogito|k9s|helmfile|flux|fluxctl|stern|kubeseal|skaffold'
+    POWERLEVEL9K_KUBECONTEXT_SHOW_ON_COMMAND='kubectl|helm|kubens'
   fi
   p10k reload
   if zle; then
@@ -1492,6 +1511,7 @@ Powerlevel10k are released. This may change in the future but not soon.
 - [Horrific mess when resizing terminal window](#horrific-mess-when-resizing-terminal-window)
 - [Icons cut off in Konsole](#icons-cut-off-in-konsole)
 - [Arch Linux logo has a dot in the bottom right corner](#arch-linux-logo-has-a-dot-in-the-bottom-right-corner)
+- [Incorrect git status in prompt](#incorrect-git-status-in-prompt)
 
 ### Question mark in prompt
 
@@ -1676,10 +1696,15 @@ and make sure that `TERM` environment variable is set correctly. Verify with
 If there is no UTF-8 locale on the system, configuration wizard won't offer prompt styles that use
 Unicode characters. *Fix*: Install a UTF-8 locale. Verify with `locale -a`.
 
-When a UTF-8 locale is available, the first few questions asked by the configuration wizard assess
-capabilities of the terminal font. If your answers indicate that some glyphs don't render correctly,
-configuration wizard won't offer prompt styles that use them. *Fix*: Restart your terminal and
-install [the recommended font](#meslo-nerd-font-patched-for-powerlevel10k). Verify by running
+Another case in which configuration wizard may not offer Unicode prompt styles is when the
+`MULTIBYTE` shell option is disabled. *Fix*: Enable the `MULTIBYTE` option, or rather don't disable
+it (this option is enabled in Zsh by default). Verify with `print -r -- ${options[MULTIBYTE]}`.
+
+When `MULTIBYTE` is enabled and a UTF-8 locale is available, the first few questions asked by the
+configuration wizard assess capabilities of the terminal font. If your answers indicate that some
+glyphs don't render correctly, configuration wizard won't offer prompt styles that use them. *Fix*:
+Restart your terminal and install
+[the recommended font](#meslo-nerd-font-patched-for-powerlevel10k). Verify by running
 `p10k configure` and checking that all glyphs render correctly.
 
 ### Cannot install the recommended font
@@ -2001,3 +2026,16 @@ Some fonts have this incorrect dotted icon in bold typeface. There are two ways 
 ```zsh
 typeset -g POWERLEVEL9K_OS_ICON_CONTENT_EXPANSION='${P9K_CONTENT}'  # not bold
 ```
+
+### Incorrect git status in prompt
+
+Powerlevel10k uses [gitstatusd](https://github.com/romkatv/gitstatus) to inspect the state of git
+repositories. The project relies on the [libgit2](https://github.com/libgit2/libgit2) library, which
+has some gaps in its implementation. Under some conditions, this may result in discrepancies between
+the real state of a git repository (reflected by `git status`) and what gets shown in the
+Powerlevel10k prompt.
+
+Most notably, [libgit2 does not support `skipHash`](https://github.com/libgit2/libgit2/issues/6531).
+If you see incorrect git status in prompt, run `git config -l` and check whether `skipHash` is
+enabled. If it is, consider disabling it. Keep in mind that `skipHash` may be implicitly enabled
+when activating certain git features, such as `manyFiles`.
