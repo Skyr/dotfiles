@@ -111,24 +111,6 @@ if command -v navi > /dev/null ; then
   source <(navi widget zsh)
 fi
 
-if command -v exa > /dev/null ; then
-  alias exa='exa -lghH --git --color-scale'
-  alias l="exa -aa"
-  alias l.="exa -d .*"
-  alias la="exa -a"
-  alias ll="exa"
-  alias lsa="exa -aa"
-fi
-
-if command -v lsd > /dev/null ; then
-  alias ls="lsd"
-  alias l="lsd -A"
-  alias l.="lsd -d .*"
-  alias la="lsd -a"
-  alias ll="lsd -l"
-  alias lsa="lsd -A"
-fi
-
 if command -v bat > /dev/null ; then
   alias cat='bat --style header --style rule --style snip --style changes --style header'
 elif command -v batcat > /dev/null ; then
@@ -210,4 +192,22 @@ if command -v fzf > /dev/null ; then
       local dir
       dir="$(fasd -Rdl "$*" | fzf -1 -0 --no-sort +m)" && cd "${dir}" || return 1
   }
+fi
+
+if command -v exa > /dev/null ; then
+  alias exa='exa -lghH --git --color-scale'
+  alias l="exa -aa"
+  alias l.="exa -d .*"
+  alias la="exa -a"
+  alias ll="exa"
+  alias lsa="exa -aa"
+fi
+
+if command -v lsd > /dev/null ; then
+  alias ls="lsd"
+  alias l="lsd -A"
+  alias l.="lsd -d .*"
+  alias la="lsd -a"
+  alias ll="lsd -l"
+  alias lsa="lsd -A"
 fi
