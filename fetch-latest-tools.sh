@@ -10,10 +10,14 @@ trap cleanup EXIT
 function dl_tar() {
 	TARFILE="${TMPDIR}/dl.tar.gz"
 	curl -L -s -o "$TARFILE" "$1"
-	tar xzf "$TARFILE" -C "$HOME/.local/bin" "$2"
+	tar xzf "$TARFILE" --strip-components=$2 -C "$HOME/.local/bin" "$3"
 	rm "$TARFILE"
 }
 
-dl_tar "https://github.com/simonwhitaker/gibo/releases/latest/download/gibo_Linux_arm64.tar.gz" gibo
-LAZYGIT_URL=`curl --silent "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | jq -r ".assets[].browser_download_url" | grep "Linux_x86_64"`
-dl_tar "$LAZYGIT_URL" lazygit
+dl_tar "https://github.com/Wilfred/difftastic/releases/latest/download/difft-x86_64-unknown-linux-gnu.tar.gz" 0 difft
+dl_tar "https://github.com/simonwhitaker/gibo/releases/latest/download/gibo_Linux_arm64.tar.gz" 0 gibo
+LAZYGIT_URL=$(curl --silent "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | jq -r ".assets[].browser_download_url" | grep "Linux_x86_64")
+dl_tar "$LAZYGIT_URL" 0 lazygit
+RGA_URL=$(curl --silent "https://api.github.com/repos/phiresky/ripgrep-all/releases/latest" | jq -r ".assets[].browser_download_url" | grep "x86_64-unknown-linux-musl")
+dl_tar "$RGA_URL" 1 '*/rga'
+curl -L -s -o $HOME/.local/bin/yq https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64
