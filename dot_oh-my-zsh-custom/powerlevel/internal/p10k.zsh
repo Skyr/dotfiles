@@ -3186,68 +3186,55 @@ instant_prompt_root_indicator() { prompt_root_indicator; }
 ################################################################
 # Segment to display Rust version number
 prompt_rust_version() {
-  unset P9K_RUST_VERSION
-  if (( _POWERLEVEL9K_RUST_VERSION_PROJECT_ONLY )); then
-    _p9k_upglob Cargo.toml -. && return
-  fi
-  local rustc=$commands[rustc] toolchain deps=()
-  if (( $+commands[ldd] )); then
-    if ! _p9k_cache_stat_get $0_so $rustc; then
-      local line so
-      for line in "${(@f)$(ldd $rustc 2>/dev/null)}"; do
-        [[ $line == (#b)[[:space:]]#librustc_driver[^[:space:]]#.so' => '(*)' (0x'[[:xdigit:]]#')' ]] || continue
-        so=$match[1]
-        break
-      done
-      _p9k_cache_stat_set "$so"
-    fi
-    deps+=$_p9k__cache_val[1]
-  fi
-  if (( $+commands[rustup] )); then
-    local rustup=$commands[rustup]
-    local rustup_home=${RUSTUP_HOME:-~/.rustup}
-    local cfg=($rustup_home/settings.toml(.N))
-    deps+=($cfg $rustup_home/update-hashes/*(.N))
-    if [[ -z ${toolchain::=$RUSTUP_TOOLCHAIN} ]]; then
-      if ! _p9k_cache_stat_get $0_overrides $rustup $cfg; then
-        local lines=(${(f)"$(rustup override list 2>/dev/null)"})
-        if [[ $lines[1] == "no overrides" ]]; then
-          _p9k_cache_stat_set
-        else
-          local MATCH
-          local keys=(${(@)${lines%%[[:space:]]#[^[:space:]]#}/(#m)*/${(b)MATCH}/})
-          local vals=(${(@)lines/(#m)*/$MATCH[(I)/] ${MATCH##*[[:space:]]}})
-          _p9k_cache_stat_set ${keys:^vals}
-        fi
-      fi
-      local -A overrides=($_p9k__cache_val)
-      _p9k_upglob rust-toolchain -.
-      local dir=$_p9k__parent_dirs[$?]
-      local -i n m=${dir[(I)/]}
-      local pair
-      for pair in ${overrides[(K)$_p9k__cwd/]}; do
-        n=${pair%% *}
-        (( n <= m )) && continue
-        m=n
-        toolchain=${pair#* }
-      done
-      if [[ -z $toolchain && -n $dir ]]; then
-        _p9k_read_word $dir/rust-toolchain
-        toolchain=$_p9k__ret
-      fi
-    fi
-  fi
-  if ! _p9k_cache_stat_get $0_v$toolchain $rustc $deps; then
-    _p9k_cache_stat_set "$($rustc --version 2>/dev/null)"
-  fi
-  local v=${${_p9k__cache_val[1]#rustc }%% *}
-  [[ -n $v ]] || return
-  typeset -g P9K_RUST_VERSION=$_p9k__cache_val[1]
-  _p9k_prompt_segment "$0" "darkorange" "$_p9k_color1" 'RUST_ICON' 0 '' "${v//\%/%%}"
+  local -i len=$#_p9k__prompt _p9k__has_upglob
+  _p9k_prompt_segment $0 darkorange $_p9k_color1 RUST_ICON 1 '$P9K_RUST_VERSION' '${P9K_RUST_VERSION//\%/%%}'
+  (( _p9k__has_upglob )) || typeset -g "_p9k__segment_val_${_p9k__prompt_side}[_p9k__segment_index]"=$_p9k__prompt[len+1,-1]
 }
 
-_p9k_prompt_rust_version_init() {
+function _p9k_prompt_rust_version_init() {
+  _p9k__async_segments_compute+='_p9k_rust_version_prefetch'
   typeset -g "_p9k__segment_cond_${_p9k__prompt_side}[_p9k__segment_index]"='$commands[rustc]'
+}
+
+_p9k_rust_version_prefetch() {
+  local rustc=$commands[rustc]
+  if [[ -z $rustc ]] ||
+     { (( _POWERLEVEL9K_RUST_VERSION_PROJECT_ONLY )) && _p9k_upglob Cargo.toml -. }; then
+    unset P9K_RUST_VERSION
+    return
+  fi
+  _p9k_worker_invoke rust_version \
+    "_p9k_prompt_rust_version_compute ${(q)P9K_RUST_VERSION} ${(q)rustc} ${(q)_p9k__cwd_a}"
+}
+
+_p9k_prompt_rust_version_compute() {
+  _p9k_worker_async                                          \
+    "_p9k_prompt_rust_version_async ${(q)1} ${(q)2} ${(q)3}" \
+    _p9k_prompt_rust_version_sync
+}
+
+_p9k_prompt_rust_version_async() {
+  typeset -g P9K_RUST_VERSION=$1
+  local rustc=$2 cwd=$3 v
+  if pushd -q -- $cwd; then
+    {
+      v=${${"$($rustc --version)"#rustc }%% *} || v=
+    } always {
+      popd -q
+    }
+  fi
+
+  [[ $v != $P9K_RUST_VERSION ]] || return
+  typeset -g P9K_RUST_VERSION=$v
+  _p9k_print_params P9K_RUST_VERSION
+  echo -E - 'reset=1'
+}
+
+_p9k_prompt_rust_version_sync() {
+  if [[ -n $REPLY ]]; then
+    eval $REPLY
+    _p9k_worker_reply $REPLY
+  fi
 }
 
 # RSpec test ratio
@@ -3727,20 +3714,9 @@ function +vi-hg-bookmarks() {
 
 function +vi-vcs-detect-changes() {
   if [[ "${hook_com[vcs]}" == "git" ]]; then
-
     local remote="$(git ls-remote --get-url 2> /dev/null)"
-    if [[ "$remote" =~ "github" ]] then
-      vcs_visual_identifier='VCS_GIT_GITHUB_ICON'
-    elif [[ "$remote" =~ "bitbucket" ]] then
-      vcs_visual_identifier='VCS_GIT_BITBUCKET_ICON'
-    elif [[ "$remote" =~ "stash" ]] then
-      vcs_visual_identifier='VCS_GIT_BITBUCKET_ICON'
-    elif [[ "$remote" =~ "gitlab" ]] then
-      vcs_visual_identifier='VCS_GIT_GITLAB_ICON'
-    else
-      vcs_visual_identifier='VCS_GIT_ICON'
-    fi
-
+    _p9k_vcs_icon "$remote"
+    vcs_visual_identifier=$_p9k__ret
   elif [[ "${hook_com[vcs]}" == "hg" ]]; then
     vcs_visual_identifier='VCS_HG_ICON'
   elif [[ "${hook_com[vcs]}" == "svn" ]]; then
@@ -3873,13 +3849,14 @@ function _p9k_vcs_status_purge() {
 }
 
 function _p9k_vcs_icon() {
-  case "$VCS_STATUS_REMOTE_URL" in
-    *github*)    _p9k__ret=VCS_GIT_GITHUB_ICON;;
-    *bitbucket*) _p9k__ret=VCS_GIT_BITBUCKET_ICON;;
-    *stash*)     _p9k__ret=VCS_GIT_BITBUCKET_ICON;;
-    *gitlab*)    _p9k__ret=VCS_GIT_GITLAB_ICON;;
-    *)           _p9k__ret=VCS_GIT_ICON;;
-  esac
+  local pat icon
+  for pat icon in "${(@)_POWERLEVEL9K_VCS_GIT_REMOTE_ICONS}"; do
+    if [[ $1 == $~pat ]]; then
+      _p9k__ret=$icon
+      return
+    fi
+  done
+  _p9k__ret=
 }
 
 function _p9k_vcs_render() {
@@ -3909,7 +3886,7 @@ function _p9k_vcs_render() {
         state=CLEAN
       fi
     fi
-    _p9k_vcs_icon
+    _p9k_vcs_icon "$VCS_STATUS_REMOTE_URL"
     _p9k_prompt_segment prompt_vcs_$state "${__p9k_vcs_states[$state]}" "$_p9k_color1" "$_p9k__ret" 0 '' ""
     return 0
   fi
@@ -3963,7 +3940,7 @@ function _p9k_vcs_render() {
 
       # It's weird that removing vcs-detect-changes from POWERLEVEL9K_VCS_GIT_HOOKS gets rid
       # of the GIT icon. That's what vcs_info does, so we do the same in the name of compatibility.
-      _p9k_vcs_icon
+      _p9k_vcs_icon "$VCS_STATUS_REMOTE_URL"
       icon=$_p9k__ret
     fi
 
@@ -5031,12 +5008,16 @@ _p9k_prompt_terraform_init() {
 }
 
 function prompt_terraform_version() {
-  _p9k_cached_cmd 0 '' terraform --version || return
-  local v=${_p9k__ret#Terraform v}
-  (( $#v < $#_p9k__ret )) || return
-  v=${v%%$'\n'*}
+  local v cfg terraform=${commands[terraform]}
+  _p9k_upglob .terraform-version -. || cfg=$_p9k__parent_dirs[$?]/.terraform-version
+  if _p9k_cache_stat_get $0.$TFENV_TERRAFORM_VERSION $terraform $cfg; then
+    v=$_p9k__cache_val[1]
+  else
+    v=${${"$(terraform --version 2>/dev/null)"#Terraform v}%%$'\n'*} || v=
+    _p9k_cache_stat_set "$v"
+  fi
   [[ -n $v ]] || return
-  _p9k_prompt_segment $0 $_p9k_color1 blue TERRAFORM_ICON 0 '' $v
+  _p9k_prompt_segment $0 $_p9k_color1 blue TERRAFORM_ICON 0 '' ${v//\%/%%}
 }
 
 _p9k_prompt_terraform_version_init() {
@@ -7410,6 +7391,36 @@ _p9k_init_params() {
   _p9k_declare -b POWERLEVEL9K_VCS_CONFLICTED_STATE 0
   _p9k_declare -b POWERLEVEL9K_HIDE_BRANCH_ICON 0
   _p9k_declare -b POWERLEVEL9K_VCS_HIDE_TAGS 0
+  _p9k_declare -a POWERLEVEL9K_VCS_GIT_REMOTE_ICONS
+  if (( $+_POWERLEVEL9K_VCS_GIT_REMOTE_ICONS )); then
+    (( $#_POWERLEVEL9K_VCS_GIT_REMOTE_ICONS & 1 )) && _POWERLEVEL9K_VCS_GIT_REMOTE_ICONS+=('')
+  else
+    local domain= icon= domain2icon=(
+      'archlinux.org'                  VCS_GIT_ARCHLINUX_ICON
+      'dev.azure.com|visualstudio.com' VCS_GIT_AZURE_ICON
+      'bitbucket.org'                  VCS_GIT_BITBUCKET_ICON
+      'codeberg.org'                   VCS_GIT_CODEBERG_ICON
+      'debian.org'                     VCS_GIT_DEBIAN_ICON
+      'freebsd.org'                    VCS_GIT_FREEBSD_ICON
+      'freedesktop.org'                VCS_GIT_FREEDESKTOP_ICON
+      'gitea.com|gitea.io'             VCS_GIT_GITEA_ICON
+      'github.com'                     VCS_GIT_GITHUB_ICON
+      'gitlab.com'                     VCS_GIT_GITLAB_ICON
+      'gnome.org'                      VCS_GIT_GNOME_ICON
+      'gnu.org'                        VCS_GIT_GNU_ICON
+      'kde.org'                        VCS_GIT_KDE_ICON
+      'kernel.org'                     VCS_GIT_LINUX_ICON
+      'sourcehut.org'                  VCS_GIT_SOURCEHUT_ICON
+    )
+    typeset -ga _POWERLEVEL9K_VCS_GIT_REMOTE_ICONS
+    for domain icon in "${domain2icon[@]}"; do
+      _POWERLEVEL9K_VCS_GIT_REMOTE_ICONS+=(
+        '(|[A-Za-z0-9][A-Za-z0-9+.-]#://)(|[^:/?#]#[.@])((#i)'$domain')(|[/:?#]*)'
+        $icon
+      )
+    done
+    _POWERLEVEL9K_VCS_GIT_REMOTE_ICONS+=('*' VCS_GIT_ICON)
+  fi
   _p9k_declare -i POWERLEVEL9K_CHANGESET_HASH_LENGTH 8
   # Specifies the maximum number of elements in the cache. When the cache grows over this limit,
   # it gets cleared. This is meant to avoid memory leaks when a rogue prompt is filling the cache
@@ -8581,6 +8592,7 @@ function _p9k_init_cacheable() {
           amzn)                    _p9k_set_os Linux LINUX_AMZN_ICON;;
           endeavouros)             _p9k_set_os Linux LINUX_ENDEAVOUROS_ICON;;
           rocky)                   _p9k_set_os Linux LINUX_ROCKY_ICON;;
+          guix)                    _p9k_set_os Linux LINUX_GUIX_ICON;;
           *)                       _p9k_set_os Linux LINUX_ICON;;
         esac
         ;;
@@ -9401,7 +9413,7 @@ if [[ $__p9k_dump_file != $__p9k_instant_prompt_dump_file && -n $__p9k_instant_p
   zf_rm -f -- $__p9k_instant_prompt_dump_file{,.zwc} 2>/dev/null
 fi
 
-typeset -g P9K_VERSION=1.19.6
+typeset -g P9K_VERSION=1.19.11
 unset VSCODE_SHELL_INTEGRATION
 
 _p9k_init_ssh

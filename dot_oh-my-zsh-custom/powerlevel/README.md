@@ -300,10 +300,11 @@ To ~~ridiculous~~ extravagant:
 
 ### Batteries included
 
-Powerlevel10k comes with dozens of built-in high quality segments. When you run `p10k configure`
-and choose any style except [Pure](#pure-compatibility), many of these segments get enabled by
-default while others can be manually enabled by opening `~/.p10k.zsh` and uncommenting them. You can
-enable as many segments as you like. It won't slow down your prompt or Zsh startup.
+Powerlevel10k comes with dozens of built-in high quality prompt segments that can display
+information from a variety of sources. When you run `p10k configure` and choose any style
+except [Pure](#pure-compatibility), many of these segments get enabled by
+default while others can be manually enabled by opening `~/.p10k.zsh` and uncommenting them.
+You can enable as many segments as you like. It won't slow down your prompt or Zsh startup.
 
 | Segment | Meaning |
 |--------:|---------|
@@ -395,6 +396,11 @@ defined, you can use it like any other segment. All standard customization param
 it out of the box.
 
 Type `p10k help segment` for reference.
+
+*Note*: If you modify `POWERLEVEL9K_*` parameters in an already initialized interactive shell (as
+opposed to editing `~/.p10k.zsh`), the changes might not be immediately effective. To apply the
+modifications, invoke `p10k reload`. Setting `POWERLEVEL9K_DISABLE_HOT_RELOAD=false` eliminates the
+necessity for `p10k reload` but results in a marginally slower prompt.
 
 *Tip*: Prefix names of your own segments with `my_` to avoid clashes with future versions of
 Powerlevel10k.
@@ -509,8 +515,8 @@ Add `plug "romkatv/powerlevel10k"` to `~/.zshrc`.
 ### Homebrew
 
 ```zsh
-brew install romkatv/powerlevel10k/powerlevel10k
-echo "source $(brew --prefix)/opt/powerlevel10k/powerlevel10k.zsh-theme" >>~/.zshrc
+brew install powerlevel10k
+echo "source $(brew --prefix)/share/powerlevel10k/powerlevel10k.zsh-theme" >>~/.zshrc
 ```
 
 ### Arch Linux
@@ -894,8 +900,8 @@ The command to update Powerlevel10k depends on how it was installed.
    | [Zplugin](#zplugin)           | `zplugin delete romkatv/powerlevel10k`                           |
    | [Zinit](#zinit)               | `zinit delete romkatv/powerlevel10k`                             |
    | [Zi](#zi)                     | `zi delete romkatv/powerlevel10k`                                |
-   | [Zap](#zap)                   | `zsh -ic 'zap clean'`                                          |
-   | [Homebrew](#homebrew)         | `brew uninstall powerlevel10k; brew untap romkatv/powerlevel10k` |
+   | [Zap](#zap)                   | `zsh -ic 'zap clean'`                                            |
+   | [Homebrew](#homebrew)         | `brew uninstall powerlevel10k`                                   |
    | [Arch Linux](#arch-linux)     | `yay -R --noconfirm zsh-theme-powerlevel10k-git`                 |
    | [Alpine Linux](#alpine-linux) | `apk del zsh-theme-powerlevel10k`                                |
 6. Restart Zsh. [Do not use `source ~/.zshrc`](#weird-things-happen-after-typing-source-zshrc).
@@ -968,6 +974,8 @@ Powerlevel10k does not affect:
 - Prompt parameters other than `PS1` and `RPS1`.
 - Zsh options other than those [related to prompt](
     http://zsh.sourceforge.net/Doc/Release/Options.html#Prompting).
+- The set of available commands. Powerlevel10k does not install any new commands
+  with the only exception of `p10k`.
 
 ### I'm using Powerlevel9k with Oh My Zsh. How do I migrate?
 
