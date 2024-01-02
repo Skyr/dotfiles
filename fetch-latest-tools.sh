@@ -21,3 +21,4 @@ dl_tar "$LAZYGIT_URL" 0 lazygit
 RGA_URL=$(curl --silent "https://api.github.com/repos/phiresky/ripgrep-all/releases/latest" | jq -r ".assets[].browser_download_url" | grep "x86_64-unknown-linux-musl")
 dl_tar "$RGA_URL" 1 '*/rga'
 curl -L -s -o $HOME/.local/bin/yq https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64
+chmod +x $HOME/.local/bin/yq
