@@ -5,7 +5,9 @@
 [core]
   pager = less -FRSX
   autocrlf = input
-  editor = vim
+{{- if env "EDITOR" }}
+  editor = {{ env "EDITOR" }}
+{{- end }}
 
 [color]
   ui = auto
