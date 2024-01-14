@@ -203,6 +203,16 @@ if command -v exa > /dev/null ; then
   alias lsa="exa -aa"
 fi
 
+if command -v eza > /dev/null ; then
+  alias exa='eza -lghH --git --color-scale'
+  alias eza='eza -lghH --git --color-scale'
+  alias l="eza -aa"
+  alias l.="eza -d .*"
+  alias la="eza -a"
+  alias ll="eza"
+  alias lsa="eza -aa"
+fi
+
 if command -v lsd > /dev/null ; then
   alias ls="lsd"
   alias l="lsd -A"
