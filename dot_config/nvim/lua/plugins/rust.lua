@@ -1,14 +1,5 @@
 return {
   {
-    "williamboman/mason.nvim",
-    opts = {
-      ensure_installed = {
-        "rust-analyzer",
-        "codelldb",
-      },
-    },
-  },
-  {
     "nvim-treesitter/nvim-treesitter",
     opts = function(_, opts)
       if type(opts.ensure_installed) == "table" then
@@ -19,6 +10,15 @@ return {
   {
     "mfussenegger/nvim-dap",
     dependencies = {
+      {
+        "williamboman/mason.nvim",
+        opts = {
+          ensure_installed = {
+            "rust-analyzer",
+            "codelldb",
+          },
+        },
+      },
       {
         "rcarriga/nvim-dap-ui",
         -- stylua: ignore
@@ -45,6 +45,26 @@ return {
       {
         "theHamsta/nvim-dap-virtual-text",
         opts = {},
+      },
+      {
+        "jay-babu/mason-nvim-dap.nvim",
+        dependencies = "mason.nvim",
+        cmd = { "DapInstall", "DapUninstall" },
+        opts = {
+          -- Makes a best effort to setup the various debuggers with
+          -- reasonable debug configurations
+          automatic_installation = true,
+
+          -- You can provide additional configuration to the handlers,
+          -- see mason-nvim-dap README for more information
+          handlers = {},
+
+          -- You'll need to check that you have the required things installed
+          -- online, please don't ask me how to install them :)
+          ensure_installed = {
+            "codelldb",
+          },
+        },
       },
     },
     -- stylua: ignore
@@ -84,46 +104,6 @@ return {
     "mrcjkb/rustaceanvim",
     version = "^4",
     ft = { "rust" },
-    opts = function()
-      local ok, mason_registry = pcall(require, "mason-registry")
-      local adapter ---@type any
-      ok = false
-      if ok then
-        -- rust tools configuration for debugging support
-        local codelldb = mason_registry.get_package("codelldb")
-        local extension_path = codelldb:get_install_path() .. "/extension/"
-        local codelldb_path = extension_path .. "adapter/codelldb"
-        local liblldb_path = ""
-        if vim.loop.os_uname().sysname:find("Windows") then
-          liblldb_path = extension_path .. "lldb\\bin\\liblldb.dll"
-        elseif vim.fn.has("mac") == 1 then
-          liblldb_path = extension_path .. "lldb/lib/liblldb.dylib"
-        else
-          liblldb_path = extension_path .. "lldb/lib/liblldb.so"
-        end
-        adapter = require("rustaceanvim.config").get_codelldb_adapter(codelldb_path, liblldb_path)
-      end
-      return {
-        dap = {
-          adapter = adapter,
-        },
-        tools = {
-          on_initialized = function()
-            vim.cmd([[
-                  augroup RustLSP
-                    autocmd CursorHold                      *.rs silent! lua vim.lsp.buf.document_highlight()
-                    autocmd CursorMoved,InsertEnter         *.rs silent! lua vim.lsp.buf.clear_references()
-                    autocmd BufEnter,CursorHold,InsertLeave *.rs silent! lua vim.lsp.codelens.refresh()
-                  augroup END
-                ]])
-          end,
-        },
-        hover_actions = {
-          auto_focus = true,
-        },
-      }
-    end,
-    config = function() end,
   },
   {
     "folke/which-key.nvim",
