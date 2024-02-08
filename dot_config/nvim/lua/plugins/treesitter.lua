@@ -3,6 +3,17 @@ return {
     "nvim-treesitter/nvim-treesitter",
     opts = {
       ensure_installed = {
+        "comment",
+        "diff",
+        "dockerfile",
+        "dot",
+        "git_rebase",
+        "gitattributes",
+        "gitcommit",
+        "gitignore",
+        "graphql",
+        "jq",
+        "sql",
         "bash",
         "html",
         "javascript",
