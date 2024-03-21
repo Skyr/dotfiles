@@ -10,7 +10,7 @@ trap cleanup EXIT
 function dl_tar() {
 	TARFILE="${TMPDIR}/dl.tar.gz"
 	curl -L -s -o "$TARFILE" "$1"
-	tar xzf "$TARFILE" --strip-components=$2 -C "$HOME/.local/bin" "$3"
+	tar xzf "$TARFILE" --wildcards --strip-components=$2 -C "$HOME/.local/bin" "$3"
 	rm "$TARFILE"
 }
 
