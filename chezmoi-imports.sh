@@ -33,3 +33,15 @@ chezmoi add ${HOME}/.oh-my-zsh
 curl -s -L -o oh-my-zsh-master.tar.gz https://github.com/robbyrussell/oh-my-zsh/archive/master.tar.gz
 chezmoi import --strip-components 1 --destination ${HOME}/.oh-my-zsh oh-my-zsh-master.tar.gz
 rm oh-my-zsh-master.tar.gz
+
+mkdir -p ${HOME}/.tmux/plugins
+chezmoi add ${HOME}/.tmux/plugins
+pushd ${HOME}/.tmux/plugins >/dev/null
+curl -s -L -o tpm-master.tar.gz https://github.com/tmux-plugins/tpm/archive/master.tar.gz
+rm -rf tpm
+mkdir tpm
+tar -x -z --strip-components=1 -f tpm-master.tar.gz -C tpm
+rm -rf tpm/.git* tpm/.travis* tpm/tests
+chezmoi add tpm
+rm tpm-master.tar.gz
+popd >/dev/null
