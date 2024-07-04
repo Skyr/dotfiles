@@ -1,0 +1,28 @@
+[window]
+dimensions = { columns = 120, lines = 40 }
+opacity = 0.9
+blur = true
+
+[font]
+normal = { family = "DejaVuSansMono Nerd Font Mono", style = "Regular" }
+size = 18
+
+[bell]
+animation = "EaseOutSine"
+duration = 100
+color = "#806040"
+
+[cursor]
+style = { shape = "Block", blinking = "On" }
+blink_interval = 750
+blink_timeout = 9
+
+[mouse]
+hide_when_typing = true
+
+[keyboard]
+bindings = [
+  { key = "Space", mods = "Control", action = "ToggleViMode" },
+  { key = "W", mods = "Command", action = "CreateNewWindow" },
+  { key = "T", mods = "Command", action = "CreateNewTab" }
+]
