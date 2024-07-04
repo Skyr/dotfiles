@@ -55,6 +55,7 @@ If you are using a different terminal, proceed with manual font installation. �
    - **Windows Terminal** by Microsoft (the new thing): Open *Settings* (<kbd>Ctrl+,</kbd>), click
      either on the selected profile under *Profiles* or on *Defaults*, click *Appearance* and set
      *Font face* to `MesloLGS NF`.
+   - **Conemu**: Open *Setup → General → Fonts* and set *Main console font* to `MesloLGS NF`.
    - **IntelliJ** (and other IDEs by Jet Brains): Open *IDE → Edit → Preferences → Editor →
      Color Scheme → Console Font*. Select *Use console font instead of the default* and set the font
      name to `MesloLGS NF`.
@@ -70,7 +71,9 @@ If you are using a different terminal, proceed with manual font installation. �
      tab, uncheck *Use the system fixed width font* (if not already) and select `MesloLGS NF Regular`.
      Exit the Preferences dialog by clicking *Close*.
    - **MobaXterm**: Open *Settings* → *Configuration* → *Terminal* → (under *Terminal look and feel*)
-     and change *Font* to `MesloLGS NF`.
+     and change *Font* to `MesloLGS NF`. If you have *sessions*, you need to change the font in each
+     of them through *Settings* → right click on an individual session → *Edit Session* → *Terminal
+     Settings* → *Font settings*.
    - **Asbrú Connection Manager**: Open *Preferences → Local Shell Options → Look and Feel*, enable
      *Use these personal options* and change *Font:* under *Terminal UI* to `MesloLGS NF Regular`.
      To change the font for the remote host connections, go to *Preferences → Terminal Options →
@@ -80,12 +83,15 @@ If you are using a different terminal, proceed with manual font installation. �
    - **Yakuake**: Click *≡* → *Manage Profiles* → *New* → *Appearance*. Click *Choose* next to the
      *Font* dropdown, select `MesloLGS NF` and click *OK*. Click *OK* to save the profile. Select the
      new profile and click *Set as Default*.
-   - **Alacritty**: Create or open `~/.config/alacritty/alacritty.yml` and add the following section
-     to it:
-     ```yaml
-     font:
-       normal:
-         family: "MesloLGS NF"
+   - **Alacritty**: Create or open `~/.config/alacritty/alacritty.toml` and add the following
+     section to it:
+     ```toml
+     [font.normal]
+     family = "MesloLGS NF"
+     ```
+   - **foot**: Create or open `~/.config/foot/foot.ini` and add the following section to it:
+     ```ini
+     font=MesloLGS NF:size=12
      ```
    - **kitty**: Create or open `~/.config/kitty/kitty.conf` and add the following line to it:
      ```text

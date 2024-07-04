@@ -1132,7 +1132,14 @@ function os_icon_name() {
         fi
         case $os_release_id in
           *arch*)                  echo LINUX_ARCH_ICON;;
-          *debian*)                echo LINUX_DEBIAN_ICON;;
+          *raspbian*)              echo LINUX_RASPBIAN_ICON;;
+          *debian*)
+            if [[ -f /etc/apt/sources.list.d/raspi.list ]]; then
+              echo LINUX_RASPBIAN_ICON
+            else
+              echo LINUX_DEBIAN_ICON
+            fi
+          ;;
           *raspbian*)              echo LINUX_RASPBIAN_ICON;;
           *ubuntu*)                echo LINUX_UBUNTU_ICON;;
           *elementary*)            echo LINUX_ELEMENTARY_ICON;;
@@ -1158,6 +1165,7 @@ function os_icon_name() {
           endeavouros)             echo LINUX_ENDEAVOUROS_ICON;;
           rocky)                   echo LINUX_ROCKY_ICON;;
           guix)                    echo LINUX_GUIX_ICON;;
+          neon)                    echo LINUX_NEON_ICON;;
           *)                       echo LINUX_ICON;;
         esac
         ;;
@@ -1281,42 +1289,34 @@ function ask_heads() {
   fi
   local extra
   add_widget 0 flowing -c "%BPrompt Heads%b"
-  if (( cap_diamond )); then
-    add_widget 0 print -Pl "                   head" "%B(1)  Sharp.%b         |" "                    v"
-    add_widget 3 print -P "%B(1)  Sharp.%b"
-    add_prompt_n left_head=$right_triangle right_head=$left_triangle
-    add_widget 0 print
-    add_widget 2
-  else
-    add_widget 0 print
-    add_widget 1
-    add_widget 0 print -P "%B(1)  Flat.%b"
-    add_prompt left_head= right_head=
-  fi
+  add_widget 0 print -Pl "                  head" "%B(1)  Flat.%b         |" "                   v"
+  add_widget 3 print -P "%B(1)  Flat.%b"
+  add_prompt_n left_head= right_head=
+  add_widget 0 print
+  add_widget 2
   add_widget 0 print -P "%B(2)  Blurred.%b"
   add_prompt left_head=$fade_out right_head=$fade_in
-  if [[ $POWERLEVEL9K_MODE == nerdfont-* ]]; then
+  if (( cap_diamond )); then
     extra+=3
-    add_widget 0 print -P "%B(3)  Slanted.%b"
-    add_prompt left_head=$down_triangle right_head=$up_triangle
-    extra+=4
-    add_widget 0 print -P "%B(4)  Round.%b"
-    add_prompt left_head=$right_circle right_head=$left_circle
+    add_widget 0 print -P "%B(3)  Sharp.%b"
+    add_prompt left_head=$right_triangle right_head=$left_triangle
+    if [[ $POWERLEVEL9K_MODE == nerdfont-* ]]; then
+      extra+=4
+      add_widget 0 print -P "%B(4)  Slanted.%b"
+      add_prompt left_head=$down_triangle right_head=$up_triangle
+      extra+=5
+      add_widget 0 print -P "%B(5)  Round.%b"
+      add_prompt left_head=$right_circle right_head=$left_circle
+    fi
   fi
   add_widget 0 print -P "(r)  Restart from the beginning."
   ask 12${extra}r
   case $choice in
     r) return 1;;
     1)
-      if (( cap_diamond )); then
-        left_head=$right_triangle
-        right_head=$left_triangle
-        options+='sharp heads'
-      else
-        left_head=
-        right_head=
-        options+='flat heads'
-      fi
+      left_head=
+      right_head=
+      options+='flat heads'
     ;;
     2)
       left_head=$fade_out
@@ -1324,11 +1324,16 @@ function ask_heads() {
       options+='blurred heads'
     ;;
     3)
+      left_head=$right_triangle
+      right_head=$left_triangle
+      options+='sharp heads'
+    ;;
+    4)
       left_head=$down_triangle
       right_head=$up_triangle
       options+='slanted heads'
     ;;
-    4)
+    5)
       left_head=$right_circle
       right_head=$left_circle
       options+='round heads'
@@ -1501,7 +1506,7 @@ function ask_empty_line() {
 }
 
 function print_instant_prompt_link() {
-  local link='https://github.com/romkatv/powerlevel10k/blob/master/README.md#instant-prompt'
+  local link='https://github.com/romkatv/powerlevel10k#instant-prompt'
   (( wizard_columns < $#link )) && return
   print
   flowing -c "$(href $link)"
@@ -1742,6 +1747,8 @@ function generate_config() {
       sub NORDVPN_VISUAL_IDENTIFIER_EXPANSION "'nord'"
       uncomment 'typeset -g POWERLEVEL9K_RANGER_VISUAL_IDENTIFIER_EXPANSION'
       sub RANGER_VISUAL_IDENTIFIER_EXPANSION "'▲'"
+      uncomment 'typeset -g POWERLEVEL9K_YAZI_VISUAL_IDENTIFIER_EXPANSION'
+      sub YAZI_VISUAL_IDENTIFIER_EXPANSION "'▲'"
       uncomment 'typeset -g POWERLEVEL9K_KUBECONTEXT_DEFAULT_VISUAL_IDENTIFIER_EXPANSION'
       sub KUBECONTEXT_DEFAULT_VISUAL_IDENTIFIER_EXPANSION "'○'"
       uncomment 'typeset -g POWERLEVEL9K_AZURE_VISUAL_IDENTIFIER_EXPANSION'
@@ -2135,16 +2142,16 @@ while true; do
       elif (( ! cap_diamond )); then
         POWERLEVEL9K_MODE=awesome-fontconfig
       else
-        ask_arrow '\uFC35' || continue
+        ask_arrow '\UF0737' || continue
         if (( cap_arrow )); then
-          POWERLEVEL9K_MODE=nerdfont-complete
+          ask_width || continue
+        fi
+        if (( cap_arrow )); then
+          POWERLEVEL9K_MODE=nerdfont-v3
         else
-          ask_arrow '\UF0737' "Let's try another one." || continue
+          ask_arrow '\uFC35' "Let's try another one." || continue
           if (( cap_arrow )); then
-            ask_width || continue
-          fi
-          if (( cap_arrow )); then
-            POWERLEVEL9K_MODE=nerdfont-v3
+            POWERLEVEL9K_MODE=nerdfont-complete
           else
             POWERLEVEL9K_MODE=awesome-fontconfig
             ask_python || continue
