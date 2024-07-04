@@ -23,6 +23,7 @@ hide_when_typing = true
 [keyboard]
 bindings = [
   { key = "Space", mods = "Control", action = "ToggleViMode" },
+  { key = "F11", mods = "Command", action = "ToggleFullscreen" },
   { key = "W", mods = "Command", action = "CreateNewWindow" },
   { key = "T", mods = "Command", action = "CreateNewTab" }
 ]
