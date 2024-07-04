@@ -14,12 +14,11 @@ function dl_tar() {
 	rm "$TARFILE"
 }
 
-
 dl_tar "https://github.com/Wilfred/difftastic/releases/latest/download/difft-x86_64-unknown-linux-gnu.tar.gz" 0 difft
 
 dl_tar "https://github.com/simonwhitaker/gibo/releases/latest/download/gibo_Linux_arm64.tar.gz" 0 gibo
 
-dl_tar "https://github.com/extrawurst/gitui/releases/latest/download/gitui-linux-musl.tar.gz" 0 ./gitui 
+dl_tar "https://github.com/extrawurst/gitui/releases/latest/download/gitui-linux-x86_64.tar.gz" 0 ./gitui
 
 LAZYGIT_URL=$(curl --silent "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | jq -r ".assets[].browser_download_url" | grep "Linux_x86_64")
 dl_tar "$LAZYGIT_URL" 0 lazygit
@@ -33,4 +32,3 @@ chmod +x $HOME/.local/bin/yq
 
 DIVE_URL=$(curl --silent "https://api.github.com/repos/wagoodman/dive/releases/latest" | jq -r ".assets[].browser_download_url" | grep "_linux_amd64.tar.gz")
 dl_tar "$DIVE_URL" 0 dive
-
