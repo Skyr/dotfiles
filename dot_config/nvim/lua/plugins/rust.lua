@@ -104,6 +104,11 @@ return {
     "mrcjkb/rustaceanvim",
     version = "^4",
     ft = { "rust" },
+    -- stylua: ignore
+    keys = {
+      { "<leader>k", function() vim.lsp.buf.hover() end, desc = "Show run/debug popup" },
+    }
+,
   },
   {
     "folke/which-key.nvim",
