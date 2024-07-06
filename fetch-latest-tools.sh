@@ -14,6 +14,8 @@ function dl_tar() {
 	rm "$TARFILE"
 }
 
+dl_tar "https://github.com/starship/starship/releases/latest/download/starship-x86_64-unknown-linux-gnu.tar.gz" 0 starship
+
 dl_tar "https://github.com/Wilfred/difftastic/releases/latest/download/difft-x86_64-unknown-linux-gnu.tar.gz" 0 difft
 
 dl_tar "https://github.com/simonwhitaker/gibo/releases/latest/download/gibo_Linux_arm64.tar.gz" 0 gibo

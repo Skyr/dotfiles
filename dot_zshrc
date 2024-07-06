@@ -42,9 +42,8 @@ POWERLEVEL9K_SHORTEN_DIR_LENGTH=3
 POWERLEVEL9K_SHORTEN_STRATEGY=truncate_from_right
 POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(context dir)
 POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status virtualenv root_indicator background_jobs vcs)
+
 ZSH_THEME="powerlevel/powerlevel9k"
-
-
 # Set to this to use case-sensitive completion
 # export CASE_SENSITIVE="true"
 
@@ -63,6 +62,11 @@ plugins=(zsh-syntax-highlighting zsh-autosuggestions git gitfast git-extras grad
 # github disabled
 if command -v fzf > /dev/null ; then
   plugins+=(fzf fzf-tab)
+fi
+
+# Use starship prompt if possible
+if command -v starship > /dev/null ; then
+  plugins+=(starship)
 fi
 
 if ls "~/.ssh/id*.pub" > /dev/null 2>&1 ; then
