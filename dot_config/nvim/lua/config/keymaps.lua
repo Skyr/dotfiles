@@ -2,6 +2,13 @@
 -- Default keymaps that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/keymaps.lua
 -- Add any additional keymaps here
 
+-- Remove shortcuts to lazygit
+vim.keymap.del("n", "<leader>gB")
+vim.keymap.del("n", "<leader>gf")
+vim.keymap.del("n", "<leader>gG")
+vim.keymap.del("n", "<leader>gl")
+vim.keymap.del("n", "<leader>gL")
+
 -- Buffers
 vim.keymap.set("n", "<A-h>", "<cmd>bprevious<cr>", { desc = "Prev Buffer" })
 vim.keymap.set("n", "<leader>bp", "<cmd>bprevious<cr>", { desc = "Prev Buffer" })
