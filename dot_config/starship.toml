@@ -10,13 +10,11 @@ $directory\
 $git_branch\
 $git_status\
 [](fg:surface2 bg:surface1)\
-$c\
 $rust\
 $golang\
 $nodejs\
 $php\
 $java\
-$kotlin\
 $haskell\
 $python\
 [](fg:surface1 bg:surface0)\
@@ -85,6 +83,7 @@ format = '[[($all_status$ahead_behind )](fg:peach bg:surface2)]($style)'
 symbol = ""
 style = "bg:surface1"
 format = '[[ $symbol( $version) ](fg:text bg:surface1)]($style)'
+detect_extensions = []
 
 [c]
 symbol = " "
@@ -95,21 +94,25 @@ format = '[[ $symbol( $version) ](fg:text bg:surface1)]($style)'
 symbol = ""
 style = "bg:surface1"
 format = '[[ $symbol( $version) ](fg:text bg:surface1)]($style)'
+detect_extensions = []
 
 [golang]
 symbol = ""
 style = "bg:surface1"
 format = '[[ $symbol( $version) ](fg:text bg:surface1)]($style)'
+detect_extensions = []
 
 [php]
 symbol = ""
 style = "bg:surface1"
 format = '[[ $symbol( $version) ](fg:text bg:surface1)]($style)'
+detect_extensions = []
 
 [java]
 symbol = " "
 style = "bg:surface1"
 format = '[[ $symbol( $version) ](fg:text bg:surface1)]($style)'
+detect_extensions = ["gradle", "gradle.kts"]
 
 [kotlin]
 symbol = ""
@@ -120,11 +123,13 @@ format = '[[ $symbol( $version) ](fg:text bg:surface1)]($style)'
 symbol = ""
 style = "bg:surface1"
 format = '[[ $symbol( $version) ](fg:text bg:surface1)]($style)'
+detect_extensions = []
 
 [python]
 symbol = ""
 style = "bg:surface1"
 format = '[[ $symbol( $version) ](fg:text bg:surface1)]($style)'
+detect_extensions = []
 
 [nix_shell]
 style = "bg:surface0"
@@ -289,4 +294,3 @@ surface0 = "#313244"
 base = "#1e1e2e"
 mantle = "#181825"
 crust = "#11111b"
-
