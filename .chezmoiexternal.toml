@@ -39,3 +39,32 @@ url = "https://github.com/tmux-plugins/tpm/archive/master.tar.gz"
 exact = true
 stripComponents = 1
 refreshPeriod = "168h"
+
+[".local/bin/starship"]
+type = "archive-file"
+url = "https://github.com/starship/starship/releases/latest/download/starship-x86_64-unknown-linux-gnu.tar.gz"
+path = "starship"
+refreshPeriod = "168h"
+
+[".local/bin/difft"]
+type = "archive-file"
+url = "https://github.com/Wilfred/difftastic/releases/latest/download/difft-x86_64-unknown-linux-gnu.tar.gz"
+path = "difft"
+refreshPeriod = "168h"
+
+[".local/bin/gibo"]
+type = "archive-file"
+url = "https://github.com/simonwhitaker/gibo/releases/latest/download/gibo_Linux_arm64.tar.gz"
+path = "gibo"
+refreshPeriod = "168h"
+
+[".local/bin/gitui"]
+type = "archive-file"
+url = "https://github.com/extrawurst/gitui/releases/latest/download/gitui-linux-x86_64.tar.gz"
+path = "./gitui"
+refreshPeriod = "168h"
+
+[".local/bin/yq"]
+type = "file"
+url = "https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64"
+refreshPeriod = "168h"
