@@ -60,14 +60,6 @@ ZSH_THEME="powerlevel/powerlevel9k"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 plugins=(zsh-syntax-highlighting zsh-autosuggestions git gitfast git-extras gradle tmux zsh-navigation-tools fasd colored-man-pages docker mosh ripgrep jump kubectl helm oc)
 # github disabled
-if command -v fzf > /dev/null ; then
-  plugins+=(fzf fzf-tab)
-fi
-
-# Use starship prompt if possible
-if command -v starship > /dev/null ; then
-  plugins+=(starship)
-fi
 
 if ls "~/.ssh/id*.pub" > /dev/null 2>&1 ; then
   SSH_KEYS=""
@@ -111,22 +103,12 @@ fi
 
 alias du1="du -hs *(/)"
 
-if command -v navi > /dev/null ; then
-  source <(navi widget zsh)
-fi
-
-if command -v bat > /dev/null ; then
-  alias cat='bat --style header --style rule --style snip --style changes --style header'
-elif command -v batcat > /dev/null ; then
-  alias cat='batcat --style header --style rule --style snip --style changes --style header'
-fi
 
 export FZF_DEFAULT_OPTS="--no-mouse --height 50% -1 --reverse --multi --preview '[[ \$(file --mime {}) =~ binary ]] && echo {} is a binary file || (bat --style=numbers --color=always {} || cat {}) 2> /dev/null | head -200' --preview-window='right:hidden:wrap' --bind='f2:toggle-preview,f3:execute(bat --style=numbers {} || less -f {}),ctrl-d:half-page-down,ctrl-u:half-page-up,ctrl-a:select-all,ctrl-r:toggle-all'"
 export FZF_DEFAULT_COMMAND="git ls-files --cached --others --exclude-standard || fd -type f -type l"
 export FZF_CTRL_T_COMMAND="fd $FD_OPTIONS"
 export FZF_ALT_C_COMMAND="fd --type d $FD_OPTIONS"
 
-export EDITOR=`(which nvim || which vim || which vi || which nano) | grep "^/"`
 if [[ -z "$XDG_CONFIG_HOME" ]] ; then
   export XDG_CONFIG_HOME=$HOME/.config
 fi
@@ -138,6 +120,23 @@ if ! echo $PATH | grep ":$HOME/.sharedconfig/local/bin" > /dev/null ; then
   export PATH="$PATH:$HOME/.sharedconfig/local/bin"
 fi
 
+
+# Plugins dependent on installed software
+if command -v fzf > /dev/null ; then
+  plugins+=(fzf fzf-tab)
+fi
+
+if command -v starship > /dev/null ; then
+  # Use starship prompt if possible
+  plugins+=(starship)
+fi
+
+if command -v navi > /dev/null ; then
+  source <(navi widget zsh)
+fi
+
+
+# Locale
 export LANG=en_US.UTF-8
 export LC_CTYPE=en_US.UTF-8
 export LC_NUMERIC=de_DE.UTF-8
@@ -198,6 +197,16 @@ if command -v fzf > /dev/null ; then
   }
 fi
 
+
+# Aliases dependent on installed software
+if command -v bat > /dev/null ; then
+  alias cat='bat --style header --style rule --style snip --style changes --style header'
+elif command -v batcat > /dev/null ; then
+  alias cat='batcat --style header --style rule --style snip --style changes --style header'
+fi
+
+export EDITOR=`(which nvim || which vim || which vi || which nano) | grep "^/"`
+
 if command -v exa > /dev/null ; then
   alias exa='exa -lghH --git --color-scale'
   alias l="exa -aa"
@@ -225,3 +234,4 @@ if command -v lsd > /dev/null ; then
   alias ll="lsd -l"
   alias lsa="lsd -A"
 fi
+
