@@ -4,6 +4,7 @@ format = """
 [](fg:surface1)\
 $os\
 $username\
+$hostname\
 [](fg:surface1 bg:overlay0)\
 $directory\
 [](fg:overlay0 bg:surface2)\
@@ -25,6 +26,12 @@ $conda\
 $line_break$status$character"""
 
 palette = 'catppuccin_mocha'
+
+[hostname]
+style = "bg:surface1 fg:teal"
+ssh_only = true
+ssh_symbol = "🌐 "
+format = "[🌐$hostname ]($style)"
 
 [os]
 disabled = false
