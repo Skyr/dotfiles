@@ -54,7 +54,7 @@ refreshPeriod = "168h"
 
 [".local/bin/gibo"]
 type = "archive-file"
-url = "https://github.com/simonwhitaker/gibo/releases/latest/download/gibo_Linux_arm64.tar.gz"
+url = "https://github.com/simonwhitaker/gibo/releases/latest/download/gibo_Linux_x86_64.tar.gz"
 path = "gibo"
 refreshPeriod = "168h"
 
