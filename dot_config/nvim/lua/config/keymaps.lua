@@ -16,8 +16,13 @@ vim.keymap.set("n", "<A-l>", "<cmd>bnext<cr>", { desc = "Next Buffer" })
 vim.keymap.set("n", "<leader>bn", "<cmd>bnext<cr>", { desc = "Next Buffer" })
 
 -- git
-vim.keymap.set("n", "<leader>gs", "<cmd>Neogit<cr>", { desc = "Neogit status" })
-vim.keymap.set("n", "<leader>gc", "<cmd>Neogit commit<cr>", { desc = "Neogit commit" })
-vim.keymap.set("n", "<leader>gp", "<cmd>Neogit pull<cr>", { desc = "Neogit pull" })
-vim.keymap.set("n", "<leader>gP", "<cmd>Neogit push<cr>", { desc = "Neogit push" })
-vim.keymap.set("n", "<leader>gb", "<cmd>Telescope git_branches<cr>", { desc = "Select branch" })
+vim.keymap.set("n", "<leader>gs", "<cmd>Neogit<cr>", { desc = "Neogit status", silent = true, noremap = true })
+vim.keymap.set("n", "<leader>gc", "<cmd>Neogit commit<cr>", { desc = "Neogit commit", silent = true, noremap = true })
+vim.keymap.set("n", "<leader>gp", "<cmd>Neogit pull<cr>", { desc = "Neogit pull", silent = true, noremap = true })
+vim.keymap.set("n", "<leader>gP", "<cmd>Neogit push<cr>", { desc = "Neogit push", silent = true, noremap = true })
+vim.keymap.set(
+  "n",
+  "<leader>gb",
+  "<cmd>Telescope git_branches<cr>",
+  { desc = "Select branch", silent = true, noremap = true }
+)
