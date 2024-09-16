@@ -1,6 +1,7 @@
 # Path to your oh-my-zsh configuration.
 export ZSH=$HOME/.oh-my-zsh
 export ZSH_CUSTOM=$HOME/.oh-my-zsh-custom
+export ZSH_CACHE_DIR=$HOME/.cache/oh-my-zsh
 
 # Set name of the theme to load.
 # Look in ~/.oh-my-zsh/themes/
@@ -58,7 +59,7 @@ ZSH_THEME="powerlevel/powerlevel9k"
 
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(zsh-syntax-highlighting zsh-autosuggestions history-substring-search git gitfast gradle tmux zsh-navigation-tools colored-man-pages docker mosh jump kubectl helm oc fzf zoxide)
+plugins=(zsh-syntax-highlighting zsh-autosuggestions history-substring-search git gitfast gradle tmux zsh-navigation-tools colored-man-pages docker mosh jump kubectl helm oc)
 # github disabled
 
 if ls "~/.ssh/id*.pub" > /dev/null 2>&1 ; then
@@ -125,6 +126,9 @@ fi
 if command -v fzf > /dev/null ; then
   plugins+=(fzf fzf-tab)
 fi
+if command -v zoxide > /dev/null ; then
+  plugins+=(zoxide)
+fi
 
 if command -v starship > /dev/null ; then
   # Use starship prompt if possible
@@ -160,7 +164,7 @@ source $HOME/.oh-my-zsh/oh-my-zsh.sh
 
 ### Overrides for zsh
 
-if command -v fzf > /dev/null ; then
+if ! command -v zoxide > /dev/null && command -v fzf > /dev/null ; then
   # Thanks to https://www.gregorykapfhammer.com/software/tool/productivity/2017/05/08/Directory-Zooming/
   t() {
     fasdlist=$( fasd -d -l -r $1 | \
