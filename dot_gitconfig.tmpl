@@ -3,11 +3,15 @@
   email = {{ .email }}
 
 [core]
-  pager = less -FRSX
   autocrlf = input
 {{- if env "EDITOR" }}
   editor = {{ env "EDITOR" }}
 {{- end }}
+{{ if lookPath "delta" }}
+  pager = delta
+{{ else }}
+  pager = less -FRSX
+{{ end }}
 
 [color]
   ui = auto
@@ -20,6 +24,16 @@
 
 [diff "zip"]
   textconv = unzip -c -a
+
+{{ if lookPath "delta" }}
+[interactive]
+    diffFilter = delta --color-only
+{{ end }}
+
+[delta]
+  navigate = true
+  line-numbers = true
+  side-by-side = false
 
 [log]
   decorate = true
