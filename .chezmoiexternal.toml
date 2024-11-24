@@ -33,6 +33,11 @@ exact = true
 stripComponents = 1
 refreshPeriod = "168h"
 
+[".oh-my-zsh-custom/fzf-git.sh"]
+type = "file"
+url = "https://github.com/junegunn/fzf-git.sh/raw/refs/heads/main/fzf-git.sh"
+refreshPeriod = "168h"
+
 [".tmux/plugins/tpm"]
 type = "archive"
 url = "https://github.com/tmux-plugins/tpm/archive/master.tar.gz"
