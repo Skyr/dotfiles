@@ -240,3 +240,5 @@ if command -v lsd > /dev/null ; then
   alias lsa="lsd -A"
 fi
 
+if [ -e /home/sts/.nix-profile/etc/profile.d/nix.sh ]; then . /home/sts/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
+
