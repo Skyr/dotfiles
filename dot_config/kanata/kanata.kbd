@@ -1,0 +1,56 @@
+(defcfg
+  #|
+  This configuration will process all keys pressed inside of kanata, even if
+  they are not mapped in defsrc. This is so that certain actions can activate
+  at the right time for certain input sequences. By default, unmapped keys are
+  not processed through kanata due to a Windows issue related to AltGr. If you
+  use AltGr in your keyboard, you will likely want to follow the simple.kbd
+  file while unmapping lctl and ralt from defsrc.
+  |#
+  process-unmapped-keys (all-except lctl ralt)
+)
+
+(defvar
+  tap-time 150
+  hold-time 200
+)
+
+(defsrc
+  u o
+  caps a s d f h j k l ; '
+)
+
+(deflayer default
+  _ _
+  @cap @a @s @d @f _ @j @k @l @; @apo
+)
+
+(deflayer arrows
+  @_ue @_oe
+  _ @_ae @_ss _ _ left down up rght _ _
+)
+
+(defalias
+  Ue (unicode Ü)
+  ue (unicode ü)
+  _ue (fork @ue @Ue (lsft rsft))
+  Oe (unicode Ö)
+  oe (unicode ö)
+  _oe (fork @oe @Oe (lsft rsft))
+  Ae (unicode Ä)
+  ae (unicode ä)
+  _ae (fork @ae @Ae (lsft rsft))
+  ss (unicode ß)
+  _ss (fork @ss s (lsft rsft))
+
+  apo (tap-hold-press 200 200 apo (layer-toggle arrows))
+  cap (tap-hold-press 200 200 esc (layer-toggle arrows))
+  a (tap-hold $tap-time $hold-time a lmet)
+  s (tap-hold $tap-time $hold-time s lalt)
+  d (tap-hold $tap-time $hold-time d lsft)
+  f (tap-hold $tap-time $hold-time f lctl)
+  j (tap-hold $tap-time $hold-time j rctl)
+  k (tap-hold $tap-time $hold-time k rsft)
+  l (tap-hold $tap-time $hold-time l ralt)
+  ; (tap-hold $tap-time $hold-time ; rmet)
+)
