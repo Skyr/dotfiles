@@ -10,6 +10,7 @@
 spawn-at-startup "swww-daemon"
 spawn-at-startup "swayosd-server"
 spawn-at-startup "dunst"
+spawn-at-startup "hypridle"
 spawn-at-startup "xwayland-satellite"
 
 input {
@@ -120,6 +121,7 @@ hotkey-overlay {
 
 window-rule {
     geometry-corner-radius 2
+    clip-to-geometry true
 }
 
 window-rule {
@@ -143,12 +145,6 @@ window-rule {
 window-rule {
     match app-id="neovide"
     default-column-width { proportion 0.75; }
-}
-
-window-rule {
-    match app-id="1Password"
-    default-column-width { proportion 0.33; }
-    block-out-from "screen-capture"
 }
 
 window-rule {
