@@ -1,0 +1,149 @@
+// Source: https://github.com/mtkusbdevice/hyprland-hdready/blob/main/waybar/
+{
+    "layer": "top",
+    "position": "top",
+    "mod": "dock",
+    "exclusive": true,
+    "passthrough": false,
+    // "gtk-layer-shell": true,
+    "height": 30,
+    "modules-left": ["niri/workspaces"],
+    "modules-center": ["clock", "niri/window"],
+    "modules-right": ["tray","temperature","niri/language","battery","backlight","pulseaudio","network"],
+    
+    //"custom/power_profile":{
+        //shows the current power profile and switches to next on click
+    //    "exec": "asusctl profile -p | sed s:'Active profile is'::",
+    //    "interval": 30,
+    //    "format": "󰈐{}", 
+    //    "on-click": "asusctl profile -n; pkill -SIGRTMIN+8 waybar",
+    //    "signal": 8
+    //},
+
+    //"custom/weather" : {
+        //shows the current weather and forecast
+        // "tooltip" : true,
+        //"format" : "{}",
+        //"interval" : 30,
+        //"exec" : "~/.config/waybar/scripts/waybar-wttr.py",
+        //"return-type" : "json"
+    //},
+
+    "niri/workspaces": {
+      "format": "{icon}",
+      "format-icons": {
+        // Named workspaces (you need to configure them in niri)
+        "browser": "",
+        "discord": "",
+        "chat": "<b></b>",
+
+        // Icons by state
+        //"active": "",
+        //"default": ""
+      }
+    },
+
+    "niri/window": {
+      "format": "{}",
+      "rewrite": {
+        "(.*) - Mozilla Firefox": "🌎 $1",
+        "(.*) - zsh": "> [$1]"
+      }
+    },
+
+    "niri/language": {
+      "format-de": "de",
+      "format-en": "en",
+      "format-eu": "eur"
+    },
+
+    "tray": {
+        "icon-size": 15,
+        "spacing": 10
+    },
+
+    "clock": {
+        "format": "  {:%H:%M    %a, %e. %b}",
+        "tooltip-format": "<big>{:%Y %B}</big>\n<tt>{calendar}</tt>",
+        "interval": 15,
+        "locale": "de_DE.UTF-8"
+    },
+
+    "backlight": {
+        "device": "intel_backlight",
+        "format": "{icon} {percent}%",
+        "format-icons": ["󰃞", "󰃟", "󰃠"],
+        "on-scroll-up": "brightnessctl set 5%+",
+        "on-scroll-down": "brightnessctl set 5%-",
+        "min-length": 6
+    },
+
+    "battery": {
+        "states": {
+            "good": 95,
+            "warning": 30,
+            "critical": 20
+        },
+        "format": "{icon} {capacity}%",
+        "format-charging": " {capacity}%",
+        "format-plugged": " {capacity}%",
+        "format-alt": "{time} {icon}",
+        "format-icons": ["󰂎", "󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"]
+    },
+
+    "pulseaudio": {
+        "format": "{icon}  {volume}%",
+        "tooltip": false,
+        "format-muted": " Muted",
+        "on-click": "pamixer -t",
+        "on-scroll-up": "pamixer -i 5",
+        "on-scroll-down": "pamixer -d 5",
+        "scroll-step": 5,
+        "format-icons": {
+            "headphone": "",
+            "hands-free": "",
+            "headset": "",
+            "phone": "",
+            "portable": "",
+            "car": "",
+            "default": ["", "", ""]
+        }
+    },
+
+    "pulseaudio#microphone": {
+        "format": "{format_source}",
+        "format-source": "Mic: {volume}%",
+        "format-source-muted": "Mic: Muted",
+        "on-click": "pamixer --default-source -t",
+        "on-scroll-up": "pamixer --default-source -i 5",
+        "on-scroll-down": "pamixer --default-source -d 5",
+        "scroll-step": 5
+    },
+    
+    //"temperature": {
+        //"thermal-zone": 1,
+        //"format": "{temperatureF}°F ",
+        //"critical-threshold": 80,
+        //"format-critical": "{temperatureC}°C "
+    //},
+
+    "network": {
+        // "interface": "wlp2*", // (Optional) To force the use of this interface
+        "format-wifi": "  {signalStrength}%",
+        "format-ethernet": "{ipaddr}/{cidr} ",
+        "tooltip-format": "{essid} - {ifname} via {gwaddr} ",
+        "format-linked": "{ifname} (No IP) ",
+        "format-disconnected": "Disconnected ⚠",
+        "format-alt": "{ifname}:{essid} {ipaddr}/{cidr}",
+        "on-click-right": "nm-connection-editor"
+    },
+
+    "bluetooth": {
+	    "format": " {status}",
+	    "format-disabled": "", // an empty format will hide the module
+	    "format-connected": " {num_connections}",
+	    "tooltip-format": "{device_alias}",
+	    "tooltip-format-connected": " {device_enumerate}",
+	    "tooltip-format-enumerate-connected": "{device_alias}"
+    }
+}
