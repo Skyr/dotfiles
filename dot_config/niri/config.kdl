@@ -121,6 +121,10 @@ hotkey-overlay {
     skip-at-startup
 }
 
+workspace "chat"
+
+workspace "browser"
+
 window-rule {
     geometry-corner-radius 2
     clip-to-geometry true
@@ -134,19 +138,31 @@ window-rule {
     }
 }
 
+// Get app-id using niri msg focused-window
 window-rule {
     match app-id="librewolf"
+    match app-id="Chromium-browser"
+    open-on-workspace "browser"
     default-column-width { proportion 0.75; }
+}
+
+window-rule {
+    match app-id="thunderbird"
+    open-on-workspace "chat"
+    default-column-width { proportion 0.75; }
+}
+
+window-rule {
+    match app-id="discord"
+    match app-id="signal"
+    match app-id="Element"
+    open-on-workspace "chat"
+    default-column-width { proportion 0.5; }
 }
 
 window-rule {
     match app-id="kitty"
     default-column-width { proportion 0.5; }
-}
-
-window-rule {
-    match app-id="neovide"
-    default-column-width { proportion 0.75; }
 }
 
 window-rule {
