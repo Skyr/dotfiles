@@ -232,7 +232,8 @@ if command -v eza > /dev/null ; then
   alias la="eza -a"
   alias ll="eza"
   alias lsa="eza -aa"
-  compdef -d eza  # Temporary fix - otherwise tab completion doesn't work
+  # Temporary fix - otherwise tab completion doesn't work
+  compdef -d eza
 fi
 
 if command -v lsd > /dev/null ; then

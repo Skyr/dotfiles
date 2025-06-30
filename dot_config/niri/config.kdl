@@ -193,14 +193,14 @@ binds {
     //Mod+V hotkey-overlay-title="Launch apps or switch to open windows" { spawn "rofi" "-show" "combi" "-combi-modes" "window,drun"; }
     Mod+V hotkey-overlay-title="Launch apps or switch to open windows" { spawn "fuzzel"; }
     Mod+Ctrl+L hotkey-overlay-title="Lock Session" { spawn "loginctl" "lock-session"; }
-    Mod+Slash hotkey-overlay-title="Show Notification Center" { spawn "swaync-client" "-t"; }
+    //Mod+Slash hotkey-overlay-title="Show Notification Center" { spawn "swaync-client" "-t"; }
     Mod+O repeat=false { toggle-overview; }
 
     XF86AudioPlay         allow-when-locked=true { spawn "playerctl" "play-pause"; }
     XF86AudioNext         { spawn "playerctl" "next"; }
     XF86AudioPrev         { spawn "playerctl" "previous"; }
-    XF86AudioRaiseVolume  { spawn "swayosd-client" "--output-volume" "1"; }
-    XF86AudioLowerVolume  { spawn "swayosd-client" "--output-volume" "-1"; }
+    XF86AudioRaiseVolume  { spawn "swayosd-client" "--output-volume" "5"; }
+    XF86AudioLowerVolume  { spawn "swayosd-client" "--output-volume" "-5"; }
     XF86AudioMute         { spawn "swayosd-client" "--output-volume" "mute-toggle"; }
     XF86MonBrightnessUp   { spawn "swayosd-client" "--brightness" "+5"; }
     XF86MonBrightnessDown { spawn "swayosd-client" "--brightness" "-5"; }

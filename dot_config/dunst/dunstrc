@@ -26,7 +26,7 @@ frame_color = "#2d303c"
 highlight = "#2274d5, #82aad9"
 
 # Text
-font = DejaVuSansM Nerd Font Propo
+font = DejaVu Sans
 markup = full
 format = "<small>%a</small>\n<big><b>%s</b></big>\n%b"
 alignment = left

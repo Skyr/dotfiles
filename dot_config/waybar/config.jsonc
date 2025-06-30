@@ -6,7 +6,7 @@
     "exclusive": true,
     "passthrough": false,
     // "gtk-layer-shell": true,
-    "height": 30,
+    "height": 34,
     "modules-left": ["niri/workspaces"],
     "modules-center": ["clock", "niri/window"],
     "modules-right": ["tray","temperature","niri/language","battery","backlight","pulseaudio","network"],
@@ -33,8 +33,7 @@
       "format": "{icon}",
       "format-icons": {
         // Named workspaces (you need to configure them in niri)
-        "browser": "",
-        "discord": "",
+        "browser": "<b></b>",
         "chat": "<b></b>",
 
         // Icons by state
