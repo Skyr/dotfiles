@@ -18,9 +18,9 @@ spawn-at-startup "kanata"
 input {
     keyboard {
         xkb {
-            layout "us"
+            layout "eu"
             // variant "dvorak"
-            options "compose:ralt,ctrl:nocaps"
+            // options "compose:ralt,ctrl:nocaps"
         }
     }
 
