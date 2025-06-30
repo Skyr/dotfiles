@@ -224,6 +224,7 @@ if command -v exa > /dev/null ; then
 fi
 
 if command -v eza > /dev/null ; then
+  plugins+=(eza)
   alias exa='eza -lghH --git --color-scale'
   alias eza='eza -lghH --git --color-scale'
   alias l="eza -aa"
@@ -231,6 +232,7 @@ if command -v eza > /dev/null ; then
   alias la="eza -a"
   alias ll="eza"
   alias lsa="eza -aa"
+  compdef -d eza  # Temporary fix - otherwise tab completion doesn't work
 fi
 
 if command -v lsd > /dev/null ; then
