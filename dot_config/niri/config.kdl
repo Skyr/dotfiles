@@ -149,8 +149,15 @@ window-rule {
 
 window-rule {
     match app-id="thunderbird"
+    exclude title="^Write"
     open-on-workspace "chat"
-    default-column-width { proportion 0.75; }
+    default-column-width { proportion 1.0; }
+}
+
+window-rule {
+    match app-id="thunderbird" title="^Write"
+    open-on-workspace "chat"
+    default-column-width { proportion 0.5; }
 }
 
 window-rule {
@@ -159,6 +166,12 @@ window-rule {
     match app-id="Element"
     open-on-workspace "chat"
     default-column-width { proportion 0.5; }
+}
+
+window-rule {
+    match app-id="teams-for-linux"
+    open-on-workspace "chat"
+    default-column-width { proportion 0.66667; }
 }
 
 window-rule {
@@ -173,6 +186,7 @@ window-rule {
 
 // Not working, unfortunately
 window-rule {
+    match app-id="udiskie"
     match title="Extension: (Bitwarden Password Manager) - Bitwarden — LibreWolf"
     open-floating true
 }
