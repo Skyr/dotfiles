@@ -146,18 +146,21 @@ window-rule {
     open-on-workspace "browser"
     default-column-width { proportion 0.75; }
 }
-
 window-rule {
-    match app-id="thunderbird"
-    exclude title="^Write"
-    open-on-workspace "chat"
-    default-column-width { proportion 1.0; }
+    match app-id="librewolf" title="Extension: (Bitwarden Password Manager) - Bitwarden — LibreWolf"
+    open-floating true
 }
 
 window-rule {
-    match app-id="thunderbird" title="^Write"
+    match app-id="thunderbird"
     open-on-workspace "chat"
-    default-column-width { proportion 0.5; }
+}
+window-rule {
+    match app-id="thunderbird" title=" Reminder"
+    open-floating true
+    open-focused false
+    default-column-width { proportion 0.33; }
+    default-window-height { proportion 0.33; }
 }
 
 window-rule {
@@ -180,15 +183,13 @@ window-rule {
 }
 
 window-rule {
-    match app-id="gamescope"
-    open-fullscreen true
+    match app-id="udiskie"
+    open-floating true
 }
 
-// Not working, unfortunately
 window-rule {
-    match app-id="udiskie"
-    match title="Extension: (Bitwarden Password Manager) - Bitwarden — LibreWolf"
-    open-floating true
+    match app-id="gamescope"
+    open-fullscreen true
 }
 
 layer-rule {
@@ -265,6 +266,11 @@ binds {
 
     Mod+Shift+Ctrl+Page_Down { move-workspace-down; }
     Mod+Shift+Ctrl+Page_Up   { move-workspace-up; }
+
+    Mod+Shift+Alt+Up { move-workspace-to-monitor-up; }
+    Mod+Shift+Alt+Down { move-workspace-to-monitor-down; }
+    Mod+Shift+Alt+Left { move-workspace-to-monitor-left; }
+    Mod+Shift+Alt+Right { move-workspace-to-monitor-right; }
 
     Mod+Ctrl+1 { focus-workspace 1; }
     Mod+Ctrl+2 { focus-workspace 2; }
