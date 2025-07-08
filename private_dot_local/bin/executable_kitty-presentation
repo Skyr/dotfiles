@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+set -u -e
+
+kitten @ set-font-size 24
+kitten @ set-colors ~/.config/kitty/catppuccin-latte.conf
+exec tmux
