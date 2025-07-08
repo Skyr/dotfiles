@@ -11,8 +11,9 @@
 )
 
 (defvar
-  tap-time 150
+  tap-time 170
   hold-time 200
+  slow-hold-time 270
 )
 
 (defsrc
@@ -43,14 +44,14 @@
   ss (unicode ß)
   _ss (fork @ss s (lsft rsft))
 
-  apo (tap-hold-press 200 200 apo (layer-toggle arrows))
-  cap (tap-hold-press 200 200 esc (layer-toggle arrows))
-  a (tap-hold $tap-time $hold-time a lmet)
+  apo (tap-hold-press $tap-time $slow-hold-time apo (layer-toggle arrows))
+  cap (tap-hold-press $slow-hold-time $slow-hold-time esc (layer-toggle arrows))
+  a (tap-hold $tap-time $slow-hold-time a lmet)
   s (tap-hold $tap-time $hold-time s lalt)
   d (tap-hold $tap-time $hold-time d lsft)
   f (tap-hold $tap-time $hold-time f lctl)
   j (tap-hold $tap-time $hold-time j rctl)
   k (tap-hold $tap-time $hold-time k rsft)
   l (tap-hold $tap-time $hold-time l ralt)
-  ; (tap-hold $tap-time $hold-time ; rmet)
+  ; (tap-hold $tap-time $slow-hold-time ; rmet)
 )
