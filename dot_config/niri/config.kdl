@@ -165,7 +165,7 @@ window-rule {
 
 window-rule {
     match app-id="discord"
-    match app-id="signal"
+    match app-id="Signal"
     match app-id="Element"
     open-on-workspace "chat"
     default-column-width { proportion 0.5; }
@@ -185,6 +185,12 @@ window-rule {
 window-rule {
     match app-id="udiskie"
     open-floating true
+}
+
+window-rule {
+    match app-id="labwc"
+    default-column-width { proportion 1.0; }
+    // open-fullscreen true
 }
 
 window-rule {
