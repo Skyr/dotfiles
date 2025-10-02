@@ -145,6 +145,7 @@ format = '[[ $symbol( $version) ](fg:text bg:surface1)]($style)'
 detect_extensions = []
 
 [nix_shell]
+format = '[ $symbol$name ]($style)'
 style = "bg:surface0"
 
 [docker_context]
