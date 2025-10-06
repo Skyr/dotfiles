@@ -124,6 +124,8 @@ hotkey-overlay {
 
 workspace "chat"
 
+workspace "mail"
+
 workspace "browser"
 
 window-rule {
@@ -153,7 +155,7 @@ window-rule {
 
 window-rule {
     match app-id="thunderbird"
-    open-on-workspace "chat"
+    open-on-workspace "mail"
 }
 window-rule {
     match app-id="thunderbird" title=" Reminder"
