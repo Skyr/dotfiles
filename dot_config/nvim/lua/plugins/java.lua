@@ -16,7 +16,7 @@ return {
     "nvim-neotest/nvim-nio",
     "mfussenegger/nvim-dap",
     {
-      "williamboman/mason.nvim",
+      "mason-org/mason.nvim",
       opts = {
         registries = {
           "github:nvim-java/mason-registry",
@@ -25,7 +25,7 @@ return {
       },
     },
     {
-      "williamboman/mason-lspconfig.nvim",
+      "mason-org/mason-lspconfig.nvim",
       opts = {
         handlers = {
           ["jdtls"] = function()
