@@ -7,7 +7,7 @@
 //
 // For examples see https://github.com/YaLTeR/niri/blob/main/resources/default-config.kdl
 
-spawn-at-startup "gnome-keyring-daemon -d -r"
+//spawn-at-startup "gnome-keyring-daemon -d -r -c pkcs11,secrets,ssh"
 spawn-at-startup "swww-daemon"
 spawn-at-startup "swayosd-server"
 spawn-at-startup "dunst"
@@ -15,6 +15,7 @@ spawn-at-startup "hypridle"
 spawn-at-startup "xwayland-satellite"
 spawn-at-startup "udiskie"
 spawn-at-startup "kanata"
+spawn-at-startup "poweralertd -s"
 
 input {
     keyboard {
@@ -42,8 +43,10 @@ input {
 }
 
 // External screen
-output "DP-1" {
+output "HDMI-A-1" {
     scale 1
+    mode "1920x1080"
+    position x=-1920 y=0
     variable-refresh-rate
     background-color "#363a4f" // Catppuccin surface0
 }
@@ -166,7 +169,9 @@ window-rule {
 }
 
 window-rule {
+    match app-id="vesktop"
     match app-id="discord"
+    match app-id="signal"
     match app-id="Signal"
     match app-id="Element"
     open-on-workspace "chat"
@@ -177,6 +182,11 @@ window-rule {
     match app-id="teams-for-linux"
     open-on-workspace "chat"
     default-column-width { proportion 0.66667; }
+}
+
+window-rule {
+  match app-id="at.yrlf.wl_mirror"
+  open-on-output "HDMI-A-1"
 }
 
 window-rule {
@@ -234,6 +244,7 @@ binds {
     XF86AudioMute         { spawn "swayosd-client" "--output-volume" "mute-toggle"; }
     XF86MonBrightnessUp   { spawn "swayosd-client" "--brightness" "+5"; }
     XF86MonBrightnessDown { spawn "swayosd-client" "--brightness" "-5"; }
+    XF86Search            { spawn "/home/sts/.local/bin/togglemirror"; }
 
     Mod+Delete { close-window; }
 
@@ -274,6 +285,11 @@ binds {
 
     Mod+Shift+Ctrl+Page_Down { move-workspace-down; }
     Mod+Shift+Ctrl+Page_Up   { move-workspace-up; }
+
+    Mod+Shift+Ctrl+Up { move-column-to-monitor-up; }
+    Mod+Shift+Ctrl+Down { move-column-to-monitor-down; }
+    Mod+Shift+Ctrl+Left { move-column-to-monitor-left; }
+    Mod+Shift+Ctrl+Right { move-column-to-monitor-right; }
 
     Mod+Shift+Alt+Up { move-workspace-to-monitor-up; }
     Mod+Shift+Alt+Down { move-workspace-to-monitor-down; }
