@@ -125,6 +125,8 @@ hotkey-overlay {
     skip-at-startup
 }
 
+prefer-no-csd
+
 workspace "chat"
 
 workspace "mail"
@@ -180,6 +182,7 @@ window-rule {
 
 window-rule {
     match app-id="teams-for-linux"
+    match app-id="teams-mbb"
     open-on-workspace "chat"
     default-column-width { proportion 0.66667; }
 }
@@ -190,8 +193,23 @@ window-rule {
 }
 
 window-rule {
+    match app-id="Wfica" title="MBFS vClient"
+    open-on-workspace "mail"
+    open-fullscreen true
+}
+
+window-rule {
     match app-id="kitty"
     default-column-width { proportion 0.5; }
+}
+
+window-rule {
+    match app-id="jetbrains-idea"
+    //default-column-width { proportion 1.0; }
+    open-maximized true
+    border {
+      off
+    }
 }
 
 window-rule {
