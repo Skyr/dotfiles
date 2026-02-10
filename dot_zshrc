@@ -248,6 +248,10 @@ if command -v lsd > /dev/null ; then
   alias lsa="lsd -A"
 fi
 
+if [[ "$KITTY_WINDOW_ID" != "" ]] && [[ "$KITTY_PID" != "" ]] && command -v kitten > /dev/null ; then
+  alias ssh="kitten ssh"
+fi
+
 if command -v yazi > /dev/null ; then
   function y() {
     local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
