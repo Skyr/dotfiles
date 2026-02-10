@@ -262,7 +262,7 @@ binds {
     XF86AudioMute         { spawn "swayosd-client" "--output-volume" "mute-toggle"; }
     XF86MonBrightnessUp   { spawn "swayosd-client" "--brightness" "+5"; }
     XF86MonBrightnessDown { spawn "swayosd-client" "--brightness" "-5"; }
-    XF86Search            { spawn "/home/sts/.local/bin/togglemirror"; }
+    XF86Search            { spawn "~/.local/bin/togglemirror"; }
 
     Mod+Delete { close-window; }
 
