@@ -1,0 +1,3 @@
+binds {
+    Mod+Shift+E hotkey-overlay-title="Quit Niri" { quit; }
+}

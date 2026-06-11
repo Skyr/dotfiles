@@ -7,15 +7,17 @@
 //
 // For examples see https://github.com/YaLTeR/niri/blob/main/resources/default-config.kdl
 
+spawn-at-startup "systemctl" "--user" "import-environment" "SSH_AUTH_SOCK"
+spawn-at-startup "valent" "--gapplication-service"
 //spawn-at-startup "gnome-keyring-daemon -d -r -c pkcs11,secrets,ssh"
-spawn-at-startup "swww-daemon"
-spawn-at-startup "swayosd-server"
-spawn-at-startup "dunst"
-spawn-at-startup "hypridle"
-spawn-at-startup "xwayland-satellite"
-spawn-at-startup "udiskie"
+//spawn-at-startup "awww-daemon"
+//spawn-at-startup "swayosd-server"
+//spawn-at-startup "dunst"
+//spawn-at-startup "hypridle"
+//spawn-at-startup "xwayland-satellite"
+//spawn-at-startup "udiskie"
 spawn-at-startup "kanata"
-spawn-at-startup "poweralertd -s"
+//spawn-at-startup "poweralertd -s"
 
 input {
     keyboard {
@@ -115,6 +117,8 @@ environment {
     // If xwayland-satellite.service is running it defines an Xwayland display
     // with this identifier.
     DISPLAY ":0"
+    //SSH_AUTH_SOCK "/run/user/1000/gcr/ssh"
+    //GNOME_KEYRING_CONTROL "/run/user/1000/keyring/control"
 }
 
 // The path is formatted with strftime(3) to give you the screenshot date and time.
@@ -249,7 +253,7 @@ binds {
 
     Mod+Return hotkey-overlay-title="Spawn Terminal" { spawn "kitty"; }
     //Mod+V hotkey-overlay-title="Launch apps or switch to open windows" { spawn "rofi" "-show" "combi" "-combi-modes" "window,drun"; }
-    Mod+V hotkey-overlay-title="Launch apps or switch to open windows" { spawn "fuzzel"; }
+    Mod+V hotkey-overlay-title="Launch apps or switch to open windows" { spawn "dms" "ipc" "call" "launcher" "toggle"; }
     Mod+Ctrl+L hotkey-overlay-title="Lock Session" { spawn "loginctl" "lock-session"; }
     //Mod+Slash hotkey-overlay-title="Show Notification Center" { spawn "swaync-client" "-t"; }
     Mod+O repeat=false { toggle-overview; }
@@ -257,11 +261,11 @@ binds {
     XF86AudioPlay         allow-when-locked=true { spawn "playerctl" "play-pause"; }
     XF86AudioNext         { spawn "playerctl" "next"; }
     XF86AudioPrev         { spawn "playerctl" "previous"; }
-    XF86AudioRaiseVolume  { spawn "swayosd-client" "--output-volume" "5"; }
-    XF86AudioLowerVolume  { spawn "swayosd-client" "--output-volume" "-5"; }
-    XF86AudioMute         { spawn "swayosd-client" "--output-volume" "mute-toggle"; }
-    XF86MonBrightnessUp   { spawn "swayosd-client" "--brightness" "+5"; }
-    XF86MonBrightnessDown { spawn "swayosd-client" "--brightness" "-5"; }
+    XF86AudioRaiseVolume  { spawn "dms" "ipc" "call" "audio" "increment" "5"; }
+    XF86AudioLowerVolume  { spawn "dms" "ipc" "call" "audio" "decrement" "5"; }
+    XF86AudioMute         { spawn "dms" "ipc" "call" "audio" "mute"; }
+    XF86MonBrightnessUp   { spawn "dms" "ipc" "call" "brightness" "increment" "5"; }
+    XF86MonBrightnessDown { spawn "dms" "ipc" "call" "brightness" "decrement" "5"; }
     XF86Search            { spawn "~/.local/bin/togglemirror"; }
 
     Mod+Delete { close-window; }
@@ -398,3 +402,13 @@ debug {
     // Override the DRM device that niri will use for all rendering.
     // render-drm-device "/dev/dri/renderD129"
 }
+
+include "dms/alttab.kdl"
+include "dms/colors.kdl"
+include "dms/layout.kdl"
+include "dms/outputs.kdl"
+include "dms/windowrules.kdl"
+include "dms/wpblur.kdl"
+
+include "dms/cursor.kdl"
+include "dms/binds.kdl"
