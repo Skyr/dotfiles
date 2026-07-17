@@ -44,22 +44,6 @@ input {
     }
 }
 
-// External screen
-output "HDMI-A-1" {
-    scale 1
-    mode "1920x1080"
-    position x=-1920 y=0
-    variable-refresh-rate
-    background-color "#363a4f" // Catppuccin surface0
-}
-
-// Laptop screen
-output "eDP-1" {
-    scale 1.0
-    background-color "#363a4f" // Catppuccin surface0
-    // transform "180"
-}
-
 layout {
     background-color "transparent"
 
@@ -262,7 +246,7 @@ binds {
     Mod+Return hotkey-overlay-title="Spawn Terminal" { spawn "kitty"; }
     //Mod+V hotkey-overlay-title="Launch apps or switch to open windows" { spawn "rofi" "-show" "combi" "-combi-modes" "window,drun"; }
     Mod+V hotkey-overlay-title="Launch apps or switch to open windows" { spawn "dms" "ipc" "call" "launcher" "toggle"; }
-    Mod+Ctrl+L hotkey-overlay-title="Lock Session" { spawn "loginctl" "lock-session"; }
+    Mod+Ctrl+S hotkey-overlay-title="Lock Session" { spawn "loginctl" "lock-session"; }
     //Mod+Slash hotkey-overlay-title="Show Notification Center" { spawn "swaync-client" "-t"; }
     Mod+O repeat=false { toggle-overview; }
 
@@ -272,8 +256,8 @@ binds {
     XF86AudioRaiseVolume  { spawn "dms" "ipc" "call" "audio" "increment" "5"; }
     XF86AudioLowerVolume  { spawn "dms" "ipc" "call" "audio" "decrement" "5"; }
     XF86AudioMute         { spawn "dms" "ipc" "call" "audio" "mute"; }
-    XF86MonBrightnessUp   { spawn "dms" "ipc" "call" "brightness" "increment" "5"; }
-    XF86MonBrightnessDown { spawn "dms" "ipc" "call" "brightness" "decrement" "5"; }
+    XF86MonBrightnessUp   { spawn "dms" "ipc" "call" "brightness" "increment" "5" "backlight:intel_backlight"; }
+    XF86MonBrightnessDown { spawn "dms" "ipc" "call" "brightness" "decrement" "5" "backlight:intel_backlight"; }
     XF86Search            { spawn "~/.local/bin/togglemirror"; }
 
     Mod+Delete { close-window; }
@@ -281,6 +265,9 @@ binds {
     Mod+T { switch-focus-between-floating-and-tiling; }
     Mod+Shift+T { toggle-window-floating; }
 
+    // For operations: Shift means "move", no shift means "focus"
+    
+    // No additional modifier: Windows
     Mod+Down  { focus-window-down; }
     Mod+J     { focus-window-down; }
     Mod+Up    { focus-window-up; }
@@ -290,45 +277,50 @@ binds {
     Mod+Shift+J     { move-window-down; }
     Mod+Shift+Up    { move-window-up; }
     Mod+Shift+K     { move-window-up; }
-    Mod+Shift+A { consume-or-expel-window-left; }
-    Mod+Shift+S { consume-or-expel-window-right; }
-    
-    Mod+Left  { focus-column-left; }
-    Mod+H     { focus-column-left; }
-    Mod+Right { focus-column-right; }
-    Mod+L     { focus-column-right; }
-    Mod+Home { focus-column-first; }
-    Mod+End  { focus-column-last; }
+    Mod+Shift+Left  { consume-or-expel-window-left; }
+    Mod+Shift+H     { consume-or-expel-window-left; }
+    Mod+Shift+Right { consume-or-expel-window-right; }
+    Mod+Shift+L     { consume-or-expel-window-right; }
+ 
+    // Ctrl: Columns
+    Mod+Ctrl+Left  { focus-column-left; }
+    Mod+Ctrl+H     { focus-column-left; }
+    Mod+Ctrl+Right { focus-column-right; }
+    Mod+Ctrl+L     { focus-column-right; }
+    Mod+Ctrl+Home  { focus-column-first; }
+    Mod+Ctrl+End   { focus-column-last; }
 
-    Mod+Shift+Left  { move-column-left; }
-    Mod+Shift+H     { move-column-left; }
-    Mod+Shift+Right { move-column-right; }
-    Mod+Shift+L     { move-column-right; }
-    Mod+Shift+Home { move-column-to-first; }
-    Mod+Shift+End  { move-column-to-last; }
+    Mod+Ctrl+Shift+Left  { move-column-left; }
+    Mod+Ctrl+Shift+H     { move-column-left; }
+    Mod+Ctrl+Shift+Right { move-column-right; }
+    Mod+Ctrl+Shift+L     { move-column-right; }
+    Mod+Ctrl+Shift+Home { move-column-to-first; }
+    Mod+Ctrl+Shift+End  { move-column-to-last; }
 
-    Mod+Page_Down       { focus-workspace-down; }
-    Mod+Ctrl+F          { focus-workspace-down; }
-    Mod+Page_Up         { focus-workspace-up; }
-    Mod+Ctrl+B          { focus-workspace-up; }
+    Mod+Ctrl+Shift+Down { move-column-to-workspace-down; }
+    Mod+Ctrl+Shift+J    { move-column-to-workspace-down; }
+    Mod+Ctrl+Shift+Up   { move-column-to-workspace-up; }
+    Mod+Ctrl+Shift+K    { move-column-to-workspace-up; }
 
-    Mod+Shift+Page_Down { move-column-to-workspace-down; }
-    Mod+Ctrl+Shift+F    { move-column-to-workspace-down; }
-    Mod+Shift+Page_Up   { move-column-to-workspace-up; }
-    Mod+Ctrl+Shift+B    { move-column-to-workspace-up; }
+    // Alt: Workspace
+    Mod+Alt+Down  { focus-workspace-down; }
+    Mod+Alt+J     { focus-workspace-down; }
+    Mod+Alt+Up    { focus-workspace-up; }
+    Mod+Alt+K     { focus-workspace-up; }
 
-    Mod+Shift+Ctrl+Page_Down { move-workspace-down; }
-    Mod+Shift+Ctrl+Page_Up   { move-workspace-up; }
+    Mod+Alt+Shift+Down { move-workspace-down; }
+    Mod+Alt+Shift+Up   { move-workspace-up; }
 
-    Mod+Shift+Ctrl+Up { move-column-to-monitor-up; }
-    Mod+Shift+Ctrl+Down { move-column-to-monitor-down; }
-    Mod+Shift+Ctrl+Left { move-column-to-monitor-left; }
-    Mod+Shift+Ctrl+Right { move-column-to-monitor-right; }
+    // Alt+Ctrl: Monitor
+    Mod+Alt+Ctrl+Up { focus-monitor-up; }
+    Mod+Alt+Ctrl+Down { focus-monitor-down; }
+    Mod+Alt+Ctrl+Left { focus-monitor-left; }
+    Mod+Alt+Ctrl+Right { focus-monitor-right; }
 
-    Mod+Shift+Alt+Up { move-workspace-to-monitor-up; }
-    Mod+Shift+Alt+Down { move-workspace-to-monitor-down; }
-    Mod+Shift+Alt+Left { move-workspace-to-monitor-left; }
-    Mod+Shift+Alt+Right { move-workspace-to-monitor-right; }
+    Mod+Alt+Ctrl+Shift+Up { move-column-to-monitor-up; }
+    Mod+Alt+Ctrl+Shift+Down { move-column-to-monitor-down; }
+    Mod+Alt+Ctrl+Shift+Left { move-column-to-monitor-left; }
+    Mod+Alt+Ctrl+Shift+Right { move-column-to-monitor-right; }
 
     Mod+Ctrl+1 { focus-workspace 1; }
     Mod+Ctrl+2 { focus-workspace 2; }
